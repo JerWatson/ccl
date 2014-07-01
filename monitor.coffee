@@ -24,12 +24,4 @@ addMonitor = (src, cmd) ->
       console.log do getTime, chalk.yellow "updating #{file} ..."
       run cmd
 
-    monitor.on "created", (file, stat) ->
-      console.log do getTime, chalk.cyan "creating #{file} ..."
-      # run "npm run build"
-
-    monitor.on "removed", (file, stat) ->
-      console.log do getTime, chalk.magenta "removing #{file} ..."
-      # run "npm run build"
-
 addMonitor src, cmd for src, cmd of monitors
