@@ -5,6 +5,7 @@ request = require "request"
 qs = require "querystring"
 search = require "./search.json"
 results = require "./results.json"
+{mail} = require "./settings.json"
 
 index = lunr.Index.load search
 
@@ -13,8 +14,8 @@ port = 3003
 smtp = mailer.createTransport "SMTP",
   service: "Gmail"
   auth:
-    user: "clevelandcliniclabs@gmail.com"
-    pass: "***REMOVED***"
+    user: mail.user
+    pass: mail.pass
 
 app.configure ->
   app.use express.urlencoded()
