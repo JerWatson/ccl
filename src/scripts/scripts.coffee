@@ -18,15 +18,20 @@ if not Object.keys
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#q").val() is ""
-  window.location.href = "/search-list/?" + $(this).serialize() if not empty
+  window.location.href = "/search-list/?#{$(this).serialize()}" if not empty
   return
 
 $("#key").on "change", (e) ->
   e.preventDefault()
-  window.location.href = "/search-list/?key=" + $(this).val()
+  window.location.href = "/search-list/?key=#{$(this).val()}"
   return
 
-search = (href) ->
+$("#test-search-form").on "submit", (e) ->
+  e.preventDefault()
+  empty = $("#test-search-input").val() is ""
+  window.location.href = "/search-site/?q=#{$('#test-search-input').val()}" if not empty
+
+testSearch = (href) ->
   $.ajax
     type: "GET"
     url: href
@@ -36,11 +41,34 @@ search = (href) ->
     error: (err, text, status) -> build text
   return
 
+buildSearch = (data) ->
+  $("#search").html("<div class='list-group'></div>")
+  search = $("#search .list-group")
+  data.forEach (item) ->
+    text = "#{item.body.slice(0, 250)}..." if item.body.length > 250
+    search.append("
+      <a href='/#{item.id}' class='list-group-item'>
+        <h4 class='list-group-item-heading'>#{item.title}</h4>
+        <p class='list-group-item-text'>#{text}</p>
+      </a>")
+  return
+
+siteSearch = (href) ->
+  $.ajax
+    type: "GET"
+    url: href
+    data: qs.parse window.location.search.slice 1
+    dataType: "json"
+    success: (data) -> buildSearch data
+    error: (err, text, status) -> build text
+  return
+
 page = url.parse window.location.href
 
 switch page.pathname
-  when "/search-list/"   then search "/test-list"
-  when "/search-detail/" then search "/test-detail"
+  when "/search-list/"   then testSearch "/test-list"
+  when "/search-detail/" then testSearch "/test-detail"
+  when "/search-site/"   then siteSearch "/search"
 
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()
