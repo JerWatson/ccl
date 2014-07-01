@@ -1,0 +1,248 @@
+---
+id: "tours"
+layout: "default"
+title: "Laboratory Tours"
+url: "/tours"
+sidenav: "default"
+---
+
+<p>If you would like to tour Cleveland Clinic Laboratories, please fill out the form below.</p>
+<p class="text-danger"><small>* Required</small></p>
+
+<form role="form" class="mail-form" action="/mail" method="POST">
+  <fieldset>
+    <input type="hidden" name="Form" value="Laboratory Tours">
+    <input type="hidden" name="To" value="leonhak@ccf.org, kellyd2@ccf.org, lisnerl@ccf.org, chartib@ccf.org">
+    <input type="text" class="form-control" id="subject" name="Subject" placeholder="Subject">
+
+    <div class="form-group">
+      <label for="name">Your Name *</label>
+      <input type="text" class="form-control" id="name" name="Name" placeholder="First Last" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email *</label>
+      <input type="email" class="form-control" id="email" name="Email" placeholder="your@email.com" required>
+    </div>
+
+    <div class="form-group">
+      <label for="organization">Organization *</label>
+      <input type="text" class="form-control" id="organization" name="Organization" placeholder="Organization" required>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Address *</label>
+      <input type="text" class="form-control" id="address" name="Address" placeholder="Address, City, State ZIP" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number *</label>
+      <input type="text" class="form-control" id="phone" name="Phone" placeholder="#" required>
+    </div>
+
+    <div class="form-group">
+      <label>Preferred Method of Contact</label>
+      <div class="radio">
+        <label for="preferred-01">
+          <input type="radio" id="preferred-01" name="Preferred Method of Contact" value="Phone">
+          Phone
+        </label>
+      </div>
+      <div class="radio">
+        <label for="preferred-02">
+          <input type="radio" id="preferred-02" name="Preferred Method of Contact" value="Email">
+          Email
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Reason For Visit</label>
+      <div class="radio">
+        <label for="reason-01">
+          <input type="radio" id="reason-01" name="Reason For Visit" value="Audit">
+          Audit
+        </label>
+      </div>
+      <div class="radio">
+        <label for="reason-02">
+          <input type="radio" id="reason-02" name="Reason For Visit" value="Client">
+          Client
+        </label>
+      </div>
+      <div class="radio">
+        <label for="reason-03">
+          <input type="radio" id="reason-03" name="Reason For Visit" value="Perspective Client">
+          Prospective Client
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="people">Please list the names and titles of people visiting so we have an accurate number *</label>
+      <textarea class="form-control" name="Names of People Visiting" id="people" rows="5" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="date-preferences">Please list your date preferences (2-3 based on availability) *</label>
+      <textarea class="form-control" name="Date Preferences" id="date-preferences" rows="5" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Tour Length</label>
+      <div class="radio">
+        <label for="length-01">
+          <input type="radio" id="length-01" name="Tour Length" value="Full day">
+          Full day (8 a.m. - 5 p.m.)
+        </label>
+      </div>
+      <div class="radio">
+        <label for="length-02">
+          <input type="radio" id="length-02" name="Tour Length" value="Half day morning">
+          Half day morning (8 a.m. - Noon)
+        </label>
+      </div>
+      <div class="radio">
+        <label for="length-03">
+          <input type="radio" id="length-03" name="Tour Length" value="Half day afternoon">
+          Half day afternoon (Noon - 5 p.m.)
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Tour Options</label>
+      <div class="checkbox">
+        <label for="options-1">
+          <input type="checkbox" id="options-1" name="Automated Chemistry" value="Guided Tour">
+          Automated Chemistry
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-2">
+          <input type="checkbox" id="options-2" name="Automated Hematology" value="Guided Tour">
+          Automated Hematology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-3">
+          <input type="checkbox" id="options-3" name="Cytology" value="Guided Tour">
+          Cytology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-4">
+          <input type="checkbox" id="options-4" name="Cytogenetics" value="Guided Tour">
+          Cytogenetics
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-5">
+          <input type="checkbox" id="options-5" name="Flow Cytometry" value="Guided Tour">
+          Flow Cytometry
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-6">
+          <input type="checkbox" id="options-6" name="Flourescence in Situ Hybridization" value="Guided Tour">
+          Flourescence in Situ Hybridization
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-7">
+          <input type="checkbox" id="options-7" name="Histology" value="Guided Tour">
+          Histology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-8">
+          <input type="checkbox" id="options-8" name="Immunohistochemistry" value="Guided Tour">
+          Immunohistochemistry
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-9">
+          <input type="checkbox" id="options-9" name="Immunopathology" value="Guided Tour">
+          Immunopathology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-10">
+          <input type="checkbox" id="options-10" name="Logistics" value="Guided Tour">
+          Logistics
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-11">
+          <input type="checkbox" id="options-11" name="Manual Hematology" value="Guided Tour">
+          Manual Hematology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-12">
+          <input type="checkbox" id="options-12" name="Microbiology" value="Guided Tour">
+          Microbiology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-13">
+          <input type="checkbox" id="options-13" name="Molecular Pathology" value="Guided Tour">
+          Molecular Pathology
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-14">
+          <input type="checkbox" id="options-14" name="Special Chemistry" value="Guided Tour">
+          Special Chemistry
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-15">
+          <input type="checkbox" id="options-15" name="Center for Pathology Informatics (CPI)" value="Guided Tour">
+          The Center for Pathology Informatics (CPI)
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-16">
+          <input type="checkbox" id="options-16" name="Central Processing Area (CPA)" value="Guided Tour">
+          Central Processing Area (CPA)
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="options-17">
+          <input type="checkbox" id="options-17" name="Other" value="Guided Tour">
+          Other
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Meal Arrangements</label>
+      <div class="checkbox">
+        <label for="meal-01">
+          <input type="checkbox" id="meal-01" name="Breakfast" value="Meal Arrangements">
+          Breakfast
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="meal-02">
+          <input type="checkbox" id="meal-02" name="Lunch" value="Meal Arrangements">
+          Lunch
+        </label>
+      </div>
+      <div class="checkbox">
+        <label for="meal-03">
+          <input type="checkbox" id="meal-03" name="Dinner" value="Meal Arrangements">
+          Dinner
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="comments">Additional Comments</label>
+      <textarea class="form-control" name="Comments" id="comments" rows="5"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+  </fieldset>
+</form>

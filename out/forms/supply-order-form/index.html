@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Supply Order Form - Cleveland Clinic Laboratories</title>
+    <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+    <!--[if IE 8]><script src="/assets/js/respond.js"></script><![endif]-->
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to main content</a>
+
+    <div id="header">
+      <div class="heading container">
+  <div class="row">
+    <div class="col-md-12 col-lg-6 col-sm-12">
+      <h2>
+        <a href="/">
+          <img src="/assets/imgs/layout/logo.png" class="logo-icon" alt="">
+        </a>
+        Cleveland Clinic <span class="text-primary">Laboratories</span>
+      </h2>
+    </div>
+    <div class="col-md-12 col-lg-6 col-sm-12 text-right">
+      <form action="/search-list" id="search-form" class="form-inline" role="form" method="POST">
+        <div class="form-group">
+          <select name="key" id="key" class="form-control">
+            <option value="">Key</option>
+            <option value="1To9">#</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+            <option value="K">K</option>
+            <option value="L">L</option>
+            <option value="M">M</option>
+            <option value="N">N</option>
+            <option value="O">O</option>
+            <option value="P">P</option>
+            <option value="Q">Q</option>
+            <option value="R">R</option>
+            <option value="S">S</option>
+            <option value="T">T</option>
+            <option value="U">U</option>
+            <option value="V">V</option>
+            <option value="W">W</option>
+            <option value="X">X</option>
+            <option value="Y">Y</option>
+            <option value="Z">Z</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select name="code" id="code" class="form-control">
+            <option value="PrimaryName">Test Name</option>
+            <option value="LISCode">Ordering Mnemonic</option>
+            <option value="LFSCode">Billing Code</option>
+            <option value="CPTCode">CPT Code</option>
+          </select>
+          <input type="text" class="form-control" id="q" name="q" placeholder="Test Search...">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="row">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/"><span class="glyphicon glyphicon-home"></span></a>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Tests <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/anatomic-pathology">Anatomic Pathology</a></li>
+              <li><a href="/clinical-pathology">Clinical Pathology</a></li>
+              <li><a href="/molecular-pathology">Molecular Pathology</a></li>
+              <li><a href="/subspecialty-consultative-services">Subspecialty Consultative Services</a></li>
+              <li class="divider"></li>
+              <li><a href="/forms">Requisitions &amp; Forms</a></li>
+              <li class="divider"></li>
+              <!-- <li><a href="">Logistics & Transportation</a></li> -->
+              <li><a href="/policies-and-procedures">Policies &amp; Procedures</a></li>
+              <li><a href="/quality-and-compliance">Quality &amp; Compliance</a></li>
+              <li><a href="/specimen-collection-handling-instructions">Specimen Collection &amp; Handling Instructions</a></li>
+              <li><a href="/test-directory">Using the Test Directory</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Multimedia <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/publications">Publications</a></li>
+              <li><a href="/technical-briefs">Technical Briefs</a></li>
+              <li><a href="/technical-updates">Technical Updates</a></li>
+              <li class="divider"></li>
+              <li><a href="/brochures">Brochures</a></li>
+              <li><a href="/news">News</a></li>
+              <li><a href="/videos">Videos</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">About Us <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/about-us">About Us</a></li>
+              <li><a href="/about-us/physicians">Staff &amp; Physicians</a></li>
+              <li><a href="/about-us/administration">Administration</a></li>
+              <li><a href="/about-us/mission-vision-values">Mission, Vision, Values</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Contact Us <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/contact-us/business-office">Business Office</a></li>
+              <li><a href="/contact-us/client-services">Client Services</a></li>
+              <li><a href="/contact-us">Contact Form</a></li>
+              <li><a href="/contact-us/laboratory-draw-locations">Laboratory Draw Locations</a></li>
+              <li><a href="/contact-us/sales-and-marketing">Sales &amp; Marketing Department</a></li>
+            </ul>
+          </li>
+          <li><a href="/education">Education</a></li>
+          <!-- <li><a href="" data-toggle="modal" data-target="#site-search">Site Search</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+          <li><a href="/forms">Forms</a></li>
+        <li class="active">Supply Order Form</li>
+  </ol>
+            <div class="page-header">
+              <h1>Supply Order Form</h1>
+            </div>
+            <div class="page-content">
+              
+
+<p><a href="/assets/pdfs/forms/supply-order-form.pdf"><i class="glyphicon glyphicon-download"></i> PDF</a></p>
+<p>Please make sure to provide client information and select the quantity for desired items below.</p>
+<p class="text-danger"><small>* Required</small></p>
+
+<form role="form" class="mail-form" action="/mail" method="POST">
+  <fieldset>
+    <input type="hidden" name="Form" value="Supply Order Form">
+    <input type="hidden" name="To" value="clientservices@ccf.org, ccllogistics@ccf.org, chartib@ccf.org">
+    <input type="text" class="form-control" name="Subject" id="subject" placeholder="Subject">
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="first-name" class="control-label">First Name *</label>
+          <input type="text" class="form-control" id="first-name" name="First Name" required>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="last-name" class="control-label">Last Name *</label>
+          <input type="text" class="form-control" id="last-name" name="Last Name" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="facility-name" class="control-label">Facility Name *</label>
+          <input type="text" class="form-control" id="facility-name" name="Facility Name" required>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="date" class="control-label">Date *</label>
+          <input type="text" class="form-control" id="date" name="Date" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="client-mnemonic" class="control-label">Client Mnemonic *</label>
+          <input type="text" class="form-control" id="client-mnemonic" name="Client Mnemonic" required>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="phone" class="control-label">Phone Number *</label>
+          <input type="text" class="form-control" id="phone" name="Phone" required>
+        </div>
+      </div>
+    </div>
+
+    <h2>Collection Tubes</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-01" class="control-label">Grey Hemogard, Na Fluoride/K Oxalate, 4 mL</label>
+          <input type="text" class="form-control" id="collection-01" name="Grey Hemogard, Na Fluoride/K Oxalate, 4 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-02" class="control-label">Green Hemogard, Li Heparin, 4 mL</label>
+          <input type="text" class="form-control" id="collection-02" name="Green Hemogard, Li Heparin, 4 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-03" class="control-label">Green Na Heparin, 4 mL</label>
+          <input type="text" class="form-control" id="collection-03" name="Green Na Heparin, 4 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-04" class="control-label">Green Na Heparin, 10 mL</label>
+          <input type="text" class="form-control" id="collection-04" name="Green Na Heparin, 10 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-05" class="control-label">Navy Blue Hemogard, K2 EDTA, 6 mL</label>
+          <input type="text" class="form-control" id="collection-05" name="Navy Blue Hemogard, K2 EDTA, 6 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-06" class="control-label">Navy Blue Plain Hemogard, 6 mL</label>
+          <input type="text" class="form-control" id="collection-06" name="Navy Blue Plain Hemogard, 6 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-07" class="control-label">Pink Hemogard (Blood Bank), EDTA, 6 mL</label>
+          <input type="text" class="form-control" id="collection-07" name="Pink Hemogard (Blood Bank), EDTA, 6 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-08" class="control-label">Light Blue Coag Sodium Citrate, 3.5 mL</label>
+          <input type="text" class="form-control" id="collection-08" name="Light Blue Coag Sodium Citrate, 3.5 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-11" class="control-label">White Hemogard (PPT), EDTA, 5 mL</label>
+          <input type="text" class="form-control" id="collection-11" name="White Hemogard (PPT), EDTA, 5 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-12" class="control-label">Yellow ACD (glass) Solution A, 8.5 mL</label>
+          <input type="text" class="form-control" id="collection-12" name="Yellow ACD (glass) Solution A, 8.5 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="collection-13" class="control-label">Yellow ACD (glass) Solution B, 6 mL</label>
+          <input type="text" class="form-control" id="collection-13" name="Yellow ACD (glass) Solution B, 6 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <h2>Media/Culture Kits</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-01" class="control-label">Blood Culture Bottles (Orange Top - Anaerobic)</label>
+          <input type="text" class="form-control" id="media-01" name="Blood Culture Bottles (Orange Top - Anaerobic)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-02" class="control-label">Blood Culture Bottles (Green Top - Aerobic)</label>
+          <input type="text" class="form-control" id="media-02" name="Blood Culture Bottles (Green Top - Aerobic)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-03" class="control-label">C&amp;S Urine Transport Kit (Sterile)</label>
+          <input type="text" class="form-control" id="media-03" name="C&amp;S Urine Transport Kit (Sterile)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-04" class="control-label">Aptima for Gonorrhea / Chlamydia</label>
+          <input type="text" class="form-control" id="media-04" name="Aptima for Gonorrhea / Chlamydia" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-05" class="control-label">Aptima Urine</label>
+          <input type="text" class="form-control" id="media-05" name="Aptima Urine" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-06" class="control-label">Kits, Ova &amp; Parasites (PVA &amp; Formalin)</label>
+          <input type="text" class="form-control" id="media-06" name="Kits, Ova &amp; Parasites (PVA &amp; Formalin)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-07" class="control-label">M-4 Viral Transport Media (keep refrigerated)</label>
+          <input type="text" class="form-control" id="media-07" name="M-4 Viral Transport Media (keep refrigerated)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-08" class="control-label">Michelle's Media</label>
+          <input type="text" class="form-control" id="media-08" name="Michelle's Media" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-09" class="control-label">Glutaraldehyde (3.75%) for E.M.</label>
+          <input type="text" class="form-control" id="media-09" name="Glutaraldehyde (3.75%) for E.M." placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-10" class="control-label">Biopsy Bottle (40 mL; 10% Formalin)</label>
+          <input type="text" class="form-control" id="media-10" name="Biopsy Bottle (40 mL; 10% Formalin)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-11" class="control-label">PAP Test: Pap Pak pk 25</label>
+          <input type="text" class="form-control" id="media-11" name="PAP Test: Pap Pak pk 25" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-12" class="control-label">PAP Test: Thin Prep (Cytyc) pk 25</label>
+          <input type="text" class="form-control" id="media-12" name="PAP Test: Thin Prep (Cytyc) pk 25" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-13" class="control-label">Cytology Collection Devices, Brooms</label>
+          <input type="text" class="form-control" id="media-13" name="Cytology Collection Devices, Brooms" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-14" class="control-label">Cytology Collection Devices, Brushes/Spatula</label>
+          <input type="text" class="form-control" id="media-14" name="Cytology Collection Devices, Brushes/Spatula" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-15" class="control-label">Pyruvic Acid Test (12% TCA) 2 mL</label>
+          <input type="text" class="form-control" id="media-15" name="Pyruvic Acid Test (12% TCA) 2 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-16" class="control-label">Pyruvic Acid Test (12% TCA) 4 mL</label>
+          <input type="text" class="form-control" id="media-16" name="Pyruvic Acid Test (12% TCA) 4 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-17" class="control-label">Kit Digene for HPV</label>
+          <input type="text" class="form-control" id="media-17" name="Kit Digene for HPV" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-18" class="control-label">Red Top Culture Swabs - Copan</label>
+          <input type="text" class="form-control" id="media-18" name="Red Top Culture Swabs - Copan" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-19" class="control-label">PCA3 Kit</label>
+          <input type="text" class="form-control" id="media-19" name="PCA3 Kit" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="media-20" class="control-label">NMP22</label>
+          <input type="text" class="form-control" id="media-20" name="NMP22" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <h2>Specimen Containers/Bags</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-03" class="control-label">Biohazard Specimen Bags (Large Clear)</label>
+          <input type="text" class="form-control" id="specimen-03" name="Biohazard Specimen Bags (Large Clear)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-04" class="control-label">Biohazard Specimen Bags (Small Clear)</label>
+          <input type="text" class="form-control" id="specimen-04" name="Biohazard Specimen Bags (Small Clear)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-05" class="control-label">Serum Transport Tubes (Orange Top)</label>
+          <input type="text" class="form-control" id="specimen-05" name="Serum Transport Tubes (Orange Top)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-06" class="control-label">Serum Transport Tubes (Light Sensitive)</label>
+          <input type="text" class="form-control" id="specimen-06" name="Serum Transport Tubes (Light Sensitive)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-07" class="control-label">Specimen Transport Rack</label>
+          <input type="text" class="form-control" id="specimen-07" name="Specimen Transport Rack" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-08" class="control-label">Stool Container, 1 g (with lid)</label>
+          <input type="text" class="form-control" id="specimen-08" name="Stool Container, 1 g (with lid)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-09" class="control-label">Urine Container (24 Hour; Graduated with Lid)</label>
+          <input type="text" class="form-control" id="specimen-09" name="Urine Container (24 Hour; Graduated with Lid)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-10" class="control-label">Urine Transport Tubes (Plain Blue Top)</label>
+          <input type="text" class="form-control" id="specimen-10" name="Urine Transport Tubes (Plain Blue Top)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-11" class="control-label">Pinworm Kit</label>
+          <input type="text" class="form-control" id="specimen-11" name="Pinworm Kit" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-12" class="control-label">RPMI Transport Media, 5 mL</label>
+          <input type="text" class="form-control" id="specimen-12" name="RPMI Transport Media, 5 mL" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-13" class="control-label">RPMI Transport Media, 10 mL</label>
+          <input type="text" class="form-control" id="specimen-13" name="RPMI Transport Media, 10 mL" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-14" class="control-label">Large Specimen Bag</label>
+          <input type="text" class="form-control" id="specimen-14" name="Large Specimen Bag" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-15" class="control-label">Small Specimen Bag</label>
+          <input type="text" class="form-control" id="specimen-15" name="Small Specimen Bag" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="specimen-16" class="control-label">Stone Analysis Collection Device</label>
+          <input type="text" class="form-control" id="specimen-16" name="Stone Analysis Collection Device" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <h2>Shipping/Containers</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-01" class="control-label">Single Specimen Shipper Thermosafe</label>
+          <a href="#" class="info" data-toggle="tooltip" title="6.5 x 3.25 x 3.25 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-01" name="Single Specimen Shipper Thermosafe" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-02" class="control-label">XS Shipper</label>
+          <a href="#" class="info" data-toggle="tooltip" title="8.25 x 6.5 x 5.5 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-02" name="XS Shipper" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-03" class="control-label">CCL Specimen Kit</label>
+          <a href="#" class="info" data-toggle="tooltip" title="6.5 x 6 x 2.75 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-03" name="CCL Specimen Kit" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-04" class="control-label">CCL Slides/Blocks Kit</label>
+          <a href="#" class="info" data-toggle="tooltip" title="6.5 x 6 x 2.75 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-04" name="CCL Slides/Blocks Kit" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-05" class="control-label">CCL Small Shipper (blue)</label>
+          <a href="#" class="info" data-toggle="tooltip" title="12.25 x 8.25 x 8.25 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-05" name="CCL Small Shipper (blue)" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-06" class="control-label">CCL Surgical Pathology Shipper (green)</label>
+          <a href="#" class="info" data-toggle="tooltip" title="12.25 x 8.25 x 8.25 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-06" name="CCL Surgical Pathology Shipper (green)" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-07" class="control-label">CCL Single Shipper</label>
+          <a href="#" class="info" data-toggle="tooltip" title="14.5 x 10.75 x 11 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-07" name="CCL Single Shipper" placeholder="#">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-08" class="control-label">CCL Double Shipper</label>
+          <a href="#" class="info" data-toggle="tooltip" title="20.75 x 14.25 x 11 inches"><i class="glyphicon glyphicon-info-sign"></i></a>
+          <input type="text" class="form-control" id="shipping-08" name="CCL Double Shipper" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="shipping-09" class="control-label">Foil Envelopes</label>
+          <input type="text" class="form-control" id="shipping-09" name="Foil Envelopes" placeholder="#">
+        </div>
+      </div>
+    </div>
+
+    <h2>Forms/Miscellaneous</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-02" class="control-label">Advance Beneficiary Notice (instructions) pk</label>
+          <input type="text" class="form-control" id="misc-02" name="Advance Beneficiary Notice (instructions) pk" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-04" class="control-label">Cartridge number</label>
+          <input type="text" class="form-control" id="misc-04" name="Cartridge number" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-06" class="control-label">Requisition, Anatomic Pathology</label>
+          <input type="text" class="form-control" id="misc-06" name="Requisition, Anatomic Pathology" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-07" class="control-label">Requisition, Cystic Fibrosis</label>
+          <input type="text" class="form-control" id="misc-07" name="Requisition, Cystic Fibrosis" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-08" class="control-label">Requisition, Cytology</label>
+          <input type="text" class="form-control" id="misc-08" name="Requisition, Cytology" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-09" class="control-label">Requisition, Dermatopathology</label>
+          <input type="text" class="form-control" id="misc-09" name="Requisition, Dermatopathology" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-10" class="control-label">Requisition, Flow</label>
+          <input type="text" class="form-control" id="misc-10" name="Requisition, Flow" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-11" class="control-label">Requisition, Heavy Metals</label>
+          <input type="text" class="form-control" id="misc-11" name="Requisition, Heavy Metals" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-12" class="control-label">Requisition, Home Health Care</label>
+          <input type="text" class="form-control" id="misc-12" name="Requisition, Home Health Care" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-13" class="control-label">Requisition, Hospital</label>
+          <input type="text" class="form-control" id="misc-13" name="Requisition, Hospital" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-14" class="control-label">Requisition, Physician</label>
+          <input type="text" class="form-control" id="misc-14" name="Requisition, Physician" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-15" class="control-label">Requisition, Physician II</label>
+          <input type="text" class="form-control" id="misc-15" name="Requisition, Physician II" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-16" class="control-label">Requisition, Prenatal</label>
+          <input type="text" class="form-control" id="misc-16" name="Requisition, Prenatal" placeholder="">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="misc-17" class="control-label">Labels, specify type and number ( ) room ( ) refrig. ( ) frozen ( ) flow ( ) stat</label>
+          <input type="text" class="form-control" id="misc-17" name="Labels, specify type and number" placeholder="">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <label for="additional-items" class="control-label">Additional Items</label>
+          <textarea class="form-control" rows="10" id="additional-items" name="Additional Items"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-default" type="submit">Submit</button>
+  </fieldset>
+</form>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <i class="glyphicon glyphicon-list-alt pull-right"></i>
+      Related
+    </h3>
+  </div>
+  <div class="list-group">
+                                      <a href="/forms/supply-order-form" class="list-group-item active">Supply Order Form</a>
+                  
+      </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="aside">
+      <div class="container">
+  <div class="row">
+    <div class="col-md-4 hidden-sm hidden-xs">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-star pull-right"></i>
+            Spotlight
+          </h3>
+        </div>
+        <div id="related" class="carousel slide" data-ride="carousel" style="margin-bottom:0">
+          <ol class="carousel-indicators">
+            <li data-target="#related" data-slide-to="0" class="active"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              <a href="/assets/pdfs/publications/2014-spring.pdf">
+                <img src="/assets/imgs/spotlight/pathology-innovations.jpg" alt="Pathology Innovations">
+              </a>
+            </div>
+          </div>
+          <a href="#related" data-slide="prev" class="left carousel-control">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a href="#related" data-slide="next" class="right carousel-control">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-bullhorn pull-right"></i>
+            Updates
+          </h3>
+        </div>
+        <div class="list-group">
+          <a href="" data-toggle="modal" data-target="#alert" class="list-group-item">
+            <span class="label label-danger pull-right">Alert</span>
+            Holiday Availability for Laboratory Testing
+          </a>
+          <a href="http://mlo-online.com/news/cleveland-clinic-initiative-prevents-unnecessary-tests-and-improves-patient-care.php" class="list-group-item">
+            <span class="label label-primary pull-right">News</span>
+            Cleveland Clinic initiative prevents unnecessary tests and improves patient care
+          </a>
+          <a href="/assets/pdfs/technical-briefs/lacosamide-88181.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            Liquid Chromatography-Tandem Mass Spectrometry for Measurement of Serum Lacosamide and Desmethy Lacosamide
+          </a>
+          <a href="/assets/pdfs/technical-briefs/alpha-1-89910.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            Alpha-1 Antitrypsin (SERPINA1) Targeted Genotyping
+          </a>
+          <a href="/assets/pdfs/technical-briefs/mthfr-81692.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            MTHFR Mutation Analysis
+          </a>
+          <!-- <a href="/assets/pdfs/brochures/hemostasis-and-thrombosis-services.pdf" class="list-group-item">
+            <span class="label label-danger pull-right">Brochure</span>
+            Hemostasis and Thrombosis Services
+          </a> -->
+          <!-- <a href="/assets/pdfs/brochures/molecular-pathology-tests.pdf" class="list-group-item">
+            <span class="label label-danger pull-right">Brochure</span>
+            Molecular Pathology Tests
+          </a> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-calendar pull-right"></i>
+            Events
+          </h3>
+        </div>
+        <div class="list-group">
+          <!-- <a href="http://www.cleanmed.org/2014/docs/CleanMed2014CompleteAgenda.pdf" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 5, 2014</strong>
+            <p class="list-group-item-text"><em>Ilyssa Gordon, MD</em><br>CleanMed &ndash; Cleveland, OH</p>
+          </a>
+          <a href="http://harrisburg.psu.edu/AERC-2014/schedule" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 7, 2014</strong>
+            <p class="list-group-item-text"><em>Richard Prayson, MD</em><br>AERC &ndash; Harrisburg, PA</p>
+          </a> -->
+          <!-- <a href="http://www.icplm2014.org" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 22, 2014</strong>
+            <p class="list-group-item-text"><em>Sihe Wang, PhD</em><br>ICPLM &ndash; Istanbul, Turkey</p>
+          </a> -->
+          <a href="http://isth.org/page/2014Microsite/?" class="list-group-item">
+            <span class="label label-success pull-right">Exhibiting</span>
+            <strong>June 23-26, 2014</strong>
+            <p class="list-group-item-text">ISTH &ndash; Milwaukee, WI</p>
+          </a>
+          <a href="http://www.uscap.org/meeting/56531" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>July 20-25, 2014</strong>
+            <p class="list-group-item-text">Dr. Cook: USCAP &ndash; San Juan, Puerto Rico</p>
+          </a>
+          <a href="http://events.jspargo.com/aacc14/public/enter.aspx" class="list-group-item">
+            <span class="label label-success pull-right">Exhibiting</span>
+            <strong>July 27-31, 2014</strong>
+            <p class="list-group-item-text">AACC &ndash; Chicago, IL</p>
+          </a>
+          <a href="http://amli.org/" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>August 9-12, 2014</strong>
+            <p class="list-group-item-text">Dr. Myles: AMLI &ndash; Seattle, WA</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <address>
+        <em>Correspondence:</em><br>
+        <strong>Cleveland Clinic Laboratories</strong><br>
+        9500 Euclid Ave., LL2-1<br>
+        Cleveland, OH 44195<br>
+        <abbr title="Phone">P</abbr>: (800) 628-6816
+      </address>
+    </div>
+    <div class="col-md-4 text-center">
+      <address>
+        <em>Shipping:</em><br>
+        <strong>Cleveland Clinic Laboratories</strong><br>
+        2119 E. 93rd St.<br>
+        Cleveland, OH 44106
+      </address>
+    </div>
+    <div class="col-md-4 text-center">
+      <ul class="list-unstyled">
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/terms-of-use">Terms of Use</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="https://www.youtube.com/channel/UCWZvQOfSwgbqpW7BWJdtR8A">YouTube</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="modals">
+      <div class="modal fade" id="our-people" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eric Hsi, MD</h4>
+      </div>
+      <div class="modal-body">
+        <p>Dr. Hsi is Chair of the Department of Laboratory Medicine and Section Head of Hematopathology. His interests are bone marrow and lymph node pathology with expertise in lymphoma and leukemia diagnosis. He is Medical Director of the Flow Cytometry laboratory and Program Director for the ACGME-accredited Hematopathology Fellowship program. Dr. Hsi received his Bachelor of Arts degree in Chemistry from Kalamazoo College. He received his MD, residency and fellowship training at the University of Michigan and is board certified in Anatomic and Clinical Pathology with subspecialty boards in Hematology. He has over 200 peer-reviewed publications and is the author of numerous book chapters and editor of a textbook in Hematopathology. He is the recipient of grants and sponsored research awards in translational science related to biomarker and experimental therapeutics research, with an active research laboratory. He serves on several editorial boards and national committees for ASCP, ASH, and CAP and is the Pathology Committee Chair and Lymphoma Biology Vice Chair for the ALLIANCE, an NCI sponsored clinical trials cooperative group. Outside of work, Dr. Hsi enjoys spending time with his family, running with the family dog, and playing tennis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Holiday Availability for Laboratory Testing</h4>
+      </div>
+      <div class="modal-body">
+        <p>The Robert J. Tomsich Pathology & Laboratory Medicine Institute is announcing limited availability for the following tests due to the upcoming holiday:</p>
+          <p><strong>Immune function assay-ATP blood (Test Code: IMMFUN)</strong><br>
+          Unavailable beginning Wednesday, July 2 at noon until the morning of Monday, July 7.</p>
+          <p><strong>Chromosome Breakage for Fanconi Anemia (Test Code: CBREAK)</strong><br>
+          Unavailable beginning Monday, June 30 at noon until the morning of Monday, July 7.</p>
+          <p><strong>Allomap (Test Code: ALLOMP)</strong><br>
+          Unavailable beginning Wednesday, June 25 at noon until the morning of Monday, July 7.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="site-search" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Site Search</h4>
+      </div>
+      <div class="modal-body">
+        <gcse:search></gcse:search>
+      </div>
+    </div>
+  </div>
+</div> -->
+    </div>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/scripts.js"></script>
+    <!-- ANALYTICS -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-718476-32');ga('send','pageview');
+    </script>
+    <!-- CSE -->
+    <script>
+      (function() {
+        var cx = '009824050316095856017:6svmjwhw93y';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+      })();
+    </script>
+  </body>
+</html>

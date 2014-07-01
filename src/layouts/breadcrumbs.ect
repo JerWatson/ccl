@@ -1,0 +1,11 @@
+<ol class="breadcrumb">
+  {{ if @attr.isHome: }}
+    <li class="active">Home</li>
+  {{ else: }}
+    <li><a href="/">Home</a></li>
+    {{ for item in @parent: }}
+      <li><a href="{{= item.url }}">{{= item.title }}</a></li>
+    {{ end }}
+    <li class="active">{{= @attr.title }}</li>
+  {{ end }}
+</ol>

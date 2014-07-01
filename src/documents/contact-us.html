@@ -1,0 +1,32 @@
+---
+id: "contact-us"
+layout: "default"
+title: "Contact Us"
+url: "/contact-us"
+isParent: true
+---
+
+<form role="form" class="mail-form" action="/mail" method="POST">
+	<fieldset>
+		<input type="hidden" name="Form" value="Contact Us">
+		<input type="hidden" name="To" value="clientservices@ccf.org, chartib@ccf.org">
+		<input type="text" class="form-control" name="Subject" id="subject" placeholder="Subject">
+
+		<div class="form-group">
+			<label for="name">Name</label>
+			<input type="text" class="form-control" id="name" name="Name" placeholder="First Last" required>
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" class="form-control" id="email" name="Email" placeholder="your@email.com" required>
+		</div>
+
+		<div class="form-group">
+			<label for="message">Message</label>
+			<textarea class="form-control" rows="10" placeholder="Your message..." name="Message" id="message"></textarea>
+		</div>
+
+		<button type="submit" class="btn btn-default">Submit</button>
+	</fieldset>
+</form>

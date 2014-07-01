@@ -1,0 +1,39 @@
+{
+  "name": "ccl",
+  "version": "0.0.1",
+  "description": "Cleveland Clinic Laboratories",
+  "main": "./index",
+  "author": "Brandon Chartier",
+  "dependencies": {
+    "express": "^3.5.1",
+    "forever": "^0.10.11",
+    "nodemailer": "^0.6.2",
+    "request": "^2.34.0"
+  },
+  "devDependencies": {
+    "browserify": "^3.38.1",
+    "chalk": "^0.4.0",
+    "coffee-script": "^1.7.1",
+    "coffeeify": "^0.6.0",
+    "ect": "^0.5.9",
+    "forever": "^0.10.11",
+    "fs-extra": "^0.8.1",
+    "glob": "^3.2.9",
+    "moment": "^2.5.1",
+    "sitemap": "^0.7.2",
+    "stylus": "^0.43.1",
+    "uglify-js": "^2.4.13",
+    "watch": "^0.9.0",
+    "yaml-front-matter": "^3.0.1"
+  },
+  "scripts": {
+    "clean": "rm -rf out/* && cp -r src/assets out",
+    "scripts": "browserify -t coffeeify --extension='.coffee' src/scripts/scripts.coffee | uglifyjs > out/assets/js/scripts.js",
+    "styles": "stylus src/styles/styles.styl -c -o out/assets/css",
+    "docs": "coffee docs.coffee --nodejs",
+    "build": "npm run clean && npm run styles && npm run scripts && npm run docs",
+    "monitor": "coffee monitor.coffee --nodejs",
+    "start": "forever start -c coffee index.coffee --nodejs",
+    "stop": "forever stop -c coffee index.coffee --nodejs"
+  }
+}

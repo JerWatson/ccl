@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Technical Briefs - Cleveland Clinic Laboratories</title>
+    <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+    <!--[if IE 8]><script src="/assets/js/respond.js"></script><![endif]-->
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to main content</a>
+
+    <div id="header">
+      <div class="heading container">
+  <div class="row">
+    <div class="col-md-12 col-lg-6 col-sm-12">
+      <h2>
+        <a href="/">
+          <img src="/assets/imgs/layout/logo.png" class="logo-icon" alt="">
+        </a>
+        Cleveland Clinic <span class="text-primary">Laboratories</span>
+      </h2>
+    </div>
+    <div class="col-md-12 col-lg-6 col-sm-12 text-right">
+      <form action="/search-list" id="search-form" class="form-inline" role="form" method="POST">
+        <div class="form-group">
+          <select name="key" id="key" class="form-control">
+            <option value="">Key</option>
+            <option value="1To9">#</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+            <option value="H">H</option>
+            <option value="I">I</option>
+            <option value="J">J</option>
+            <option value="K">K</option>
+            <option value="L">L</option>
+            <option value="M">M</option>
+            <option value="N">N</option>
+            <option value="O">O</option>
+            <option value="P">P</option>
+            <option value="Q">Q</option>
+            <option value="R">R</option>
+            <option value="S">S</option>
+            <option value="T">T</option>
+            <option value="U">U</option>
+            <option value="V">V</option>
+            <option value="W">W</option>
+            <option value="X">X</option>
+            <option value="Y">Y</option>
+            <option value="Z">Z</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <select name="code" id="code" class="form-control">
+            <option value="PrimaryName">Test Name</option>
+            <option value="LISCode">Ordering Mnemonic</option>
+            <option value="LFSCode">Billing Code</option>
+            <option value="CPTCode">CPT Code</option>
+          </select>
+          <input type="text" class="form-control" id="q" name="q" placeholder="Test Search...">
+          <button class="btn btn-default" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="row">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/"><span class="glyphicon glyphicon-home"></span></a>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Tests <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/anatomic-pathology">Anatomic Pathology</a></li>
+              <li><a href="/clinical-pathology">Clinical Pathology</a></li>
+              <li><a href="/molecular-pathology">Molecular Pathology</a></li>
+              <li><a href="/subspecialty-consultative-services">Subspecialty Consultative Services</a></li>
+              <li class="divider"></li>
+              <li><a href="/forms">Requisitions &amp; Forms</a></li>
+              <li class="divider"></li>
+              <!-- <li><a href="">Logistics & Transportation</a></li> -->
+              <li><a href="/policies-and-procedures">Policies &amp; Procedures</a></li>
+              <li><a href="/quality-and-compliance">Quality &amp; Compliance</a></li>
+              <li><a href="/specimen-collection-handling-instructions">Specimen Collection &amp; Handling Instructions</a></li>
+              <li><a href="/test-directory">Using the Test Directory</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Multimedia <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/publications">Publications</a></li>
+              <li><a href="/technical-briefs">Technical Briefs</a></li>
+              <li><a href="/technical-updates">Technical Updates</a></li>
+              <li class="divider"></li>
+              <li><a href="/brochures">Brochures</a></li>
+              <li><a href="/news">News</a></li>
+              <li><a href="/videos">Videos</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">About Us <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/about-us">About Us</a></li>
+              <li><a href="/about-us/physicians">Staff &amp; Physicians</a></li>
+              <li><a href="/about-us/administration">Administration</a></li>
+              <li><a href="/about-us/mission-vision-values">Mission, Vision, Values</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown">Contact Us <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/contact-us/business-office">Business Office</a></li>
+              <li><a href="/contact-us/client-services">Client Services</a></li>
+              <li><a href="/contact-us">Contact Form</a></li>
+              <li><a href="/contact-us/laboratory-draw-locations">Laboratory Draw Locations</a></li>
+              <li><a href="/contact-us/sales-and-marketing">Sales &amp; Marketing Department</a></li>
+            </ul>
+          </li>
+          <li><a href="/education">Education</a></li>
+          <!-- <li><a href="" data-toggle="modal" data-target="#site-search">Site Search</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+        <li class="active">Technical Briefs</li>
+  </ol>
+            <div class="page-header">
+              <h1>Technical Briefs</h1>
+            </div>
+            <div class="page-content">
+              
+
+<div class="panel panel-default">
+	<div class="list-group">
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/adamts13-89534.pdf">
+			ADAMTS13 Activity and Inhibitor Assays
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/affirm-88354.pdf">
+			Affirm Probe for the Laboratory Diagnosis of Infectious Vaginitis
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/alpha-1-89910.pdf">
+			Alpha-1 Antitrypsin (SERPINA1) Targeted Genotyping <span class="label label-primary pull-right">New</span>
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/amyloid-89590.pdf">
+			Amyloid Typing by Liquid Chromatography-Tandem Mass Spectrometry
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/lupus-24.pdf">
+			Anti-phospholipid Antibody Testing (Lupus Anticoagulant Testing)
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/apolipoprotein-32117.pdf">
+			Apolipoprotein A-1 in Serum
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/bcr-abl-82737.pdf">
+			BCR/ABL p210 Quantitative RT-PCR Assay with International Scale Reporting for Minimal Residual Disease in Chronic Myeloid Leukemia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/lpt-43060.pdf">
+			Beryllium Lymphocyte Proliferation Test (Be-LPT)
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/bk-82611.pdf">
+			BK Polyoma Virus by Real-time PCR (Detection and Quantitation)
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/braf-87800.pdf">
+			BRAF Codon 600 Mutation Analysis
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/cebpa-89259.pdf">
+			CEBPA Mutation Analysis
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/collagen-87899.pdf">
+			Collagen Binding Activity Assay for Von Willebrand Disease
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/d-dimer-26156.pdf">
+			D-dimer to Rule Out Venous Thromboembolism
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/detection-79044.pdf">
+			Detection and Typing of HSV-1 and HSV-2 in CSF by PCR
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/chlamydia-79830.pdf">
+			Detection of Chlamydia trachomatis and Neisseria gonorrhoeae in Urine, Endocervical, Vaginal and Urethral Specimens
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/ehrlichia-88858.pdf">
+			Ehrlichia and Anaplasma Peripheral Blood Smear Review
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/egfr-88871.pdf">
+			Epidermal Growth Factor Receptor (EGFR) Mutation Analysis
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/estimated-glomerular-filtration-rate-egfr.pdf">
+			Estimated Glomerular Filtration Rate (eGFR)
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/immunoassay-88086.pdf">
+			Fecal Occult Blood Tests for Colorectal Cancer Screening
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-81886.pdf">
+			Fluorescence In Situ Hybridization (FISH) for 1p and 19q in Malignant Gliomas
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-for-acute-lymphoblastic-leukemia.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Acute Lymphoblastic Leukemia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-89722.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Acute Myeloid Leukemia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-84330.pdf">
+			Fluorescence In Situ Hybridization (FISH) for FISH For ALK
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-88843.pdf">
+			Fluorescence In Situ Hybridization (FISH) for FISH For ALK ThinPrep NSCLC
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-83344.pdf">
+			Fluorescence In Situ Hybridization (FISH) for B-Cell Chronic Lymphocytic Leukemia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-87808.pdf">
+			Fluorescence In Situ Hybridization (FISH) for BK Viral Nephropathy
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-89257.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Cutaneous Melanoma
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/her2-80306.pdf">
+			Fluorescence In Situ Hybridization (FISH) for HER2 Gene Amplification
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-84397.pdf">
+			Fluorescence In Situ Hybridization (FISH) for MDM2 Gene Amplification: A Valuable Tool in the Differential Diagnosis of Lipomatous Neoplasms
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-89510.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Myeloproliferative Neoplasms
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-84379.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Myelodysplastic Syndromes
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-89510.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Myeloproliferative Neoplasms
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-for-non-hodgkin-lymphoma.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Non-Hodgkin Lymphoma
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-88367.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Plasma Cell Myeloma
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-82149.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Recurrent Bladder Cancer: Detection of Genetic Alterations in Bladder Cancer Cells
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fish-82671.pdf">
+			Fluorescence In Situ Hybridization (FISH) for Sarcoma Translocation Testing
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/fragile-82365.pdf">
+			Fragile X Syndrome and FMR1-Associated Disorders
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/genetic-88362.pdf">
+			Genetic Test of Cytochrome P450 2C19 (CYP2C19) for Clopidogrel Therapy
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/genetic-88307.pdf">
+			Genetic Test of Cytochrome P450 2C19 (CYP2C19) for Drug Metabolism
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/warfarin-84613.pdf">
+			Genetic Test for Warfarin Therapy
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/hea-87880.pdf">
+			HEA Assay: Red Cell Blood Group Antigen Typing by DNA Microarray
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/hepatitis-86290.pdf">
+			Hepatitis B "e" Antigen (HbeAg) Assay
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/hcv-80799.pdf">
+			Hepatitis C Virus Genotyping
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/erb-b2-81012.pdf">
+			HER2 Determination in Gastric or Gastroesophageal Carcinoma
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/high-81442.pdf">
+			High Sensitivity Flow Cytometry for Paroxysmal Nocturnal Hemoglobinuria
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/hypercoagulability-173.pdf">
+			Hypercoagulability/Thrombophilia Testing
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/intrapartum-group-b-streptococcus-pcr-test.pdf">
+			Intrapartum Group B Streptococcus PCR Test
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/jak2-87775.pdf">
+			JAK2 Exon 12-15 Mutation Analysis
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/jak2-83623.pdf">
+			JAK2 V617F mutation testing for non-CML Chronic myeloproliferative disorders
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/kit-aml-84158.pdf">
+			KIT Exons 8 and 17 Mutation Analysis for Acute Myeloid Leukemia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/kras-88425.pdf">
+			KRAS Mutational Analysis <span class="label label-primary pull-right">New</span>
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/legionella-77916.pdf">
+			Legionella pneumophila by Real-Time PCR
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/lipoprotein-32054.pdf">
+			Lipoprotein (a) in Serum
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/lacosamide-88181.pdf">
+			Liquid Chromatography-Tandem Mass Spectrometry for Measurement of Serum Lacosamide and Desmethy Lacosamide <span class="label label-primary pull-right">New</span>
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/metanephrines-83835.pdf">
+			Liquid Chromatography-Tandem Mass Spectrometry for Measurement of Urine Metanephrines
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/mgmt-88780.pdf">
+			MGMT Pyrosequencing Methylation Assay For Glioblastoma
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/m-tuberculosis-87822.pdf">
+			M. tuberculosis Complex versus Non-Tuberculous Mycobacteria by PCR on Smear Positive Specimens
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/levetiracetam-82491.pdf">
+			Measurement of Levetiracetam in Serum or Plasma by Homogeneous Immunoassay
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/microsatellite-82447.pdf">
+			Microsatellite Instability and Immunohistochemistry Testing for HNPCC/Lynch Syndrome and Sporadic Colorectal Cancers
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/mixing-88605.pdf">
+			Mixing Study, Incubated APTT
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/molecular-pathology-tests.pdf">
+			Molecular Pathology Tests
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/mthfr-81692.pdf">
+			MTHFR Mutation Analysis <span class="label label-primary pull-right">New</span>
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/organic-76978.pdf">
+			Organic Acids, Urine
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/osom-77786.pdf">
+			OSOM<sup>&reg;</sup> Trichomonas Rapid Test
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/prostate-87736.pdf">
+			PCA3
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/pneumocystis-87814.pdf">
+			Pneumocystis PCR
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/procalcitonin-84522.pdf">
+			Procalcitonin for Detection of Systemic Inflammation
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/prostate-41820.pdf">
+			Prostate-Specific Antigen (PSA) Reference Range Update
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/quantitative-82347.pdf">
+			Quantitative Urine Pain Management Drug Screening with HPLC-MS/MS
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/respiratory-89720.pdf">
+			Respiratory Viral Panel by PCR (RVPPCR)
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/routine-77142.pdf">
+			Routine Stool Culture for Enteric Pathogens
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/routine-77142-shiga.pdf">
+			Shiga Toxin Testing for All Enetric Pathogen Requests on Stool
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/yersinia-88050.pdf">
+			Stool Culture for Yersinia Enterocolitica
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/streptococcus-89542.pdf">
+			Streptococcus pneumoniae Antigen Detection in Urine
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/syphilis-84556.pdf">
+			Syphilis Serological Testing
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/t-cell-87903.pdf">
+			T-Cell and B-Cell Clonality Using BIOMED-2 PCR Primers
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/anti-platelet-81311.pdf">
+			Testing for Heparin-Induced Thrombocytopenia
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/25-hydroxy-83283.pdf">
+			Vitamin D2 and D3 by Liquid Chromatography-Tandem Mass Spectrometry
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/vitamin-82307.pdf">
+			Vitamin D 25 Hydroxy
+		</a>
+		<a class="list-group-item" href="/assets/pdfs/technical-briefs/constitutional-89612.pdf">
+			Whole Genome SNP Microarray Testing (CRMSNP)
+		</a>
+	</div>
+</div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      <i class="glyphicon glyphicon-list-alt pull-right"></i>
+      Related
+    </h3>
+  </div>
+  <div class="list-group">
+    
+          <a href="/anatomic-pathology" class="list-group-item">Anatomic Pathology</a>
+      <a href="/clinical-pathology" class="list-group-item">Clinical Pathology</a>
+      <a href="/molecular-pathology" class="list-group-item">Molecular Pathology</a>
+      <a href="/subspecialty-consultative-services" class="list-group-item">Subspecialty Consultative Services</a>
+      <a href="/test-directory" class="list-group-item">Using the Test Directory</a>
+      </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="aside">
+      <div class="container">
+  <div class="row">
+    <div class="col-md-4 hidden-sm hidden-xs">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-star pull-right"></i>
+            Spotlight
+          </h3>
+        </div>
+        <div id="related" class="carousel slide" data-ride="carousel" style="margin-bottom:0">
+          <ol class="carousel-indicators">
+            <li data-target="#related" data-slide-to="0" class="active"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              <a href="/assets/pdfs/publications/2014-spring.pdf">
+                <img src="/assets/imgs/spotlight/pathology-innovations.jpg" alt="Pathology Innovations">
+              </a>
+            </div>
+          </div>
+          <a href="#related" data-slide="prev" class="left carousel-control">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a href="#related" data-slide="next" class="right carousel-control">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-bullhorn pull-right"></i>
+            Updates
+          </h3>
+        </div>
+        <div class="list-group">
+          <a href="" data-toggle="modal" data-target="#alert" class="list-group-item">
+            <span class="label label-danger pull-right">Alert</span>
+            Holiday Availability for Laboratory Testing
+          </a>
+          <a href="http://mlo-online.com/news/cleveland-clinic-initiative-prevents-unnecessary-tests-and-improves-patient-care.php" class="list-group-item">
+            <span class="label label-primary pull-right">News</span>
+            Cleveland Clinic initiative prevents unnecessary tests and improves patient care
+          </a>
+          <a href="/assets/pdfs/technical-briefs/lacosamide-88181.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            Liquid Chromatography-Tandem Mass Spectrometry for Measurement of Serum Lacosamide and Desmethy Lacosamide
+          </a>
+          <a href="/assets/pdfs/technical-briefs/alpha-1-89910.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            Alpha-1 Antitrypsin (SERPINA1) Targeted Genotyping
+          </a>
+          <a href="/assets/pdfs/technical-briefs/mthfr-81692.pdf" class="list-group-item">
+            <span class="label label-info pull-right">Brief</span>
+            MTHFR Mutation Analysis
+          </a>
+          <!-- <a href="/assets/pdfs/brochures/hemostasis-and-thrombosis-services.pdf" class="list-group-item">
+            <span class="label label-danger pull-right">Brochure</span>
+            Hemostasis and Thrombosis Services
+          </a> -->
+          <!-- <a href="/assets/pdfs/brochures/molecular-pathology-tests.pdf" class="list-group-item">
+            <span class="label label-danger pull-right">Brochure</span>
+            Molecular Pathology Tests
+          </a> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="glyphicon glyphicon-calendar pull-right"></i>
+            Events
+          </h3>
+        </div>
+        <div class="list-group">
+          <!-- <a href="http://www.cleanmed.org/2014/docs/CleanMed2014CompleteAgenda.pdf" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 5, 2014</strong>
+            <p class="list-group-item-text"><em>Ilyssa Gordon, MD</em><br>CleanMed &ndash; Cleveland, OH</p>
+          </a>
+          <a href="http://harrisburg.psu.edu/AERC-2014/schedule" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 7, 2014</strong>
+            <p class="list-group-item-text"><em>Richard Prayson, MD</em><br>AERC &ndash; Harrisburg, PA</p>
+          </a> -->
+          <!-- <a href="http://www.icplm2014.org" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>June 22, 2014</strong>
+            <p class="list-group-item-text"><em>Sihe Wang, PhD</em><br>ICPLM &ndash; Istanbul, Turkey</p>
+          </a> -->
+          <a href="http://isth.org/page/2014Microsite/?" class="list-group-item">
+            <span class="label label-success pull-right">Exhibiting</span>
+            <strong>June 23-26, 2014</strong>
+            <p class="list-group-item-text">ISTH &ndash; Milwaukee, WI</p>
+          </a>
+          <a href="http://www.uscap.org/meeting/56531" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>July 20-25, 2014</strong>
+            <p class="list-group-item-text">Dr. Cook: USCAP &ndash; San Juan, Puerto Rico</p>
+          </a>
+          <a href="http://events.jspargo.com/aacc14/public/enter.aspx" class="list-group-item">
+            <span class="label label-success pull-right">Exhibiting</span>
+            <strong>July 27-31, 2014</strong>
+            <p class="list-group-item-text">AACC &ndash; Chicago, IL</p>
+          </a>
+          <a href="http://amli.org/" class="list-group-item">
+            <span class="label label-warning pull-right">Presenting</span>
+            <strong>August 9-12, 2014</strong>
+            <p class="list-group-item-text">Dr. Myles: AMLI &ndash; Seattle, WA</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+  <div class="row">
+    <div class="col-md-4 text-center">
+      <address>
+        <em>Correspondence:</em><br>
+        <strong>Cleveland Clinic Laboratories</strong><br>
+        9500 Euclid Ave., LL2-1<br>
+        Cleveland, OH 44195<br>
+        <abbr title="Phone">P</abbr>: (800) 628-6816
+      </address>
+    </div>
+    <div class="col-md-4 text-center">
+      <address>
+        <em>Shipping:</em><br>
+        <strong>Cleveland Clinic Laboratories</strong><br>
+        2119 E. 93rd St.<br>
+        Cleveland, OH 44106
+      </address>
+    </div>
+    <div class="col-md-4 text-center">
+      <ul class="list-unstyled">
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/terms-of-use">Terms of Use</a></li>
+        <li><a href="/careers">Careers</a></li>
+        <li><a href="https://www.youtube.com/channel/UCWZvQOfSwgbqpW7BWJdtR8A">YouTube</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+    </div>
+
+    <div id="modals">
+      <div class="modal fade" id="our-people" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eric Hsi, MD</h4>
+      </div>
+      <div class="modal-body">
+        <p>Dr. Hsi is Chair of the Department of Laboratory Medicine and Section Head of Hematopathology. His interests are bone marrow and lymph node pathology with expertise in lymphoma and leukemia diagnosis. He is Medical Director of the Flow Cytometry laboratory and Program Director for the ACGME-accredited Hematopathology Fellowship program. Dr. Hsi received his Bachelor of Arts degree in Chemistry from Kalamazoo College. He received his MD, residency and fellowship training at the University of Michigan and is board certified in Anatomic and Clinical Pathology with subspecialty boards in Hematology. He has over 200 peer-reviewed publications and is the author of numerous book chapters and editor of a textbook in Hematopathology. He is the recipient of grants and sponsored research awards in translational science related to biomarker and experimental therapeutics research, with an active research laboratory. He serves on several editorial boards and national committees for ASCP, ASH, and CAP and is the Pathology Committee Chair and Lymphoma Biology Vice Chair for the ALLIANCE, an NCI sponsored clinical trials cooperative group. Outside of work, Dr. Hsi enjoys spending time with his family, running with the family dog, and playing tennis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="alert" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Holiday Availability for Laboratory Testing</h4>
+      </div>
+      <div class="modal-body">
+        <p>The Robert J. Tomsich Pathology & Laboratory Medicine Institute is announcing limited availability for the following tests due to the upcoming holiday:</p>
+          <p><strong>Immune function assay-ATP blood (Test Code: IMMFUN)</strong><br>
+          Unavailable beginning Wednesday, July 2 at noon until the morning of Monday, July 7.</p>
+          <p><strong>Chromosome Breakage for Fanconi Anemia (Test Code: CBREAK)</strong><br>
+          Unavailable beginning Monday, June 30 at noon until the morning of Monday, July 7.</p>
+          <p><strong>Allomap (Test Code: ALLOMP)</strong><br>
+          Unavailable beginning Wednesday, June 25 at noon until the morning of Monday, July 7.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="modal fade" id="site-search" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Site Search</h4>
+      </div>
+      <div class="modal-body">
+        <gcse:search></gcse:search>
+      </div>
+    </div>
+  </div>
+</div> -->
+    </div>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/scripts.js"></script>
+    <!-- ANALYTICS -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-718476-32');ga('send','pageview');
+    </script>
+    <!-- CSE -->
+    <script>
+      (function() {
+        var cx = '009824050316095856017:6svmjwhw93y';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//www.google.com/cse/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+      })();
+    </script>
+  </body>
+</html>
