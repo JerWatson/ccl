@@ -44,7 +44,7 @@ testSearch = (href) ->
 buildSearch = (data) ->
   $("#search").html("<div class='list-group'></div>")
   search = $("#search .list-group")
-  data.forEach (item) ->
+  for item in data
     text = "#{item.body.slice(0, 250)}..." if item.body.length > 250
     search.append("
       <a href='/#{item.id}' class='list-group-item'>
