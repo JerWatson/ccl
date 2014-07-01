@@ -13,6 +13,7 @@
   "devDependencies": {
     "browserify": "^3.38.1",
     "chalk": "^0.4.0",
+    "cheerio": "^0.17.0",
     "coffee-script": "^1.7.1",
     "coffeeify": "^0.6.0",
     "ect": "^0.5.9",
