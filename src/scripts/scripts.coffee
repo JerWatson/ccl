@@ -1,5 +1,5 @@
-qs    = require "querystring"
-url   = require "url"
+qs = require "querystring"
+url = require "url"
 build = require "./build"
 
 # IE8 polyfill
@@ -66,9 +66,9 @@ siteSearch = (href) ->
 page = url.parse window.location.href
 
 switch page.pathname
-  when "/search-list/"   then testSearch "/test-list"
+  when "/search-list/" then testSearch "/test-list"
   when "/search-detail/" then testSearch "/test-detail"
-  when "/search-site/"   then siteSearch "/search"
+  when "/search-site/" then siteSearch "/search"
 
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()
