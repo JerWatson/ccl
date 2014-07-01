@@ -1,9 +1,13 @@
 {
   "name": "ccl",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Cleveland Clinic Laboratories",
   "main": "./index",
   "author": "Brandon Chartier",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/bchar/ccl.git"
+  },
   "dependencies": {
     "express": "^3.5.1",
     "forever": "^0.10.11",
