@@ -1,9 +1,14 @@
 express = require "express"
+lunr = require "lunr"
 mailer = require "nodemailer"
 request = require "request"
 qs = require "querystring"
+search = require "./search.json"
+results = require "./results.json"
 
-app = do express
+index = lunr.Index.load search
+
+app = express()
 port = 3003
 smtp = mailer.createTransport "SMTP",
   service: "Gmail"
@@ -12,12 +17,17 @@ smtp = mailer.createTransport "SMTP",
     pass: "***REMOVED***"
 
 app.configure ->
-  app.use do express.urlencoded
-  app.use do express.json
+  app.use express.urlencoded()
+  app.use express.json()
   app.use express.static "#{__dirname}/out"
   app.use app.router
 
-search = (url, res) ->
+app.get "/search", (req, res) ->
+  list = index.search JSON.stringify req.query.q
+  res.send JSON.stringify list.map (item, i) ->
+    results[item.ref]
+
+testSearch = (url, res) ->
   request url, (err, response, body) ->
     throw err if err
     res.send JSON.stringify body
@@ -25,12 +35,12 @@ search = (url, res) ->
 app.get "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"
   query = qs.stringify req.query
-  search "#{url}#{query}&site=reflab", res
+  testSearch "#{url}#{query}&site=reflab", res
 
 app.get "/test-detail", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestDetail.aspx?"
   query = qs.stringify req.query
-  search "#{url}#{query}&site=reflab", res
+  testSearch "#{url}#{query}&site=reflab", res
 
 app.post "/mail", (req, res) ->
   content = ""
