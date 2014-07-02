@@ -16,12 +16,12 @@ getTime = ->
 run = (cmd) ->
   exec cmd, (err, stdout, stderr) ->
     throw err if err
-    console.log do getTime, chalk.green "success"
+    console.log getTime(), chalk.green "success"
 
 addMonitor = (src, cmd) ->
   watch.createMonitor src, (monitor) ->
     monitor.on "changed", (file, curr, prev) ->
-      console.log do getTime, chalk.yellow "updating #{file} ..."
+      console.log getTime(), chalk.yellow "updating #{file} ..."
       run cmd
 
 addMonitor src, cmd for src, cmd of monitors
