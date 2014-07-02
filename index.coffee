@@ -23,9 +23,9 @@ app.configure ->
   app.use app.router
 
 app.get "/search", (req, res) ->
-  list = index.search JSON.stringify req.query.q
-  res.send JSON.stringify list.map (item, i) ->
-    results[item.ref]
+  xs = index.search JSON.stringify req.query.q
+  res.send JSON.stringify xs.map (x, i) ->
+    results[x.ref]
 
 app.get "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"
