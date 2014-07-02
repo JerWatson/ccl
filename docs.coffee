@@ -6,9 +6,9 @@ lunr = require "lunr"
 sm = require "sitemap"
 yaml = require "yaml-front-matter"
 
-results = {}
+siteIndex = {}
 
-index = lunr ->
+searchIndex = lunr ->
   @field "title", boost: 10
   @field "body"
 
@@ -37,70 +37,63 @@ unique = (xs) ->
   xs.filter (x, i, xs) ->
     xs.indexOf(x) is i
 
-formatText = (xs) ->
+format = (xs) ->
   unique breakHyphens removeSpaces notEmpty xs
 
-documents = (done) ->
-  res = []
-  glob "src/documents/**/*.html", (err, list) ->
-    done err if err
-    pending = list.length
-    done null, res unless pending
-    list.forEach (item) ->
-      fs.readFile item, "utf8", (err, data) ->
-        file = yaml.loadFront data
-        html = cheerio.load file.__content,
-          normalizeWhitespace: true
-        text = html("*")
-          .map -> html(this).text().trim()
-          .toArray()
-        doc =
-          title: file.title
-          body: formatText(text).join " "
-          id: file.id
-        index.add doc
-        results[doc.id] = doc
-        res.push file
-        done null, res unless --pending
+search = (xs) ->
+  xs.forEach (x) ->
+    html = cheerio.load x.__content,
+      normalizeWhitespace: true
+    text = html("*")
+      .map -> html(this).text().trim()
+      .toArray()
+    item =
+      title: x.title
+      body: format(text).join(" ")
+      id: x.id
+    searchIndex.add item
+    siteIndex[item.id] = item
+  fs.outputFileSync "search.json", JSON.stringify searchIndex.toJSON()
+  fs.outputFileSync "results.json", JSON.stringify siteIndex
 
-parent = (page, list) ->
-  list.filter (item) ->
-    item.id is page.parent
+parent = (y, xs) ->
+  xs.filter (x) ->
+    x.id is y.parent
 
-children = (page, list) ->
-  list.filter (item) ->
-    item.parent is page.id
+children = (y, xs) ->
+  xs.filter (x) ->
+    x.parent is y.id
 
-sidenav = (page, list) ->
-  if page.isParent
-    list.filter (item) ->
-      item.id is page.id or item.parent is page.id
-  else if page.parent
-    list.filter (item) ->
-      item.id is page.parent or item.parent is page.parent
+sidenav = (y, xs) ->
+  if y.isParent
+    xs.filter (x) ->
+      x.id is y.id or x.parent is y.id
+  else if y.parent
+    xs.filter (x) ->
+      x.id is y.parent or x.parent is y.parent
   else []
 
-sitemap = ->
-  glob "out/**/*.html", (err, list) ->
-    throw err if err
-    list.forEach (item) ->
-      item = item.replace "out", ""
-      site.add url: item unless item is "/404/index.html"
-    fs.outputFile "out/sitemap.xml", site, (err) ->
-      throw err if err
+render = (xs) ->
+  xs.forEach (x) ->
+    dest = if x.isHome then "out/index.html" else "out/#{x.id}/index.html"
+    html = renderer.render "#{x.layout}",
+      attr: x
+      parent: parent x, xs
+      children: children x, xs
+      sidenav: sidenav x, xs
+      content: x.__content
+    fs.outputFileSync dest, html
 
-documents (err, docs) ->
-  throw err if err
-  docs.forEach (doc) ->
-    dest = if doc.isHome then "out/index.html" else "out/#{doc.id}/index.html"
-    html = renderer.render "#{doc.layout}",
-      attr: doc
-      parent: parent doc, docs
-      children: children doc, docs
-      sidenav: sidenav doc, docs
-      content: doc.__content
-    fs.outputFile dest, html, (err) ->
-      throw err if err
-  sitemap()
-  fs.writeFileSync "search.json", JSON.stringify(index.toJSON())
-  fs.writeFileSync "results.json", JSON.stringify(results)
+sitemap = (xs) ->
+  xs.forEach (x) ->
+    site.add url: x.url unless x.id is "404"
+  fs.outputFileSync "out/sitemap.xml", site
+
+build = (xs) ->
+  search xs
+  render xs
+  sitemap xs
+
+glob "src/documents/**/*.html", (err, xs) ->
+  build xs.map (x) ->
+    yaml.loadFront fs.readFileSync x, "utf8"
