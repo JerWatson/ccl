@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{= @attr.title }} - Cleveland Clinic Laboratories</title>
+    <title><%= @attr.title %> - Cleveland Clinic Laboratories</title>
     <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -15,39 +15,39 @@
     <a href="#main" class="sr-only">Skip to main content</a>
 
     <div id="header">
-      {{ include "header" }}
-      {{ include "navigation" }}
+      <% include "header" %>
+      <% include "navigation" %>
     </div>
 
     <div id="main">
       <div class="container">
         <div class="row">
           <div class="col-md-9">
-            {{ include "breadcrumbs" }}
+            <% include "breadcrumbs" %>
             <div class="page-header">
-              <h1>{{= @attr.title }}</h1>
+              <h1><%= @attr.title %></h1>
             </div>
             <div class="page-content">
-              {{- @content }}
+              <%- @content %>
             </div>
           </div>
           <div class="col-md-3">
-            {{ include "sidenav" }}
+            <% include "sidenav" %>
           </div>
         </div>
       </div>
     </div>
 
     <div id="aside">
-      {{ include "aside" }}
+      <% include "aside" %>
     </div>
 
     <div id="footer">
-      {{ include "footer" }}
+      <% include "footer" %>
     </div>
 
     <div id="modals">
-      {{ include "modals" }}
+      <% include "modals" %>
     </div>
 
     <script src="/assets/js/jquery.min.js"></script>

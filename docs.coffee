@@ -15,8 +15,6 @@ searchIndex = lunr ->
 renderer = ect
   root: "#{__dirname}/src/layouts"
   ext: ".ect"
-  open: "{{"
-  close: "}}"
 
 site = sm.createSitemap
   hostname: "http://clevelandcliniclabs.com"
