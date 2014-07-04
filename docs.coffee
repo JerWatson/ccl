@@ -19,7 +19,7 @@ renderer = ect
 site = sm.createSitemap
   hostname: "http://clevelandcliniclabs.com"
 
-notEmpty = (xs) ->
+removeEmpty = (xs) ->
   xs.filter (x) ->
     x isnt ""
 
@@ -36,7 +36,7 @@ unique = (xs) ->
     xs.indexOf(x) is i
 
 format = (xs) ->
-  unique breakHyphens removeSpaces notEmpty xs
+  unique breakHyphens removeSpaces removeEmpty xs
 
 search = (xs) ->
   xs.forEach (x) ->
