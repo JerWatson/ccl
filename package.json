@@ -9,7 +9,8 @@
     "url": "https://bitbucket.org/bchar/ccl.git"
   },
   "dependencies": {
-    "express": "^3.5.1",
+    "body-parser": "^1.4.3",
+    "express": "^4.5.1",
     "forever": "^0.10.11",
     "lunr": "^0.5.3",
     "nodemailer": "^0.6.2",

@@ -33,7 +33,7 @@ $("#test-search-form").on "submit", (e) ->
 
 testSearch = (href) ->
   $.ajax
-    type: "GET"
+    type: "POST"
     url: href
     data: qs.parse window.location.search.slice 1
     dataType: "json"
@@ -55,7 +55,7 @@ buildSearch = (data) ->
 
 siteSearch = (href) ->
   $.ajax
-    type: "GET"
+    type: "POST"
     url: href
     data: qs.parse window.location.search.slice 1
     dataType: "json"

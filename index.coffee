@@ -1,4 +1,5 @@
 qs = require "querystring"
+bodyParser = require "body-parser"
 express = require "express"
 lunr = require "lunr"
 mailer = require "nodemailer"
@@ -8,7 +9,6 @@ results = require "./results"
 {mail} = require "./settings"
 
 app = express()
-port = 3003
 index = lunr.Index.load search
 smtp = mailer.createTransport "SMTP",
   service: "Gmail"
@@ -16,24 +16,23 @@ smtp = mailer.createTransport "SMTP",
     user: mail.user
     pass: mail.pass
 
-app.use express.urlencoded()
-app.use express.json()
+app.use bodyParser.urlencoded extended: true
+app.use bodyParser.json()
 app.use express.static "#{__dirname}/out"
-app.use app.router
 
-app.get "/search", (req, res) ->
+app.post "/search", (req, res) ->
   xs = index.search JSON.stringify req.query.q
   res.send JSON.stringify xs.map (x, i) ->
     results[x.ref]
 
-app.get "/test-list", (req, res) ->
+app.post "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"
   query = qs.stringify req.query
   request "#{url}#{query}&site=reflab", (err, response, body) ->
     throw err if err
     res.send JSON.stringify body
 
-app.get "/test-detail", (req, res) ->
+app.post "/test-detail", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestDetail.aspx?"
   query = qs.stringify req.query
   request "#{url}#{query}&site=reflab", (err, response, body) ->
@@ -55,27 +54,28 @@ app.post "/mail", (req, res) ->
     throw err if err
     res.send JSON.stringify response.message
 
-app.get "/TestDirectory/*", (req, res) -> res.redirect "/test-directory"
-app.get "/Home/*", (req, res) -> res.redirect "/"
-app.get "/AboutUs/NewReferenceLaboratory/*", (req, res) -> res.redirect "/about-us"
-app.get "/Publications/PathologyResearch/*", (req, res) -> res.redirect "/publications"
-app.get "/PoliciesandProcedures/*", (req, res) -> res.redirect "/policies-and-procedures"
-app.get "/SearchResults/*", (req, res) -> res.redirect "/"
-app.get "/ClientServices/ElectronicSupplyForm/*", (req, res) -> res.redirect "/forms/supply-order-form"
-app.get "/ClientServices/*", (req, res) -> res.redirect "/contact-us/client-services"
-app.get "/ClinicalPathology/*", (req, res) -> res.redirect "/clinical-pathology"
-app.get "/MolecularPathology/*", (req, res) -> res.redirect "/molecular-pathology"
-app.get "/AnatomicPathology/*", (req, res) -> res.redirect "/anatomic-pathology"
-app.get "/SalesandMarketing/*", (req, res) -> res.redirect "/contact-us/sales-and-marketing"
-app.get "/BillingInformation/*", (req, res) -> res.redirect "/contact-us/business-office"
-app.get "/reflab/*", (req, res) -> res.redirect "/"
-app.get "/portals/*", (req, res) -> res.redirect "/"
-app.get "/pdfs/*", (req, res) -> res.redirect "/assets#{req.url}"
+router = express.Router()
+router.use "/TestDirectory/*", (req, res) -> res.redirect "/test-directory"
+router.use "/Home/*", (req, res) -> res.redirect "/"
+router.use "/AboutUs/NewReferenceLaboratory/*", (req, res) -> res.redirect "/about-us"
+router.use "/Publications/PathologyResearch/*", (req, res) -> res.redirect "/publications"
+router.use "/PoliciesandProcedures/*", (req, res) -> res.redirect "/policies-and-procedures"
+router.use "/SearchResults/*", (req, res) -> res.redirect "/search-site"
+router.use "/ClientServices/ElectronicSupplyForm/*", (req, res) -> res.redirect "/forms/supply-order-form"
+router.use "/ClientServices/*", (req, res) -> res.redirect "/contact-us/client-services"
+router.use "/ClinicalPathology/*", (req, res) -> res.redirect "/clinical-pathology"
+router.use "/MolecularPathology/*", (req, res) -> res.redirect "/molecular-pathology"
+router.use "/AnatomicPathology/*", (req, res) -> res.redirect "/anatomic-pathology"
+router.use "/SalesandMarketing/*", (req, res) -> res.redirect "/contact-us/sales-and-marketing"
+router.use "/BillingInformation/*", (req, res) -> res.redirect "/contact-us/business-office"
+
+app.use "/", router
+app.use "/reflab", router
 
 app.get "/*", (req, res) ->
   res
     .status 404
     .sendfile "out/404/index.html"
 
-app.listen port
-console.log "Listening on port #{port}"
+app.listen 3003, ->
+  console.log "Listening on port 3003"
