@@ -55,19 +55,45 @@ app.post "/mail", (req, res) ->
     res.send JSON.stringify response.message
 
 router = express.Router()
-router.use "/TestDirectory/*", (req, res) -> res.redirect "/test-directory"
-router.use "/Home/*", (req, res) -> res.redirect "/"
-router.use "/AboutUs/NewReferenceLaboratory/*", (req, res) -> res.redirect "/about-us"
-router.use "/Publications/PathologyResearch/*", (req, res) -> res.redirect "/publications"
-router.use "/PoliciesandProcedures/*", (req, res) -> res.redirect "/policies-and-procedures"
-router.use "/SearchResults/*", (req, res) -> res.redirect "/search-site"
-router.use "/ClientServices/ElectronicSupplyForm/*", (req, res) -> res.redirect "/forms/supply-order-form"
-router.use "/ClientServices/*", (req, res) -> res.redirect "/contact-us/client-services"
-router.use "/ClinicalPathology/*", (req, res) -> res.redirect "/clinical-pathology"
-router.use "/MolecularPathology/*", (req, res) -> res.redirect "/molecular-pathology"
-router.use "/AnatomicPathology/*", (req, res) -> res.redirect "/anatomic-pathology"
-router.use "/SalesandMarketing/*", (req, res) -> res.redirect "/contact-us/sales-and-marketing"
-router.use "/BillingInformation/*", (req, res) -> res.redirect "/contact-us/business-office"
+
+router.use "/TestDirectory/*", (req, res) ->
+  res.redirect "/test-directory"
+
+router.use "/Home/*", (req, res) ->
+  res.redirect "/"
+
+router.use "/AboutUs/NewReferenceLaboratory/*", (req, res) ->
+  res.redirect "/about-us"
+
+router.use "/Publications/PathologyResearch/*", (req, res) ->
+  res.redirect "/publications"
+
+router.use "/PoliciesandProcedures/*", (req, res) ->
+  res.redirect "/policies-and-procedures"
+
+router.use "/SearchResults/*", (req, res) ->
+  res.redirect "/search"
+
+router.use "/ClientServices/ElectronicSupplyForm/*", (req, res) ->
+  res.redirect "/forms/supply-order-form"
+
+router.use "/ClientServices/*", (req, res) ->
+  res.redirect "/contact-us/client-services"
+
+router.use "/ClinicalPathology/*", (req, res) ->
+  res.redirect "/laboratory-medicine"
+
+router.use "/MolecularPathology/*", (req, res) ->
+  res.redirect "/laboratory-medicine/molecular-pathology/"
+
+router.use "/AnatomicPathology/*", (req, res) ->
+  res.redirect "/pathology"
+
+router.use "/SalesandMarketing/*", (req, res) ->
+  res.redirect "/contact-us/sales-and-marketing"
+
+router.use "/BillingInformation/*", (req, res) ->
+  res.redirect "/contact-us/business-office"
 
 app.use "/", router
 app.use "/reflab", router
