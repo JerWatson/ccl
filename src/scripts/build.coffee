@@ -15,6 +15,6 @@ module.exports = (data) ->
   search.find("table").addClass("table table-search table-hover")
   search.find("a.NormalResults").addClass("test-detail")
   $(".test-detail").each ->
-    this.href = this.href.replace location, "/search-detail/"
+    this.href = this.href.replace location, "/test/"
   search.find("tr").css({"background-color":"transparent"})
   search.wrapInner("<div class='results'></div>")

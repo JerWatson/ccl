@@ -18,18 +18,18 @@ if not Object.keys
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#q").val() is ""
-  window.location.href = "/search-list/?#{$(this).serialize()}" if not empty
+  window.location.href = "/test-list/?#{$(this).serialize()}" if not empty
   return
 
 $("#key").on "change", (e) ->
   e.preventDefault()
-  window.location.href = "/search-list/?key=#{$(this).val()}"
+  window.location.href = "/test-list/?key=#{$(this).val()}"
   return
 
 $("#test-search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#test-search-input").val() is ""
-  window.location.href = "/search-site/?q=#{$('#test-search-input').val()}" if not empty
+  window.location.href = "/search/?q=#{$('#test-search-input').val()}" if not empty
 
 testSearch = (href) ->
   $.ajax
@@ -60,15 +60,15 @@ siteSearch = (href) ->
     data: qs.parse window.location.search.slice 1
     dataType: "json"
     success: (data) -> buildSearch data
-    error: (err, text, status) -> build text
+    error: (err, text, status) -> buildSearch text
   return
 
 page = url.parse window.location.href
 
 switch page.pathname
-  when "/search-list/" then testSearch "/test-list"
-  when "/search-detail/" then testSearch "/test-detail"
-  when "/search-site/" then siteSearch "/search"
+  when "/test-list/" then testSearch "/test-list"
+  when "/test/" then testSearch "/test"
+  when "/search/" then siteSearch "/search"
 
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()

@@ -21,20 +21,20 @@ app.use bodyParser.json()
 app.use express.static "#{__dirname}/out"
 
 app.post "/search", (req, res) ->
-  xs = index.search JSON.stringify req.query.q
+  xs = index.search req.body.q
   res.send JSON.stringify xs.map (x, i) ->
     results[x.ref]
 
 app.post "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"
-  query = qs.stringify req.query
+  query = qs.stringify req.body
   request "#{url}#{query}&site=reflab", (err, response, body) ->
     throw err if err
     res.send JSON.stringify body
 
-app.post "/test-detail", (req, res) ->
+app.post "/test", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestDetail.aspx?"
-  query = qs.stringify req.query
+  query = qs.stringify req.body
   request "#{url}#{query}&site=reflab", (err, response, body) ->
     throw err if err
     res.send JSON.stringify body
