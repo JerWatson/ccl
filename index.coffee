@@ -54,6 +54,7 @@ app.post "/mail", (req, res) ->
     throw err if err
     res.send JSON.stringify response.message
 
+# Router for redirecting pages from the old site to their new URLs
 router = express.Router()
 
 router.use "/TestDirectory/*", (req, res) ->
@@ -98,10 +99,9 @@ router.use "/BillingInformation/*", (req, res) ->
 app.use "/", router
 app.use "/reflab", router
 
-app.get "/*", (req, res) ->
-  res
-    .status 404
-    .sendfile "out/404/index.html"
+app.use (req, res) ->
+  res.status 404
+  res.sendfile "out/404/index.html"
 
 app.listen 3003, ->
   console.log "Listening on port 3003"
