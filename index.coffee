@@ -3,9 +3,9 @@ express = require "express"
 lunr = require "lunr"
 mailer = require "nodemailer"
 request = require "request"
-search = require "./search.json"
-results = require "./results.json"
-{mail} = require "./settings.json"
+search = require "./search"
+results = require "./results"
+{mail} = require "./settings"
 
 app = express()
 port = 3003
@@ -16,11 +16,10 @@ smtp = mailer.createTransport "SMTP",
     user: mail.user
     pass: mail.pass
 
-app.configure ->
-  app.use express.urlencoded()
-  app.use express.json()
-  app.use express.static "#{__dirname}/out"
-  app.use app.router
+app.use express.urlencoded()
+app.use express.json()
+app.use express.static "#{__dirname}/out"
+app.use app.router
 
 app.get "/search", (req, res) ->
   xs = index.search JSON.stringify req.query.q
