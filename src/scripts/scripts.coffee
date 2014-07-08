@@ -1,6 +1,6 @@
 qs = require "querystring"
 url = require "url"
-build = require "./build"
+buildTest = require "./build-test"
 
 # IE8 polyfill
 if typeof String.prototype.trim isnt "function"
@@ -37,8 +37,8 @@ testSearch = (href) ->
     url: href
     data: qs.parse window.location.search.slice 1
     dataType: "json"
-    success: (data) -> build data
-    error: (err, text, status) -> build text
+    success: (data) -> buildTest data
+    error: (err, text, status) -> buildTest text
   return
 
 buildSearch = (data) ->
