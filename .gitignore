@@ -1,5 +1,5 @@
 node_modules/
 out/
-results.json
-search.json
+search-index.json
 settings.json
+site-index.json

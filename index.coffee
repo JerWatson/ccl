@@ -4,12 +4,12 @@ express = require "express"
 lunr = require "lunr"
 mailer = require "nodemailer"
 request = require "request"
-search = require "./search"
-results = require "./results"
+searchIndex = require "./search-index"
+siteIndex = require "./site-index"
 {mail} = require "./settings"
 
 app = express()
-index = lunr.Index.load search
+index = lunr.Index.load searchIndex
 smtp = mailer.createTransport "SMTP",
   service: "Gmail"
   auth:
@@ -23,7 +23,7 @@ app.use express.static "#{__dirname}/out"
 app.post "/search", (req, res) ->
   xs = index.search req.body.q
   res.send JSON.stringify xs.map (x, i) ->
-    results[x.ref]
+    siteIndex[x.ref]
 
 app.post "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"

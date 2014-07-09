@@ -51,8 +51,8 @@ search = (xs) ->
       id: x.id
     searchIndex.add item
     siteIndex[item.id] = item
-  fs.outputFileSync "search.json", JSON.stringify searchIndex.toJSON()
-  fs.outputFileSync "results.json", JSON.stringify siteIndex
+  fs.outputFileSync "search-index.json", JSON.stringify searchIndex.toJSON()
+  fs.outputFileSync "site-index.json", JSON.stringify siteIndex
 
 parent = (y, xs) ->
   xs.filter (x) ->
