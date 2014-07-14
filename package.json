@@ -1,6 +1,6 @@
 {
   "name": "ccl",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cleveland Clinic Laboratories",
   "main": "./index",
   "author": "Brandon Chartier",
