@@ -10,7 +10,9 @@ siteIndex = {}
 
 searchIndex = lunr ->
   @field "title", boost: 10
-  @field "body"
+  @field "body",
+  @field "type"
+  @ref "id"
 
 renderer = ect
   root: "#{__dirname}/src/layouts"
@@ -48,6 +50,7 @@ search = (xs) ->
     item =
       title: x.title
       body: format(text).join(" ")
+      type: "file"
       id: x.id
     searchIndex.add item
     siteIndex[item.id] = item
