@@ -45,10 +45,13 @@ buildSearch = (data) ->
   $("#search").html("<div class='list-group'></div>")
   search = $("#search .list-group")
   for item in data
-    text = "#{item.body.slice(0, 250)}..." if item.body.length > 250
+    text = "#{item.body.slice(0, 200)}..." if item.body.length > 200
     search.append("
       <a href='/#{item.id}' class='list-group-item'>
-        <h4 class='list-group-item-heading'>#{item.title}</h4>
+        <h4 class='list-group-item-heading'>
+          <i class='glyphicon glyphicon-#{item.type}'></i>
+          #{item.title}
+        </h4>
         <p class='list-group-item-text'>#{text}</p>
       </a>")
   return
