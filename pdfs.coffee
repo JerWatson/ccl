@@ -1,7 +1,7 @@
 glob = require "glob"
 lunr = require "lunr"
 fs = require "fs-extra"
-pdfText = require "pdf-text"
+pdftotext = require "pdftotextjs"
 searchIndex = require "./search-index"
 siteIndex = require "./site-index"
 
@@ -15,12 +15,14 @@ glob "src/assets/**/*.pdf", (err, xs) ->
   throw err if err
   pending = xs.length
   xs.forEach (x) ->
-    pdfText x, (err, chunks) ->
+    pdf = new pdftotext x
+    pdf.getText (err, data, cmd) ->
       throw err if err
       [..., title] = x.split "/"
+      text = data.replace /\s+/g, " "
       item =
         title: title
-        body: chunks.join " "
+        body: text
         type: "download"
         id: x.replace "src/", ""
       index.add item

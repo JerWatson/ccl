@@ -27,7 +27,7 @@
     "fs-extra": "^0.8.1",
     "glob": "^3.2.9",
     "moment": "^2.5.1",
-    "pdf-text": "^0.4.0",
+    "pdftotextjs": "^0.3.1",
     "sitemap": "^0.7.2",
     "stylus": "^0.43.1",
     "uglify-js": "^2.4.13",
