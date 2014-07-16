@@ -49,7 +49,7 @@ buildSearch = (data) ->
     search.append("
       <a href='/#{item.id}' class='list-group-item'>
         <h4 class='list-group-item-heading'>
-          <i class='glyphicon glyphicon-#{item.type}'></i>
+          <i class='oi oi-#{item.type}'></i>
           #{item.title}
         </h4>
         <p class='list-group-item-text'>#{text}</p>
