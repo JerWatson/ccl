@@ -35,7 +35,7 @@
     "yaml-front-matter": "^3.0.1"
   },
   "scripts": {
-    "clean": "rm -rf out/* && cp -r src/assets out",
+    "clean": "rm -rf out/* && cp -r src/assets out && mkdir out/assets/css",
     "scripts": "browserify -t coffeeify --extension='.coffee' src/scripts/scripts.coffee | uglifyjs > out/assets/js/scripts.js",
     "styles": "lessc -x src/styles/bootstrap.less > out/assets/css/styles.css",
     "docs": "coffee docs.coffee --nodejs",
