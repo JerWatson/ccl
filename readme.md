@@ -15,6 +15,6 @@
 - `git clone https://bchar@bitbucket.org/bchar/ccl.git`
 - `cd ccl`
 - `npm install`
-- `npm run build && npm run pdfs`
-- Create `settings.json` file with credentials for mail, see `index.coffee` for more details
+- `npm run build && npm run search`
+- Create `settings.json` file with credentials for mail and tims, see `index.coffee` for more details
 - `npm start`
