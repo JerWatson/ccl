@@ -38,7 +38,7 @@ conn = new sql.Connection settings.tims, (err) ->
           lfs: test.LFSCode
           cpt: test.CPTCode
           body: test.ClinicalInfo
-          type: "beaker"
+          type: "test"
           id: "test/?ID=#{id}"
         index.add item
         siteIndex[item.id] = item

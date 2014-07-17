@@ -54,7 +54,7 @@ search = (xs) ->
     item =
       title: x.title
       body: format(text).join(" ")
-      type: "file"
+      type: "page"
       id: x.id
     searchIndex.add item
     siteIndex[item.id] = item

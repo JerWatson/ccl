@@ -49,10 +49,14 @@ buildSearch = (data) ->
       text = "#{item.body.slice(0, 200)}..."
     else
       text = item.body
+    type = switch item.type
+      when "page" then "file"
+      when "pdf" then "document"
+      when "test" then "beaker"
     search.append("
       <a href='/#{item.id}' class='list-group-item'>
         <h4 class='list-group-item-heading'>
-          <i class='oi oi-#{item.type}'></i>
+          <i class='oi oi-#{type}'></i>
           #{item.title}
         </h4>
         <p class='list-group-item-text'>#{text}</p>

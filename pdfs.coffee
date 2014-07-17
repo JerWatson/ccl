@@ -23,7 +23,7 @@ glob "src/assets/**/*.pdf", (err, xs) ->
       item =
         title: title
         body: text
-        type: "document"
+        type: "pdf"
         id: x.replace "src/", ""
       index.add item
       siteIndex[item.id] = item
