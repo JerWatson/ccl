@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "body-parser": "^1.4.3",
+    "coffee-script": "^1.7.1",
     "express": "^4.5.1",
     "forever": "^0.10.11",
     "lunr": "^0.5.3",
@@ -21,7 +22,6 @@
     "browserify": "^3.38.1",
     "chalk": "^0.4.0",
     "cheerio": "^0.17.0",
-    "coffee-script": "^1.7.1",
     "coffeeify": "^0.6.0",
     "ect": "^0.5.9",
     "forever": "^0.10.11",
