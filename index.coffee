@@ -40,10 +40,10 @@ app.post "/test", (req, res) ->
     res.send JSON.stringify body
 
 app.post "/mail", (req, res) ->
-  content = ""
+  content = "<i>Please do NOT reply to this automated message.</i><br><br>"
   for key, val of req.body
     unless val is "" or key is "Form" or key is "To"
-      content += "<strong>#{key}</strong>: #{val}<br>"
+      content += "<b>#{key}</b>: #{val}<br>"
   options =
     from: "Cleveland Clinic Laboratories <clevelandcliniclabs@gmail.com>"
     bcc: req.body.To
