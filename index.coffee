@@ -1,25 +1,18 @@
 qs = require "querystring"
 bodyParser = require "body-parser"
 express = require "express"
-lunr = require "lunr"
 request = require "request"
-searchIndex = require "./search-index"
-siteIndex = require "./site-index"
-mail = require "./lib/mail"
+mail = require "./routes/mail"
+search = require "./routes/search"
 
 app = express()
-index = lunr.Index.load searchIndex
 
 app.use bodyParser.json()
 app.use bodyParser.urlencoded extended: true
 app.use express.static "#{__dirname}/out"
 
 app.post "/mail", mail
-
-app.post "/search", (req, res) ->
-  xs = index.search req.body.q
-  res.send JSON.stringify xs.map (x, i) ->
-    siteIndex[x.ref]
+app.post "/search", search
 
 app.post "/test-list", (req, res) ->
   url = "http://eweb2.ccf.org/RefLabSearch/TestList.aspx?"
