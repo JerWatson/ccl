@@ -16,5 +16,5 @@
 - `cd ccl`
 - `npm install`
 - `npm run build && npm run search`
-- Create `settings.json` file with credentials for mail and tims, see `index.coffee` for more details
+- Create `settings.json` file with credentials for mail and search
 - `npm start`
