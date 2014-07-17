@@ -2,6 +2,7 @@ qs = require "querystring"
 bodyParser = require "body-parser"
 express = require "express"
 request = require "request"
+serveStatic = require "serve-static"
 mail = require "./routes/mail"
 search = require "./routes/search"
 
@@ -9,7 +10,7 @@ app = express()
 
 app.use bodyParser.json()
 app.use bodyParser.urlencoded extended: true
-app.use express.static "#{__dirname}/out"
+app.use serveStatic "#{__dirname}/out"
 
 app.post "/mail", mail
 app.post "/search", search
