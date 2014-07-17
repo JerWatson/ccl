@@ -2,11 +2,11 @@
   "name": "ccl",
   "version": "1.0.2",
   "description": "Cleveland Clinic Laboratories",
-  "main": "./index",
+  "main": "index.coffee",
   "author": "Brandon Chartier",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/bchar/ccl.git"
+    "url": "https://bchar@bitbucket.org/bchar/ccl.git"
   },
   "dependencies": {
     "body-parser": "^1.4.3",
