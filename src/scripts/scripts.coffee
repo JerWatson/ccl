@@ -45,7 +45,10 @@ buildSearch = (data) ->
   $("#search").html("<div class='list-group'></div>")
   search = $("#search .list-group")
   for item in data
-    text = "#{item.body.slice(0, 200)}..." if item.body.length > 200
+    if item.body.length > 200
+      text = "#{item.body.slice(0, 200)}..."
+    else
+      text = item.body
     search.append("
       <a href='/#{item.id}' class='list-group-item'>
         <h4 class='list-group-item-heading'>
