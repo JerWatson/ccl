@@ -2,23 +2,19 @@ qs = require "querystring"
 bodyParser = require "body-parser"
 express = require "express"
 lunr = require "lunr"
-mailer = require "nodemailer"
 request = require "request"
 searchIndex = require "./search-index"
 siteIndex = require "./site-index"
-{mail} = require "./settings"
+mail = require "./lib/mail"
 
 app = express()
 index = lunr.Index.load searchIndex
-smtp = mailer.createTransport "SMTP",
-  service: "Gmail"
-  auth:
-    user: mail.user
-    pass: mail.pass
 
-app.use bodyParser.urlencoded extended: true
 app.use bodyParser.json()
+app.use bodyParser.urlencoded extended: true
 app.use express.static "#{__dirname}/out"
+
+app.post "/mail", mail
 
 app.post "/search", (req, res) ->
   xs = index.search req.body.q
@@ -38,21 +34,6 @@ app.post "/test", (req, res) ->
   request "#{url}#{query}&site=reflab", (err, response, body) ->
     throw err if err
     res.send JSON.stringify body
-
-app.post "/mail", (req, res) ->
-  content = "<i>Please do NOT reply to this automated message.</i><br><br>"
-  for key, val of req.body
-    unless val is "" or key is "Form" or key is "To"
-      content += "<b>#{key}</b>: #{val}<br>"
-  options =
-    from: "Cleveland Clinic Laboratories <clevelandcliniclabs@gmail.com>"
-    bcc: req.body.To
-    subject: "#{req.body.Form} submitted"
-    html: content
-    generateTextFromHTML: true
-  smtp.sendMail options, (err, response) ->
-    throw err if err
-    res.send JSON.stringify response.message
 
 # Router for redirecting pages from the old site to their new URLs
 router = express.Router()
