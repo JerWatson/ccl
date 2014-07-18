@@ -43,8 +43,9 @@ testSearch = (href) ->
   return
 
 buildSearch = (data) ->
-  $("#search").html("<div class='list-group'></div>")
-  search = $("#search .list-group")
+  search = $("#search")
+  search.html("<div class='list-group'></div>")
+  searchList = $("#search .list-group")
   pagination = $(".pagination")
   filter = $(".search-options .btn")
   query = qs.parse window.location.search.slice 1
@@ -75,7 +76,7 @@ buildSearch = (data) ->
         when "page" then "file"
         when "pdf" then "document"
         when "test" then "beaker"
-      search.append("
+      searchList.append("
         <a href='/#{item.id}' class='list-group-item'>
           <h4 class='list-group-item-heading'>
             <i class='oi oi-#{type}'></i>
@@ -103,27 +104,21 @@ buildSearch = (data) ->
       self = $(this)
       query.page = self.text()
       window.location.href = "/search/?#{qs.stringify(query)}"
-  else
-    $("#search").html("<h3>No results found.</h3>")
-
-  unless query.q
-    $(".search-options").hide()
-    $("#search").html("<h3>Please enter search term.</h3>")
+    search.prepend("<h5>Results for \"#{query.q}\".")
+  else if not query.q
+    search.append("<h5>Please enter search term.</h5>")
+  else if not results.length
+    search.append("<h5>No results found.</h5>")
   return
 
 siteSearch = (href) ->
-  console.log href
   $.ajax
     type: "POST"
     url: href
     data: qs.parse window.location.search.slice 1
     dataType: "json"
-    success: (data) ->
-      console.log data
-      buildSearch data
-    error: (err, text, status) ->
-      console.log err, text, status
-      buildSearch text
+    success: (data) -> buildSearch data
+    error: (err, text, status) -> buildSearch text
   return
 
 page = url.parse window.location.href
