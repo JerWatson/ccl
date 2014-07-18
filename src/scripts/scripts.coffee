@@ -94,16 +94,18 @@ buildSearch = (data) ->
         ")
       else
         pagination.append("
-          <li><a href='#'>#{i}</a></li>
+          <li><a href='#' class='btn-page'>#{i}</a></li>
         ")
     pagination.append("
       <li class='disabled'><a href='#'>&raquo;</a></li>
     ")
-    $(".pagination a").on "click", (e) ->
+    $(".btn-page").on "click", (e) ->
       e.preventDefault()
       self = $(this)
       query.page = self.text()
       window.location.href = "/search/?#{qs.stringify(query)}"
+    $(".pagination .disabled a").on "click", (e) ->
+      e.preventDefault()
     search.prepend("<h5>Results for \"#{query.q}\".")
   else if not query.q
     search.append("<h5>Please enter search term.</h5>")
