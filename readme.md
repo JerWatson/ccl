@@ -15,6 +15,6 @@
 - `git clone https://bchar@bitbucket.org/bchar/ccl.git`
 - `cd ccl`
 - `npm install`
-- `npm run build && npm run search`
+- `npm run build`
 - Create `settings.json` file with credentials for mail and search
 - `npm start`
