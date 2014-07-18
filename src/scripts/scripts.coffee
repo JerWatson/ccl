@@ -1,24 +1,24 @@
 qs = require "querystring"
 url = require "url"
 buildTest = require "./build-test"
+search = require "./search"
 
 # IE8 polyfill
 if typeof String.prototype.trim isnt "function"
-  String.prototype.trim = -> this.replace(/^\s+|\s+$/g, "")
+  String.prototype.trim = -> this.replace /^\s+|\s+$/g, ""
 
 # IE8 polyfill
 if not Object.keys
   Object.keys = (o) ->
-    throw new TypeError "Object.keys called on a non-object" if o isnt Object(o)
-    r = []
-    for own k of o
-      r.push k
-    r
+    if o isnt Object(o)
+      throw new TypeError "Object.keys called on a non-object"
+    k for own k of o
 
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#q").val() is ""
-  window.location.href = "/test-list/?#{$(this).serialize()}" if not empty
+  if not empty
+    window.location.href = "/test-list/?#{$(this).serialize()}"
   return
 
 $("#key").on "change", (e) ->
@@ -28,8 +28,10 @@ $("#key").on "change", (e) ->
 
 $("#test-search-form").on "submit", (e) ->
   e.preventDefault()
-  empty = $("#test-search-input").val() is ""
-  window.location.href = "/search/?q=#{$('#test-search-input').val()}" if not empty
+  val = $("#test-search-input").val()
+  empty = val is ""
+  if not empty
+    window.location.href = "/search/?q=#{val}&filter=all&page=1"
 
 testSearch = (href) ->
   $.ajax
@@ -44,23 +46,66 @@ testSearch = (href) ->
 buildSearch = (data) ->
   $("#search").html("<div class='list-group'></div>")
   search = $("#search .list-group")
-  for item in data
-    if item.body.length > 200
-      text = "#{item.body.slice(0, 200)}..."
-    else
-      text = item.body
-    type = switch item.type
-      when "page" then "file"
-      when "pdf" then "document"
-      when "test" then "beaker"
-    search.append("
-      <a href='/#{item.id}' class='list-group-item'>
-        <h4 class='list-group-item-heading'>
-          <i class='oi oi-#{type}'></i>
-          #{item.title}
-        </h4>
-        <p class='list-group-item-text'>#{text}</p>
-      </a>")
+  pagination = $(".pagination")
+  filter = $(".search-options .btn")
+  query = qs.parse window.location.search.slice 1
+
+  filter
+    .filter (i) -> return $(this).val() is query.filter
+    .addClass("active")
+
+  filter.on "click", (e) ->
+    e.preventDefault()
+    query.filter = $(this).val()
+    query.page = 1
+    window.location.href = "/search/?#{qs.stringify(query)}"
+
+  perPage = 10
+  begin = (query.page-1) * perPage
+  end = begin + perPage
+  results = data.slice begin, end
+  pages = data.length / perPage
+  pages = if pages > 10 then 10 else pages
+  if results.length
+    for item in results
+      if item.body.length > 200
+        text = "#{item.body.slice(0, 200)}..."
+      else
+        text = item.body
+      type = switch item.type
+        when "page" then "file"
+        when "pdf" then "document"
+        when "test" then "beaker"
+      search.append("
+        <a href='/#{item.id}' class='list-group-item'>
+          <h4 class='list-group-item-heading'>
+            <i class='oi oi-#{type}'></i>
+            #{item.title}
+          </h4>
+          <p class='list-group-item-text'>#{text}</p>
+        </a>")
+    pagination.append("
+      <li class='disabled'><a href='#'>&laquo;</a></li>
+    ")
+    for i in [1..pages]
+      if "#{i}" is query.page
+        pagination.append("
+          <li class='active'><a href='#'>#{i}</a></li>
+        ")
+      else
+        pagination.append("
+          <li><a href='#'>#{i}</a></li>
+        ")
+    pagination.append("
+      <li class='disabled'><a href='#'>&raquo;</a></li>
+    ")
+    $(".pagination a").on "click", (e) ->
+      e.preventDefault()
+      self = $(this)
+      query.page = self.text()
+      window.location.href = "/search/?#{qs.stringify(query)}"
+  else
+    $("#search").html("No results found.")
   return
 
 siteSearch = (href) ->
