@@ -73,16 +73,22 @@ buildSearch = (data) ->
       else
         text = item.body
       type = switch item.type
-        when "page" then "file"
-        when "pdf" then "document"
-        when "test" then "beaker"
+        when "page" then "fa fa-file"
+        when "pdf" then "fa fa-file-pdf-o text-danger"
+        when "test" then "fa fa-flask text-primary"
       searchList.append("
         <a href='/#{item.id}' class='list-group-item'>
-          <h4 class='list-group-item-heading'>
-            <i class='oi oi-#{type}'></i>
-            #{item.title}
-          </h4>
-          <p class='list-group-item-text'>#{text}</p>
+          <div class='media'>
+              <div class='pull-left'>
+                <i class='#{type}'></i>
+              </div>
+              <div class='media-body'>
+                <h4 class='media-heading'>
+                  #{item.title}
+                </h4>
+                #{text}
+              </div>
+          </div>
         </a>")
     pagination.append("
       <li class='disabled'><a href='#'>&laquo;</a></li>
