@@ -1,7 +1,6 @@
 qs = require "querystring"
 url = require "url"
 buildTest = require "./build-test"
-search = require "./search"
 
 # IE8 polyfill
 if typeof String.prototype.trim isnt "function"
@@ -105,17 +104,26 @@ buildSearch = (data) ->
       query.page = self.text()
       window.location.href = "/search/?#{qs.stringify(query)}"
   else
-    $("#search").html("No results found.")
+    $("#search").html("<h3>No results found.</h3>")
+
+  unless query.q
+    $(".search-options").hide()
+    $("#search").html("<h3>Please enter search term.</h3>")
   return
 
 siteSearch = (href) ->
+  console.log href
   $.ajax
     type: "POST"
     url: href
     data: qs.parse window.location.search.slice 1
     dataType: "json"
-    success: (data) -> buildSearch data
-    error: (err, text, status) -> buildSearch text
+    success: (data) ->
+      console.log data
+      buildSearch data
+    error: (err, text, status) ->
+      console.log err, text, status
+      buildSearch text
   return
 
 page = url.parse window.location.href
