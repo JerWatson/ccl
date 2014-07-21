@@ -62,6 +62,9 @@ $(".mail-form").on "submit", (e) ->
       url: "/mail"
       data: self.serialize()
       dataType: "json"
+      beforeSend: ->
+        self.html "<div class='loading'>
+          <img src=\"/assets/imgs/layout/loading.gif\"></div>"
       success: (data) -> self.html "<p>Thank you!</p>"
       error: (err, text, status) ->
         self.html "<p>Error: Please contact
