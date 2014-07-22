@@ -15,7 +15,7 @@ searchIndex = lunr ->
   @field "lis", boost: 10
   @field "lfs", boost: 10
   @field "cpt", boost: 10
-  @field "body",
+  @field "body"
   @field "type"
   @ref "id"
 
