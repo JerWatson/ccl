@@ -6,7 +6,7 @@ sm = require "sitemap"
 yaml = require "yaml-front-matter"
 
 renderer = ect
-  root: path.resolve __dirname, "..", "src/layouts"
+  root: path.join __dirname, "../src/layouts"
   ext: ".ect"
 
 site = sm.createSitemap
@@ -31,7 +31,9 @@ sidenav = (y, xs) ->
 
 render = (xs) ->
   xs.forEach (x) ->
-    dest = if x.isHome then "out/index.html" else "out/#{x.id}/index.html"
+    dest = switch
+      when x.isHome then path.join __dirname, "../out/index.html"
+      else path.join __dirname, "../out/#{x.id}/index.html"
     html = renderer.render "#{x.layout}",
       attr: x
       parent: parent x, xs
@@ -43,7 +45,7 @@ render = (xs) ->
 sitemap = (xs) ->
   xs.forEach (x) ->
     site.add url: x.url unless x.id is "404"
-  fs.outputFileSync "out/sitemap.xml", site
+  fs.outputFileSync path.join(__dirname, "../out/sitemap.xml"), site
 
 build = (xs) ->
   render xs
@@ -51,4 +53,5 @@ build = (xs) ->
 
 glob "src/documents/**/*.html", (err, xs) ->
   build xs.map (x) ->
-    yaml.loadFront fs.readFileSync x, "utf8"
+    file = path.join __dirname, "../#{x}"
+    yaml.loadFront fs.readFileSync file, "utf8"
