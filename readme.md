@@ -16,5 +16,4 @@
 - `cd ccl`
 - `npm install`
 - `npm run build`
-- Create `settings.json` file with credentials for mail and search
-- `npm start`
+- Create `config.json` file with credentials for mail and search
