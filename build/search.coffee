@@ -5,7 +5,7 @@ fs = require "fs-extra"
 PDF = require "pdftotextjs"
 sql = require "mssql"
 yaml = require "yaml-front-matter"
-settings = require "../settings"
+config = require "../config"
 
 siteIndex = {}
 
@@ -47,7 +47,7 @@ format = (xs) ->
   unique breakHyphens removeSpaces removeEmpty xs
 
 addTests = ->
-  conn = new sql.Connection settings.tims, (err) ->
+  conn = new sql.Connection config.tims, (err) ->
     throw err if err
     req = new sql.Request conn
     req.query extract, (err, xs) ->

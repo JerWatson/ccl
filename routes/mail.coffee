@@ -1,9 +1,9 @@
 mail = require "nodemailer"
-settings = require "../settings"
+config = require "../config"
 
 smtp = mail.createTransport
   service: "Gmail"
-  auth: settings.mail
+  auth: config.mail
 
 module.exports = (req, res) ->
   content = "<i>Please do NOT reply to this automated message.</i><br><br>"
