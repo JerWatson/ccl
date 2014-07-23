@@ -12,7 +12,6 @@
     "body-parser": "^1.4.3",
     "coffee-script": "^1.7.1",
     "express": "^4.5.1",
-    "forever": "^0.10.11",
     "lunr": "^0.5.4",
     "nodemailer": "^1.0.3",
     "request": "^2.34.0",
@@ -38,9 +37,6 @@
     "styles": "lessc -x src/styles/bootstrap.less > out/assets/css/styles.css",
     "docs": "coffee build/docs.coffee --nodejs",
     "search": "coffee build/search.coffee --nodejs",
-    "build": "npm run clean && npm run styles && npm run scripts && npm run docs",
-    "monitor": "coffee monitor.coffee --nodejs",
-    "start": "forever start -c coffee index.coffee --nodejs",
-    "stop": "forever stop -c coffee index.coffee --nodejs"
+    "build": "npm run clean && npm run styles && npm run scripts && npm run docs"
   }
 }
