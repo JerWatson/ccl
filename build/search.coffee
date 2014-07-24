@@ -24,7 +24,8 @@ output = ->
   fs.outputFileSync "site-index.json", JSON.stringify siteIndex
   process.exit 0
 
-extract = "SELECT * FROM TestInfo"
+# extract = "SELECT * FROM TestInfo"
+extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''"
 test = (id) -> "EXEC sp_GetTestDetailByTestID @testID=#{id}, @site='reflab'"
 
 removeEmpty = (xs) ->
