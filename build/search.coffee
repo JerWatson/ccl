@@ -1,6 +1,5 @@
 cheerio = require "cheerio"
 glob = require "glob"
-lunr = require "lunr"
 fs = require "fs-extra"
 PDF = require "pdftotextjs"
 sql = require "mssql"
@@ -9,22 +8,10 @@ config = require "../config"
 
 siteIndex = {}
 
-searchIndex = lunr ->
-  @field "title", boost: 10
-  @field "alias", boost: 10
-  @field "lis", boost: 10
-  @field "lfs", boost: 10
-  @field "cpt", boost: 10
-  @field "body"
-  @field "type"
-  @ref "id"
-
 output = ->
-  fs.outputFileSync "search-index.json", JSON.stringify searchIndex.toJSON()
   fs.outputFileSync "site-index.json", JSON.stringify siteIndex
   process.exit 0
 
-# extract = "SELECT * FROM TestInfo"
 extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''"
 test = (id) -> "EXEC sp_GetTestDetailByTestID @testID=#{id}, @site='reflab'"
 
@@ -67,9 +54,8 @@ addTests = ->
             lfs: test.LFSCode
             cpt: test.CPTCode
             body: test.ClinicalInfo
-            type: "test"
+            type: ["test"]
             id: "test/?ID=#{id}"
-          searchIndex.add item
           siteIndex[item.id] = item
           output() unless --pending
 
@@ -83,9 +69,8 @@ addPdfs = (xs) ->
       item =
         title: title
         body: text
-        type: "pdf"
+        type: ["pdf"]
         id: x.replace "src/", ""
-      searchIndex.add item
       siteIndex[item.id] = item
 
 addDocs = (xs) ->
@@ -105,9 +90,8 @@ addDocs = (xs) ->
     item =
       title: x.title
       body: format(text).join(" ")
-      type: "page"
+      type: ["page"]
       id: x.id
-    searchIndex.add item
     siteIndex[item.id] = item
     addPdfs pdfs
     addTests() unless --pending

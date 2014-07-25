@@ -1,13 +1,14 @@
-lunr = require "lunr"
-searchIndex = require "../search-index"
-siteIndex = require "../site-index"
-
-index = lunr.Index.load searchIndex
+request = require "request"
+qs = require "querystring"
 
 module.exports = (req, res) ->
-  xs = index.search req.body.q
-  unless req.body.filter is "all"
-    xs = xs.filter (x) ->
-      siteIndex[x.ref].type is req.body.filter
-  res.send JSON.stringify xs.map (x, i) ->
-    siteIndex[x.ref]
+  url = "http://localhost:3000/search"
+  q = "q=#{req.body.q}"
+  filter = "filter[type][]=#{req.body.filterBy}"
+  query = "#{url}?#{q}&#{filter}"
+  # query = "#{url}?#{q}"
+  # console.log req.body
+
+  request "#{query}", (err, response, body) ->
+    console.log body
+    res.send body
