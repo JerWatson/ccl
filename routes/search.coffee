@@ -1,13 +1,15 @@
 request = require "request"
-qs = require "querystring"
 
 module.exports = (req, res) ->
-  url = "http://localhost:3000/search"
-  q = "q=#{req.body.q}"
-  filter = "filter[type][]=#{req.body.filterBy}"
-  query = "#{url}?#{q}&#{filter}"
-  # query = "#{url}?#{q}"
-  # console.log req.body
+  query = "http://localhost:3000/search"
+  
+  if req.body.q
+    query += "?q=#{req.body.q}"
+  if req.body.filterBy
+    query += "&filter[type][]=#{req.body.filterBy}"
+  if req.body.page
+    query += "&offset=#{(req.body.page - 1) * 10}"
+  query += "&teaser=body"
 
   request "#{query}", (err, response, body) ->
     console.log body
