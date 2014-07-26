@@ -85,7 +85,6 @@ buildSearch = (data) ->
   buildResults data
 
 module.exports = (data) ->
-  console.log data
   if data.hits?.length
     buildSearch data
     searchContainer.html search
