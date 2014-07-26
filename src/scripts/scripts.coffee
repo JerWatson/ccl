@@ -31,7 +31,8 @@ $("#test-search-form").on "submit", (e) ->
   val = $("#test-search-input").val()
   empty = val is ""
   if not empty
-    window.location.href = "/search/?q=#{val}&filter=all&page=1"
+    window.location.href = "/search/?q=#{val}"
+  return
 
 testSearch = (href) ->
   $.ajax

@@ -1,78 +1,81 @@
 qs = require "querystring"
 
 module.exports = (data) ->
-  search = $("#search")
-  search.html("<div class='list-group'></div>")
-  searchList = $("#search .list-group")
-  pagination = $(".pagination")
-  filter = $(".search-options .btn")
   query = qs.parse window.location.search.slice 1
-
-  filter
-    .filter (i) -> return $(this).val() is query.filter
-    .addClass("active")
-
-  filter.on "click", (e) ->
-    e.preventDefault()
-    query.filter = $(this).val()
-    query.page = 1
-    window.location.href = "/search/?#{qs.stringify(query)}"
-
-  perPage = 10
-  begin = (query.page-1) * perPage
-  end = begin + perPage
-  results = data.slice begin, end
-  pages = data.length / perPage
-  pages = if pages > 10 then 10 else pages
-  if results.length
-    for item in results
-      if item.body.length > 200
-        text = "#{item.body.slice(0, 200)}..."
+  searchContainer = $("#search")
+  if data.hits?.length
+    search = $("<div/>")
+    options = $("<div class='row search-options'/>")
+    filtersContainer = $("<div class='col-md-6'/>")
+    filters = $("<div class='btn-group' data-toggle='buttons'/>")
+    filters.append "
+      <label class='btn btn-default'>
+        <input type='radio' name='options' id='all' value=''> All
+      </label>
+      <label class='btn btn-default'>
+        <input type='radio' name='options' id='test' value='test'> Tests
+      </label>
+      <label class='btn btn-default'>
+        <input type='radio' name='options' id='pdf' value='pdf'> Documents
+      </label>
+      <label class='btn btn-default'>
+        <input type='radio' name='options' id='page' value='page'> Pages
+      </label>"
+    if data.query.filter
+      type = data.query.filter.type[0]
+      filters.find("##{type}").parent().addClass("active")
+    else
+      filters.find("#all").parent().addClass("active")
+    filters.find("label").on "click", (e) ->
+      e.preventDefault()
+      query.filterBy = $(this).children().val()
+      query.page = 1
+      window.location.href = "/search/?#{qs.stringify query}"
+    filtersContainer.append filters
+    options.append filtersContainer
+    paginationContainer = $("<div class='col-md-6 text-right'/>")
+    pagination = $("<ul class='pagination'/>")
+    currentPage = (parseInt(data.query.offset) + data.query.pageSize) / data.query.pageSize
+    if data.totalHits < 100
+      pages = Math.ceil data.totalHits / data.query.pageSize
+    for n in [1..pages or 10]
+      if "#{n}" is "#{currentPage}"
+        pagination.append "<li class='active'><a href='#'>#{n}</a></li>"
       else
-        text = item.body
-      type = switch item.type
+        pagination.append "<li><a href='#'>#{n}</a></li>"
+    pagination.find("a").on "click", (e) ->
+      e.preventDefault()
+      query.page = $(this).text()
+      window.location.href = "/search/?#{qs.stringify query}"
+    paginationContainer.append pagination
+    options.append paginationContainer
+    results = $("<div class='list-group'/>")
+    for result in data.hits
+      doc = result.document
+      type = switch doc.type[0]
         when "page" then "fa fa-file"
         when "pdf" then "fa fa-file-pdf-o text-danger"
         when "test" then "fa fa-flask text-primary"
-      searchList.append("
-        <a href='/#{item.id}' class='list-group-item'>
+        else ""
+      results.append "
+        <a href='/#{doc.id}' class='list-group-item'>
           <div class='media'>
-              <div class='pull-left'>
-                <i class='#{type}'></i>
-              </div>
-              <div class='media-body'>
-                <h4 class='media-heading'>
-                  #{item.title}
-                </h4>
-                #{text}
-              </div>
+            <div class='pull-left'>
+              <i class='#{type}'></i>
+            </div>
+            <div class='media-body'>
+              <h4 class='media-heading'>
+                #{doc.title}
+              </h4>
+              #{doc.teaser}
+            </div>
           </div>
-        </a>")
-    pagination.append("
-      <li class='disabled'><a href='#'>&laquo;</a></li>
-    ")
-    for i in [1..pages]
-      if "#{i}" is query.page
-        pagination.append("
-          <li class='active'><a href='#'>#{i}</a></li>
-        ")
-      else
-        pagination.append("
-          <li><a href='#' class='btn-page'>#{i}</a></li>
-        ")
-    pagination.append("
-      <li class='disabled'><a href='#'>&raquo;</a></li>
-    ")
-    $(".btn-page").on "click", (e) ->
-      e.preventDefault()
-      self = $(this)
-      query.page = self.text()
-      window.location.href = "/search/?#{qs.stringify(query)}"
-    $(".pagination .disabled a").on "click", (e) ->
-      e.preventDefault()
-    search.prepend("<h5>Results for \"#{query.q}\".")
-  else if not query.q
-    search.append("<h5>Please enter search term.</h5>")
-  else if not results.length
-    search.append("<h5>No results found.</h5>")
+        </a>"
+    search.append options
+    search.append results
+    searchContainer.html search
+  else if not data.query
+    searchContainer.html "<h5>Please enter search term.</h5>"
+  else
+    searchContainer.html "<h5>No results found.</h5>."
   return
