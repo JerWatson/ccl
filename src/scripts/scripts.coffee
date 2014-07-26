@@ -14,21 +14,21 @@ if not Object.keys
       throw new TypeError "Object.keys called on a non-object"
     k for own k of o
 
-$("#search-form").on "submit", (e) ->
+$("#test-search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#q").val() is ""
   if not empty
     window.location.href = "/test-list/?#{$(this).serialize()}"
   return
 
-$("#key").on "change", (e) ->
+$("#test-key").on "change", (e) ->
   e.preventDefault()
   window.location.href = "/test-list/?key=#{$(this).val()}"
   return
 
-$("#test-search-form").on "submit", (e) ->
+$("#search-form").on "submit", (e) ->
   e.preventDefault()
-  val = $("#test-search-input").val()
+  val = $("#search-input").val()
   empty = val is ""
   if not empty
     window.location.href = "/search/?q=#{val}"
