@@ -15,24 +15,8 @@ output = ->
 extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''"
 test = (id) -> "EXEC sp_GetTestDetailByTestID @testID=#{id}, @site='reflab'"
 
-removeEmpty = (xs) ->
-  xs.filter (x) ->
-    x isnt ""
-
-removeSpaces = (xs) ->
-  xs.map (x) ->
-    x.replace /\s+/g, " "
-
-breakHyphens = (xs) ->
-  xs.map (x) ->
-    x.replace "-", " "
-
-unique = (xs) ->
-  xs.filter (x, i, xs) ->
-    xs.indexOf(x) is i
-
-format = (xs) ->
-  unique breakHyphens removeSpaces removeEmpty xs
+removeSpaces = (str) ->
+  str.replace /\s+/g, " "
 
 addTests = ->
   conn = new sql.Connection config.tims, (err) ->
@@ -84,12 +68,9 @@ addDocs = (xs) ->
         !!href.match /^\/assets.*\.pdf$/
       .map -> html(this).attr("href")
       .toArray()
-    text = html("*")
-      .map -> html(this).text().trim()
-      .toArray()
     item =
       title: x.title
-      body: format(text).join(" ")
+      body: removeSpaces html.root().text()
       type: ["page"]
       id: x.id
     siteIndex[item.id] = item
