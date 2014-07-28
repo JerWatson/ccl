@@ -77,6 +77,8 @@ $(".mail-form").on "submit", (e) ->
 
 $(".info").tooltip()
 
+$(".carousel").carousel({interval: false})
+
 switch (url.parse window.location.href).pathname
   when "/test-list/" then testSearch "/test-list"
   when "/test/" then testSearch "/test"
