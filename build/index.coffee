@@ -18,6 +18,10 @@ test = (id) -> "EXEC sp_GetTestDetailByTestID @testID=#{id}, @site='reflab'"
 removeSpaces = (str) ->
   str.replace /\s+/g, " "
 
+unique = (xs) ->
+  xs.filter (x, i, xs) ->
+    xs.indexOf(x) is i
+
 addTests = ->
   conn = new sql.Connection config.tims, (err) ->
     throw err if err
