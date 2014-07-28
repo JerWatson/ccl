@@ -1,4 +1,4 @@
 node_modules/
 out/
 config.json
-site-index.json
+index.json

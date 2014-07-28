@@ -9,7 +9,7 @@ config = require "../config"
 siteIndex = {}
 
 output = ->
-  fs.outputFileSync "site-index.json", JSON.stringify siteIndex
+  fs.outputFileSync "index.json", JSON.stringify siteIndex
   process.exit 0
 
 extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''"
