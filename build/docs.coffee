@@ -2,6 +2,7 @@ path = require "path"
 ect = require "ect"
 fs = require "fs-extra"
 glob = require "glob"
+{minify} = require "html-minifier"
 sm = require "sitemap"
 yaml = require "yaml-front-matter"
 
@@ -40,7 +41,11 @@ render = (xs) ->
       children: children x, xs
       sidenav: sidenav x, xs
       content: x.__content
-    fs.outputFileSync dest, html
+    fs.outputFileSync dest, minify html,
+      collapseWhitespace: true
+      conservativeCollapse: true
+      minifyJS: true
+      minifyCSS: true
 
 sitemap = (xs) ->
   xs.forEach (x) ->
