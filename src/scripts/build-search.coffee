@@ -40,11 +40,13 @@ buildPagination = (data) ->
   page = (parseInt(data.query.offset) + data.query.pageSize) / data.query.pageSize
   if data.totalHits < 100
     pages = Math.ceil data.totalHits / data.query.pageSize
+  pagination.append "<li class='disabled'><span>&laquo;</span></li>"
   for n in [1..pages or 10]
     if "#{n}" is "#{page}"
       pagination.append "<li class='active'><a href='#'>#{n}</a></li>"
     else
       pagination.append "<li><a href='#'>#{n}</a></li>"
+  pagination.append "<li class='disabled'><span>&raquo;</span></li>"
   pagination.find("a").on "click", (e) ->
     e.preventDefault()
     query.page = $(this).text()
