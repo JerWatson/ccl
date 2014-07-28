@@ -76,7 +76,6 @@ $(".mail-form").on "submit", (e) ->
   return
 
 $(".info").tooltip()
-
 $(".carousel").carousel({interval: false})
 
 switch (url.parse window.location.href).pathname
