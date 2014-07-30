@@ -57,20 +57,29 @@ siteSearch = (href) ->
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()
   self = $(this)
+  self.find(".alert").remove()
+  self.find("input").each ->
+    $(this).parent().removeClass("has-error")
+  faults = self.find("input").filter ->
+    $(this).data("required") and $(this).val() is ""
+  .parent().addClass("has-error")
   if $("#subject").val() is "" or $("#subject").val() is undefined
-    $.ajax
-      type: "POST"
-      url: "/mail"
-      data: self.serialize()
-      dataType: "json"
-      beforeSend: ->
-        self.html "<div class='loading'>
-          <img src=\"/assets/imgs/layout/loading.gif\"></div>"
-      success: (data) -> self.html "<p>Thank you!</p>"
-      error: (err, text, status) ->
-        self.html "<p>Error: Please contact
-          <a href='mailto:ClientServices@ccf.org'>Client Services</a>
-          if the problem persists</p>"
+    unless faults.length
+      $.ajax
+        type: "POST"
+        url: "/mail"
+        data: self.serialize()
+        dataType: "json"
+        beforeSend: ->
+          self.html "<div class='loading'>
+            <img src=\"/assets/imgs/layout/loading.gif\"></div>"
+        success: (data) -> self.html "<p>Thank you!</p>"
+        error: (err, text, status) ->
+          self.html "<p>Error: Please contact
+            <a href='mailto:ClientServices@ccf.org'>Client Services</a>
+            if the problem persists</p>"
+    else
+      self.find("button").before "<div class='alert alert-danger'>Please fill out all required fields.</div>"
   else
     self.html "<p>Thank you!</p>"
   return
