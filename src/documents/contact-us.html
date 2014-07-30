@@ -6,6 +6,8 @@ url: "/contact-us"
 isParent: true
 ---
 
+<p class="text-danger"><small>* Required</small></p>
+
 <form role="form" class="mail-form" action="/mail" method="POST">
 	<fieldset>
 		<input type="hidden" name="Form" value="Contact Us">
@@ -13,12 +15,12 @@ isParent: true
 		<input type="text" class="form-control" name="Subject" id="subject" placeholder="Subject">
 
 		<div class="form-group">
-			<label for="name" class="control-label">Name</label>
+			<label for="name" class="control-label">Name *</label>
 			<input type="text" class="form-control" id="name" name="Name" placeholder="First Last" data-required="true">
 		</div>
 
 		<div class="form-group">
-			<label for="email" class="control-label">Email</label>
+			<label for="email" class="control-label">Email *</label>
 			<input type="email" class="form-control" id="email" name="Email" placeholder="your@email.com" data-required="true">
 		</div>
 
