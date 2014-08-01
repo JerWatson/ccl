@@ -58,9 +58,9 @@ $(".mail-form").on "submit", (e) ->
   e.preventDefault()
   self = $(this)
   self.find(".alert").remove()
-  self.find("input").each ->
+  self.find("input, textarea").each ->
     $(this).parent().removeClass("has-error")
-  faults = self.find("input").filter ->
+  faults = self.find("input, textarea").filter ->
     $(this).data("required") and $(this).val() is ""
   .parent().addClass("has-error")
   if $("#subject").val() is "" or $("#subject").val() is undefined

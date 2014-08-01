@@ -9,47 +9,47 @@ sidenav: "default"
 <p>If you would like to tour Cleveland Clinic Laboratories, please fill out the form below.</p>
 <p class="text-danger"><small>* Required</small></p>
 
-<form role="form" class="mail-form" action="/mail" method="POST">
+<form role="form" class="mail-form">
   <fieldset>
     <input type="hidden" name="Form" value="Laboratory Tours">
     <input type="hidden" name="To" value="leonhak@ccf.org, kellyd2@ccf.org, lisnerl@ccf.org, chartib@ccf.org">
     <input type="text" class="form-control" id="subject" name="Subject" placeholder="Subject">
 
     <div class="form-group">
-      <label for="name">Your Name *</label>
-      <input type="text" class="form-control" id="name" name="Name" placeholder="First Last" required>
+      <label for="name" class="control-label">Your Name *</label>
+      <input type="text" class="form-control" id="name" name="Name" placeholder="First Last" data-required="true">
     </div>
 
     <div class="form-group">
-      <label for="email">Email *</label>
-      <input type="email" class="form-control" id="email" name="Email" placeholder="your@email.com" required>
+      <label for="email" class="control-label">Email *</label>
+      <input type="email" class="form-control" id="email" name="Email" placeholder="your@email.com" data-required="true">
     </div>
 
     <div class="form-group">
-      <label for="organization">Organization *</label>
-      <input type="text" class="form-control" id="organization" name="Organization" placeholder="Organization" required>
+      <label for="organization" class="control-label">Organization *</label>
+      <input type="text" class="form-control" id="organization" name="Organization" placeholder="Organization" data-required="true">
     </div>
 
     <div class="form-group">
-      <label for="address">Address *</label>
-      <input type="text" class="form-control" id="address" name="Address" placeholder="Address, City, State ZIP" required>
+      <label for="address" class="control-label">Address *</label>
+      <input type="text" class="form-control" id="address" name="Address" placeholder="Address, City, State ZIP" data-required="true">
     </div>
 
     <div class="form-group">
-      <label for="phone">Phone Number *</label>
-      <input type="text" class="form-control" id="phone" name="Phone" placeholder="#" required>
+      <label for="phone" class="control-label">Phone Number *</label>
+      <input type="text" class="form-control" id="phone" name="Phone" placeholder="#" data-required="true">
     </div>
 
     <div class="form-group">
       <label>Preferred Method of Contact</label>
       <div class="radio">
-        <label for="preferred-01">
+        <label for="preferred-01" class="control-label">
           <input type="radio" id="preferred-01" name="Preferred Method of Contact" value="Phone">
           Phone
         </label>
       </div>
       <div class="radio">
-        <label for="preferred-02">
+        <label for="preferred-02" class="control-label">
           <input type="radio" id="preferred-02" name="Preferred Method of Contact" value="Email">
           Email
         </label>
@@ -79,13 +79,13 @@ sidenav: "default"
     </div>
 
     <div class="form-group">
-      <label for="people">Please list the names and titles of people visiting so we have an accurate number *</label>
-      <textarea class="form-control" name="Names of People Visiting" id="people" rows="5" required></textarea>
+      <label for="people" class="control-label">Please list the names and titles of people visiting so we have an accurate number *</label>
+      <textarea class="form-control" name="Names of People Visiting" id="people" rows="5" data-required="true"></textarea>
     </div>
 
     <div class="form-group">
-      <label for="date-preferences">Please list your date preferences (2-3 based on availability) *</label>
-      <textarea class="form-control" name="Date Preferences" id="date-preferences" rows="5" required></textarea>
+      <label for="date-preferences" class="control-label">Please list your date preferences (2-3 based on availability) *</label>
+      <textarea class="form-control" name="Date Preferences" id="date-preferences" rows="5" data-required="true"></textarea>
     </div>
 
     <div class="form-group">
