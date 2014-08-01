@@ -17,8 +17,7 @@ unless Object.keys
 
 $("#test-search-form").on "submit", (e) ->
   e.preventDefault()
-  empty = $("#q").val() is ""
-  unless empty
+  if $("#test-q").val()
     window.location.href = "/test-list/?#{$(this).serialize()}"
   return
 
@@ -29,9 +28,7 @@ $("#test-key").on "change", (e) ->
 
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
-  val = $("#search-input").val()
-  empty = val is ""
-  unless empty
+  if $("#search-input").val()
     window.location.href = "/search/?q=#{val}"
   return
 
@@ -77,7 +74,7 @@ $(".mail-form").on "submit", (e) ->
         beforeSend: ->
           self.html "
             <div class='loading'>
-              <img src=\"/assets/imgs/layout/loading.gif\">
+              <img src='/assets/imgs/layout/loading.gif'>
             </div>"
         success: (data) ->
           self.html "<p>Thank you!</p>"
