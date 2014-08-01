@@ -28,7 +28,8 @@ $("#test-key").on "change", (e) ->
 
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
-  if $("#search-input").val()
+  val = $("#search-input").val()
+  if val
     window.location.href = "/search/?q=#{val}"
   return
 
