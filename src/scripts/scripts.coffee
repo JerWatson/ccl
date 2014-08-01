@@ -4,11 +4,12 @@ buildSearch = require "./build-search"
 buildTest = require "./build-test"
 
 # IE8 polyfill
-if typeof String.prototype.trim isnt "function"
-  String.prototype.trim = -> this.replace /^\s+|\s+$/g, ""
+unless String.prototype.trim
+  String.prototype.trim = ->
+    this.replace /^\s+|\s+$/g, ""
 
 # IE8 polyfill
-if not Object.keys
+unless Object.keys
   Object.keys = (o) ->
     if o isnt Object(o)
       throw new TypeError "Object.keys called on a non-object"
@@ -17,7 +18,7 @@ if not Object.keys
 $("#test-search-form").on "submit", (e) ->
   e.preventDefault()
   empty = $("#q").val() is ""
-  if not empty
+  unless empty
     window.location.href = "/test-list/?#{$(this).serialize()}"
   return
 
@@ -30,7 +31,7 @@ $("#search-form").on "submit", (e) ->
   e.preventDefault()
   val = $("#search-input").val()
   empty = val is ""
-  if not empty
+  unless empty
     window.location.href = "/search/?q=#{val}"
   return
 
@@ -57,13 +58,16 @@ siteSearch = (href) ->
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()
   self = $(this)
+
   self.find(".alert").remove()
   self.find("input, textarea").each ->
     $(this).parent().removeClass("has-error")
+
   faults = self.find("input, textarea").filter ->
     $(this).data("required") and $(this).val() is ""
   .parent().addClass("has-error")
-  if $("#subject").val() is "" or $("#subject").val() is undefined
+
+  unless $("#subject").val()
     unless faults.length
       $.ajax
         type: "POST"
@@ -71,15 +75,24 @@ $(".mail-form").on "submit", (e) ->
         data: self.serialize()
         dataType: "json"
         beforeSend: ->
-          self.html "<div class='loading'>
-            <img src=\"/assets/imgs/layout/loading.gif\"></div>"
-        success: (data) -> self.html "<p>Thank you!</p>"
+          self.html "
+            <div class='loading'>
+              <img src=\"/assets/imgs/layout/loading.gif\">
+            </div>"
+        success: (data) ->
+          self.html "<p>Thank you!</p>"
         error: (err, text, status) ->
-          self.html "<p>Error: Please contact
-            <a href='mailto:ClientServices@ccf.org'>Client Services</a>
-            if the problem persists</p>"
+          self.html "
+            <p>
+              Error: Please contact
+              <a href='mailto:ClientServices@ccf.org'>Client Services</a>
+              if the problem persists
+            </p>"
     else
-      self.find("button").before "<div class='alert alert-danger'>Please fill out all required fields.</div>"
+      self.find("button").before "
+        <div class='alert alert-danger'>
+          Please fill out all required fields.
+        </div>"
   else
     self.html "<p>Thank you!</p>"
   return
