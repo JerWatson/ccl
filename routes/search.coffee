@@ -9,7 +9,7 @@ module.exports = (req, res) ->
     query += "&filter[type][]=#{req.body.filterBy}"
   if req.body.page
     query += "&offset=#{(req.body.page - 1) * 10}"
-  query += "&teaser=body"
+  query += "&teaser=body&weight[title][]=10"
 
   request "#{query}", (err, response, body) ->
     res.send body
