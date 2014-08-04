@@ -53,10 +53,9 @@ addPdfs = (xs) ->
     pdf.getText (err, data, cmd) ->
       throw err if err
       [..., title] = x.split "/"
-      text = data.replace /\s+/g, " "
       item =
         title: title
-        body: text
+        body: removeSpaces data
         type: ["pdf"]
         id: x.replace "src/", ""
       siteIndex[item.id] = item
