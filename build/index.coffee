@@ -6,10 +6,10 @@ sql = require "mssql"
 yaml = require "yaml-front-matter"
 config = require "../config"
 
-siteIndex = {}
+index = {}
 
 output = ->
-  fs.outputFileSync "index.json", JSON.stringify siteIndex
+  fs.outputFileSync "index.json", JSON.stringify index
   process.exit 0
 
 extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''"
@@ -44,7 +44,7 @@ addTests = ->
             body: test.ClinicalInfo
             type: ["test"]
             id: "test/?ID=#{id}"
-          siteIndex[item.id] = item
+          index[item.id] = item
           output() unless --pending
 
 addPdfs = (xs) ->
@@ -58,7 +58,7 @@ addPdfs = (xs) ->
         body: removeSpaces data
         type: ["pdf"]
         id: x.replace "src/", ""
-      siteIndex[item.id] = item
+      index[item.id] = item
 
 addDocs = (xs) ->
   pending = xs.length
@@ -76,7 +76,7 @@ addDocs = (xs) ->
       body: removeSpaces html.root().text()
       type: ["page"]
       id: x.id
-    siteIndex[item.id] = item
+    index[item.id] = item
     addPdfs pdfs
     addTests() unless --pending
 
