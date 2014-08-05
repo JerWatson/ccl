@@ -28,8 +28,8 @@ $("#test-key").on "change", (e) ->
 
 $("#search-form").on "submit", (e) ->
   e.preventDefault()
-  val = $("#search-input").val()
-  window.location.href = "/search/?q=#{val}" if val
+  $val = $("#search-input").val()
+  window.location.href = "/search/?q=#{$val}" if $val
   return
 
 testSearch = (href) ->
@@ -54,44 +54,45 @@ siteSearch = (href) ->
 
 $(".mail-form").on "submit", (e) ->
   e.preventDefault()
-  self = $(this)
+  $this = $(this)
 
-  self.find(".alert").remove()
-  self.find("input, textarea").each ->
+  $this.find(".alert").remove()
+  $this.find("input, textarea").each ->
     $(this).parent().removeClass("has-error")
 
-  faults = self.find("input, textarea").filter ->
-    $(this).data("required") and $(this).val() is ""
-  .parent().addClass("has-error")
+  faults = $this
+    .find("input, textarea").filter ->
+      $(this).data("required") and $(this).val() is ""
+    .parent().addClass("has-error")
 
   unless $("#subject").val()
     unless faults.length
       $.ajax
         type: "POST"
         url: "/mail"
-        data: self.serialize()
+        data: $this.serialize()
         dataType: "json"
         beforeSend: ->
-          self.html "
+          $this.html "
             <div class='loading'>
               <img src='/assets/imgs/layout/loading.gif'>
             </div>"
         success: (data) ->
-          self.html "<p>Thank you!</p>"
+          $this.html "<p>Thank you!</p>"
         error: (err, text, status) ->
-          self.html "
+          $this.html "
             <p>
               Error: Please contact
               <a href='mailto:ClientServices@ccf.org'>Client Services</a>
               if the problem persists
             </p>"
     else
-      self.find("button").before "
+      $this.find("button").before "
         <div class='alert alert-danger'>
           Please fill out all required fields.
         </div>"
   else
-    self.html "<p>Thank you!</p>"
+    $this.html "<p>Thank you!</p>"
   return
 
 $(".info").tooltip()
