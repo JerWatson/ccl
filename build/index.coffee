@@ -22,30 +22,36 @@ unique = (xs) ->
   xs.filter (x, i, xs) ->
     xs.indexOf(x) is i
 
-addTests = ->
+addTests = (ids) ->
+  conn = new sql.Connection config.tims, (err) ->
+    throw err if err
+    pending = ids.length
+    ids.forEach (id) ->
+      req = new sql.Request conn
+      req.query test(id), (err, xs) ->
+        throw err if err
+        [test] = xs
+        item =
+          title: test.PrimaryName
+          alias: test.Alias
+          lis: test.LISCode
+          lfs: test.LFSCode
+          cpt: test.CPTCode
+          body: test.ClinicalInfo
+          type: ["test"]
+        index["test/?ID=#{id}"] = item
+        output() unless --pending
+
+getTests = ->
   conn = new sql.Connection config.tims, (err) ->
     throw err if err
     req = new sql.Request conn
     req.query extract, (err, xs) ->
       throw err if err
-      act = xs.filter (x) -> not x.DeletedOn
-      ids = unique act.map (x) -> x.ID
-      pending = ids.length
-      ids.forEach (id) ->
-        req.query test(id), (err, xs) ->
-          throw err if err
-          [test] = xs
-          item =
-            title: test.PrimaryName
-            alias: test.Alias
-            lis: test.LISCode
-            lfs: test.LFSCode
-            cpt: test.CPTCode
-            body: test.ClinicalInfo
-            type: ["test"]
-            id: "test/?ID=#{id}"
-          index[item.id] = item
-          output() unless --pending
+      conn.close()
+      active = xs.filter (x) -> not x.DeletedOn
+      addTests unique active.map (x) -> x.ID
+
 
 addPdfs = (xs) ->
   (xs.map (x) -> "src#{x}").forEach (x) ->
@@ -57,8 +63,7 @@ addPdfs = (xs) ->
         title: title
         body: removeSpaces data
         type: ["pdf"]
-        id: x.replace "src/", ""
-      index[item.id] = item
+      index[x.replace "src/", ""] = item
 
 addDocs = (xs) ->
   pending = xs.length
@@ -75,10 +80,9 @@ addDocs = (xs) ->
       title: x.title
       body: removeSpaces html.root().text()
       type: ["page"]
-      id: x.id
-    index[item.id] = item
+    index[x.id] = item
     addPdfs pdfs
-    addTests() unless --pending
+    getTests() unless --pending
 
 glob "src/documents/**/*.html", (err, xs) ->
   addDocs xs.map (x) ->
