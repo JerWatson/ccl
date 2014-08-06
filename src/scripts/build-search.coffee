@@ -73,7 +73,7 @@ buildResults = (data) ->
       when "test" then "fa fa-flask text-primary"
       else ""
     $results.append "
-      <a href='/#{doc.id}' class='list-group-item'>
+      <a href='/#{result.id}' class='list-group-item'>
         <div class='media'>
           <div class='pull-left'>
             <i class='#{type}'></i>
