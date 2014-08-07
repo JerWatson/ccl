@@ -51,8 +51,8 @@ getTests = ->
   req.query extract, (err, xs) ->
     throw err if err
     con.close()
-    act = xs.filter (x) -> not x.DeletedOn
-    addTests unique act.map (x) -> x.ID
+    cur = xs.filter (x) -> not x.DeletedOn
+    addTests unique cur.map (x) -> x.ID
 
 addPdfs = (xs) ->
   xs.forEach (x) ->
