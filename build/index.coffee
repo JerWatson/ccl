@@ -51,7 +51,9 @@ getTests = ->
   req.query extract, (err, xs) ->
     throw err if err
     con.close()
-    cur = xs.filter (x) -> not x.DeletedOn
+    cur = xs.filter (x) ->
+      not x.DeletedOn and
+      (x.DictIntendedForID is 2 or x.DictIntendedForID is 3)
     addTests unique cur.map (x) -> x.ID
 
 addPdfs = (xs) ->
@@ -81,7 +83,7 @@ addDocs = (xs) ->
       title: x.title
       body: trim $.root().text()
       type: ["page"]
-    index[x.id] = item
+    index[x.id] = item unless x.id is "404"
     addPdfs pdfs
     getTests() unless --len
 
