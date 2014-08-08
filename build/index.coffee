@@ -66,7 +66,7 @@ addPdfs = (xs) ->
         title: title
         body: trim text
         type: ["pdf"]
-      index[x] = item
+      index[x.slice 1] = item
 
 addDocs = (xs) ->
   len = xs.length
