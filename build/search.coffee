@@ -2,7 +2,7 @@ es = require "elasticsearch"
 {pdfs, tests, pages} = require "../index"
 
 client = new es.Client
-  host: "127.0.0.1:9200"
+  host: "http://localhost:9200"
 
 index = (xs, type, done) ->
   pending = xs.length
