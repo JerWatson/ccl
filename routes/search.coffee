@@ -1,15 +1,14 @@
-request = require "request"
+es = require "elasticsearch"
+
+client = new es.Client
+  host: "localhost:9200"
 
 module.exports = (req, res) ->
-  query = "http://localhost:3000/search"
+  query = {}
+  query.q = req.body.q if req.body.q
+  query.type = req.body.type if req.body.type
+  query.from = (req.body.page - 1) * 10 if req.body.page
 
   if req.body.q
-    query += "?q=#{req.body.q}"
-  if req.body.filterBy
-    query += "&filter[type][]=#{req.body.filterBy}"
-  if req.body.page
-    query += "&offset=#{(req.body.page - 1) * 10}"
-  query += "&teaser=body&weight[title][]=10"
-
-  request "#{query}", (err, response, body) ->
-    res.send body
+    client.search query, (err, data) ->
+      res.send data.hits

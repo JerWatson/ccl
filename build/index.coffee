@@ -52,6 +52,7 @@ getTests = ->
     throw err if err
   req = new sql.Request con
   req.query extract, (err, xs) ->
+    console.log xs
     throw err if err
     con.close()
     cur = xs.filter (x) ->
