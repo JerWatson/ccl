@@ -1,7 +1,7 @@
 es = require "elasticsearch"
 
 client = new es.Client
-  host: "localhost:9200"
+  host: "127.0.0.1:9200"
 
 module.exports = (req, res) ->
   query = {}
