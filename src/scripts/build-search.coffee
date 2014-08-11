@@ -82,7 +82,7 @@ buildResults = (data) ->
             <h4 class='media-heading'>
               #{item.title}
             </h4>
-            #{item.text}
+            #{item.text.slice 0, 250}
           </div>
         </div>
       </a>"
