@@ -1,4 +1,4 @@
-context = require "search-context"
+# context = require "search-context"
 qs = require "querystring"
 
 query = qs.parse window.location.search.slice 1
@@ -70,8 +70,8 @@ buildResults = (data) ->
       when "pdf" then "fa fa-file-pdf-o text-danger"
       when "test" then "fa fa-flask text-primary"
       else ""
-    text = context item.text, query.q.split(" "), 250, (str) ->
-      "<strong>#{str}</strong>"
+    # text = context item.text, query.q.split(" "), 250, (str) ->
+    #   "<strong>#{str}</strong>"
     $results.append "
       <a href='/#{item.url}' class='list-group-item'>
         <div class='media'>
@@ -82,7 +82,7 @@ buildResults = (data) ->
             <h4 class='media-heading'>
               #{item.title}
             </h4>
-            #{text}
+            #{item.text}
           </div>
         </div>
       </a>"
