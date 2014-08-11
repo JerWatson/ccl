@@ -43,13 +43,17 @@ testSearch = (href) ->
   return
 
 siteSearch = (href) ->
-  $.ajax
-    type: "POST"
-    url: href
-    data: qs.parse window.location.search.slice 1
-    dataType: "json"
-    success: (data) -> buildSearch data
-    error: (err, text, status) -> buildSearch text
+  query = qs.parse window.location.search.slice 1
+  if query.q
+    $.ajax
+      type: "POST"
+      url: href
+      data: query
+      dataType: "json"
+      success: (data) -> buildSearch data
+      error: (err, text, status) -> buildSearch text
+  else
+    $("#search").html "<h5>Please enter search term.</h5>"
   return
 
 $(".mail-form").on "submit", (e) ->

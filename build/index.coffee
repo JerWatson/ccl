@@ -6,7 +6,10 @@ sql = require "mssql"
 yaml = require "yaml-front-matter"
 config = require "../config"
 
-index = {}
+index =
+  tests: []
+  pdfs: []
+  pages: []
 
 output = ->
   fs.outputFileSync "index.json", JSON.stringify index
@@ -37,9 +40,9 @@ addTests = (ids) ->
         lis: x.LISCode
         lfs: x.LFSCode
         cpt: x.CPTCode
-        body: x.ClinicalInfo
-        type: ["test"]
-      index["test/?ID=#{id}"] = item
+        text: x.ClinicalInfo
+        url: "test/?ID=#{id}"
+      index.tests.push item
       unless --len
         con.close()
         output()
@@ -64,9 +67,9 @@ addPdfs = (xs) ->
       [..., title] = x.split "/"
       item =
         title: title
-        body: trim text
-        type: ["pdf"]
-      index[x.slice 1] = item
+        text: trim text
+        url: x.slice 1
+      index.pdfs.push item
 
 addDocs = (xs) ->
   len = xs.length
@@ -81,9 +84,9 @@ addDocs = (xs) ->
       .toArray()
     item =
       title: x.title
-      body: trim $.root().text()
-      type: ["page"]
-    index[x.id] = item unless x.id is "404"
+      text: trim $.root().text()
+      url: x.id
+    index.pages.push item unless x.id is "404"
     addPdfs pdfs
     getTests() unless --len
 

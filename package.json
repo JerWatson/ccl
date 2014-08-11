@@ -11,10 +11,12 @@
   "dependencies": {
     "body-parser": "^1.4.3",
     "coffee-script": "^1.7.1",
+    "elasticsearch": "^2.4.0",
     "express": "^4.5.1",
     "html-minifier": "^0.6.6",
     "nodemailer": "^1.0.3",
     "request": "^2.34.0",
+    "search-context": "^0.1.0",
     "serve-static": "^1.3.2"
   },
   "devDependencies": {
@@ -37,6 +39,7 @@
     "styles": "lessc -x src/styles/bootstrap.less > out/assets/css/styles.css",
     "docs": "coffee build/docs.coffee --nodejs",
     "index": "coffee build/index.coffee --nodejs",
+    "search": "coffee build/search.coffee --nodejs",
     "build": "npm run clean && npm run styles && npm run scripts && npm run docs"
   }
 }

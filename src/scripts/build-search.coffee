@@ -1,3 +1,4 @@
+context = require "search-context"
 qs = require "querystring"
 
 query = qs.parse window.location.search.slice 1
@@ -8,7 +9,6 @@ $options = $("<div class='row search-options'/>")
 buildFilters = (data) ->
   $filtersContainer = $("<div class='col-md-6'/>")
   $filters = $("<div class='btn-group' data-toggle='buttons'/>")
-
   $filters.append "
     <label class='btn btn-default'>
       <input type='radio' name='options' id='all' value=''> All
@@ -22,16 +22,14 @@ buildFilters = (data) ->
     <label class='btn btn-default'>
       <input type='radio' name='options' id='page' value='page'> Pages
     </label>"
-
-  if data.query.filter
-    type = data.query.filter.type[0]
+  if query.type
+    type = query.type
     $filters.find("##{type}").parent().addClass("active")
   else
     $filters.find("#all").parent().addClass("active")
-
   $filters.find("label").on "click", (e) ->
     e.preventDefault()
-    query.filterBy = $(this).children().val()
+    query.type = $(this).children().val()
     query.page = 1
     window.location.href = "/search/?#{qs.stringify query}"
 
@@ -41,10 +39,10 @@ buildFilters = (data) ->
 buildPagination = (data) ->
   $paginationContainer = $("<div class='col-md-6 text-right'/>")
   $pagination = $("<ul class='pagination'/>")
-  page = (parseInt(data.query.offset) + data.query.pageSize) / data.query.pageSize
+  page = query.page or 1
 
-  if data.totalHits < 100
-    pages = Math.ceil data.totalHits / data.query.pageSize
+  if data.total < 100
+    pages = Math.ceil data.total / 10
 
   $pagination.append "<li class='disabled'><span>&laquo;</span></li>"
   for n in [1..pages or 10]
@@ -66,29 +64,31 @@ buildResults = (data) ->
   $results = $("<div class='list-group'/>")
 
   for result in data.hits
-    doc = result.document
-    type = switch doc.type[0]
+    item = result._source
+    type = switch result._type
       when "page" then "fa fa-file"
       when "pdf" then "fa fa-file-pdf-o text-danger"
       when "test" then "fa fa-flask text-primary"
       else ""
+    text = context item.text, query.q.split(" "), 250, (str) ->
+      "<strong>#{str}</strong>"
     $results.append "
-      <a href='/#{result.id}' class='list-group-item'>
+      <a href='/#{item.url}' class='list-group-item'>
         <div class='media'>
           <div class='pull-left'>
             <i class='#{type}'></i>
           </div>
           <div class='media-body'>
             <h4 class='media-heading'>
-              #{doc.title}
+              #{item.title}
             </h4>
-            #{doc.teaser}
+            #{text}
           </div>
         </div>
       </a>"
 
   $search.append $options
-  $search.append "<h5>Results for \"#{data.query.query.join " "}\".</h5>"
+  $search.append "<h5>Results for \"#{query.q}\".</h5>"
   $search.append $results
 
 buildSearch = (data) ->
@@ -100,8 +100,8 @@ module.exports = (data) ->
   if data.hits?.length
     buildSearch data
     $searchContainer.html $search
-  else if not data.query
-    $searchContainer.html "<h5>Please enter search term.</h5>"
   else
-    $searchContainer.html "<h5>No results found.</h5>"
+    str = "No results found for \"#{query.q}\""
+    str += " filtered by \"#{query.type}\"" if query.type
+    $searchContainer.html "<h5>#{str}.</h5>"
   return
