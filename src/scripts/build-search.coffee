@@ -1,4 +1,3 @@
-# context = require "search-context"
 qs = require "querystring"
 
 query = qs.parse window.location.search.slice 1
@@ -40,10 +39,8 @@ buildPagination = (data) ->
   $paginationContainer = $("<div class='col-md-6 text-right'/>")
   $pagination = $("<ul class='pagination'/>")
   page = query.page or 1
-
   if data.total < 100
     pages = Math.ceil data.total / 10
-
   $pagination.append "<li class='disabled'><span>&laquo;</span></li>"
   for n in [1..pages or 10]
     if "#{n}" is "#{page}"
@@ -51,18 +48,15 @@ buildPagination = (data) ->
     else
       $pagination.append "<li><a href='#'>#{n}</a></li>"
   $pagination.append "<li class='disabled'><span>&raquo;</span></li>"
-
   $pagination.find("a").on "click", (e) ->
     e.preventDefault()
     query.page = $(this).text()
     window.location.href = "/search/?#{qs.stringify query}"
-
   $paginationContainer.append $pagination
   $options.append $paginationContainer
 
 buildResults = (data) ->
   $results = $("<div class='list-group'/>")
-
   for result in data.hits
     item = result._source
     type = switch result._type
@@ -70,8 +64,6 @@ buildResults = (data) ->
       when "pdf" then "fa fa-file-pdf-o text-danger"
       when "test" then "fa fa-flask text-primary"
       else ""
-    # text = context item.text, query.q.split(" "), 250, (str) ->
-    #   "<strong>#{str}</strong>"
     $results.append "
       <a href='/#{item.url}' class='list-group-item'>
         <div class='media'>
@@ -82,11 +74,10 @@ buildResults = (data) ->
             <h4 class='media-heading'>
               #{item.title}
             </h4>
-            #{item.text.slice 0, 250}
+            #{item.text}
           </div>
         </div>
       </a>"
-
   $search.append $options
   $search.append "<h5>Results for \"#{query.q}\".</h5>"
   $search.append $results

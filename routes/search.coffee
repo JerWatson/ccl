@@ -1,3 +1,4 @@
+context = require "search-context"
 es = require "elasticsearch"
 
 client = new es.Client
@@ -11,4 +12,6 @@ module.exports = (req, res) ->
 
   if req.body.q
     client.search query, (err, data) ->
+      data.hits.hits.forEach (hit) ->
+        hit._source.text = context hit._source.text, req.body.q.split(" "), 250, (str) -> "<strong>#{str}</strong>"
       res.send data.hits
