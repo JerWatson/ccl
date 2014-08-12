@@ -11,7 +11,7 @@ var client = new es.Client({
 
 program
   .version("1.0.0")
-  .usage("<term> [options]")
+  .usage("[term] [options]")
   .option("-D, --delete", "delete the search index")
   .option("-U, --update", "update the search index")
   .option("-f, --from [n]", "starting offset (defaults to 0)", parseInt)
