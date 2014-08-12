@@ -22,11 +22,10 @@
 - Create `config.json` file with credentials for mail and search
 - Install and start the server via [pm2](https://github.com/Unitech/pm2)
 
-## Building the search
+## Building the search index
 
 - `npm run index` creates the index.json file
     - currently requires internal access, to hit the TIMS database
-- `npm run search` sends the results over to elasticsearch
 
 ## Search tools
 
