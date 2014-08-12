@@ -20,7 +20,7 @@
 - `npm install`
 - `npm run build`
 - Create `config.json` file with credentials for mail and search
-- Install and start the server via [pm2](https://github.com/Unitech/pm2)
+- Install and start the server via [supervisor](http://supervisord.org/)
 
 ## Building the search index
 
