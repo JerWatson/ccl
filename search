@@ -26,24 +26,24 @@ if (program.delete) {
       console.log(body);
     }
   });
-}
-
-if (program.args[0]) {
-  query = { q: program.args[0] };
-  if (program.from) query.from = program.from;
-  if (program.sort) query.sort = program.sort;
-  if (program.type) query.type = program.type;
-  if (program.size) query.size = program.size;
-  client.search(query, function(err, data) {
-    data.hits.hits.forEach(function(hit) {
-      console.log({
-        title: hit._source.title,
-        url: hit._source.url,
-        score: hit._score
-      });
-    });
-    client.close();
-  });
 } else {
-  process.exit(0);
+  if (program.args[0]) {
+    query = { q: program.args[0] };
+    if (program.from) query.from = program.from;
+    if (program.sort) query.sort = program.sort;
+    if (program.type) query.type = program.type;
+    if (program.size) query.size = program.size;
+    client.search(query, function(err, data) {
+      data.hits.hits.forEach(function(hit) {
+        console.log({
+          title: hit._source.title,
+          url: hit._source.url,
+          score: hit._score
+        });
+      });
+      client.close();
+    });
+  } else {
+    process.exit(0);
+  }
 }
