@@ -37,6 +37,7 @@ Options:
     -h, --help                    output usage information
     -V, --version                 output the version number
     -D, --delete                  delete the search index
+    -U, --update                  update the search index
     -f, --from [n]                starting offset (defaults to 0)
     -s, --sort [field:direction]  sort by field and direction (asc, desc)
     -t, --type [type]             search by type (pdf, page, test)
@@ -60,3 +61,10 @@ Example:
     { title: 'FISH for Myelodysplasia',
       url: 'test/?ID=4205',
       score: 0.38167015 }
+
+Rebuild the index:
+
+    $ ./search -D
+    {"acknowledged":true}
+    $ ./search -U
+    update complete
