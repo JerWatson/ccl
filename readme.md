@@ -2,13 +2,16 @@
 
 ## Requirements
 
-- Ubuntu/Debian/OSX
+- Ubuntu/Debian, OSX, Windows
 - [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 - git
     - Ubuntu/Debian: `sudo apt-get install git`
+    - Window: [SourceTree](http://www.sourcetreeapp.com/)
 - pdftotext
     - Ubuntu/Debian: `sudo apt-get install poppler-utils`
     - OSX: `sudo port install poppler` or `brew install xpdf`
+    - Windows: [Xpdf](http://www.foolabs.com/xpdf/download.html).
+- [elasticsearch](http://www.elasticsearch.org)
 
 ## Building the site
 
@@ -17,6 +20,13 @@
 - `npm install`
 - `npm run build`
 - Create `config.json` file with credentials for mail and search
+- Install and start the server via [pm2](https://github.com/Unitech/pm2)
+
+## Building the search
+
+- `npm run index` creates the index.json file
+    - currently requires internal access, to hit the TIMS database
+- `npm run search` sends the results over to elasticsearch
 
 ## Search tools
 
