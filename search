@@ -3,6 +3,7 @@
 var es = require("elasticsearch");
 var program = require("commander");
 var request = require("request");
+var index = require("./index.json");
 
 var client = new es.Client({
   host: "localhost:9200"
@@ -12,11 +13,31 @@ program
   .version("1.0.0")
   .usage("<term> [options]")
   .option("-D, --delete", "delete the search index")
+  .option("-U, --update", "update the search index")
   .option("-f, --from [n]", "starting offset", parseInt)
   .option("-s, --sort [field:direction]", "sort by field and direction")
   .option("-t, --type [type]", "search by type [pdf, page or test]")
   .option("-z, --size [n]", "number of hits to return", parseInt)
   .parse(process.argv);
+
+var update = function(xs, type, done) {
+  var pending = xs.length;
+  xs.forEach(function(x) {
+    client.index({
+      index: "ccl",
+      type: type,
+      id: x.url,
+      body: x
+    }, function(err, res) {
+      if (err) {
+        done(err)
+      }
+      if (!--pending) {
+        done()
+      }
+    });
+  });
+};
 
 if (program.delete) {
   request.del("http://localhost:9200/ccl/", function(err, res, body) {
@@ -25,6 +46,17 @@ if (program.delete) {
     } else {
       console.log(body);
     }
+  });
+} else if (program.update) {
+  update(index.pdfs, "pdf", function(err) {
+    if (err) throw err;
+    update(index.tests, "test", function(err) {
+      if (err) throw err;
+      update(index.pages, "page", function(err) {
+        if (err) throw err;
+        client.close();
+      });
+    });
   });
 } else {
   if (program.args[0]) {
