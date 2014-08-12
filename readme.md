@@ -6,7 +6,7 @@
 - [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 - git
     - Ubuntu/Debian: `sudo apt-get install git`
-    - Window: [SourceTree](http://www.sourcetreeapp.com/)
+    - Windows/OSX: [SourceTree](http://www.sourcetreeapp.com/)
 - pdftotext
     - Ubuntu/Debian: `sudo apt-get install poppler-utils`
     - OSX: `sudo port install poppler` or `brew install xpdf`
