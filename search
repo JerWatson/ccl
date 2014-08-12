@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+var es = require("elasticsearch");
+var program = require("commander");
+var request = require("request");
+
+var client = new es.Client({
+  host: "localhost:9200"
+});
+
+program
+  .version("1.0.0")
+  .usage("<term> [options]")
+  .option("-D, --delete", "delete the search index")
+  .option("-f, --from [n]", "starting offset", parseInt)
+  .option("-s, --sort [field:direction]", "sort by field and direction")
+  .option("-t, --type [type]", "search by type [pdf, page or test]")
+  .option("-z, --size [n]", "number of hits to return", parseInt)
+  .parse(process.argv);
+
+if (program.delete) {
+  request.del("http://localhost:9200/ccl/", function(err, res, body) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(body);
+    }
+  });
+}
+
+if (program.args[0]) {
+  query = { q: program.args[0] };
+  if (program.from) query.from = program.from;
+  if (program.sort) query.sort = program.sort;
+  if (program.type) query.type = program.type;
+  if (program.size) query.size = program.size;
+  client.search(query, function(err, data) {
+    data.hits.hits.forEach(function(hit) {
+      console.log({
+        title: hit._source.title,
+        url: hit._source.url,
+        score: hit._score
+      });
+    });
+    client.close();
+  });
+} else {
+  process.exit(0);
+}

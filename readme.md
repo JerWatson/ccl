@@ -17,3 +17,36 @@
 - `npm install`
 - `npm run build`
 - Create `config.json` file with credentials for mail and search
+
+## Search tools
+
+Usage: search [term] [options]
+
+Options:
+
+    -h, --help                    output usage information
+    -V, --version                 output the version number
+    -D, --delete                  delete the search index
+    -f, --from [n]                starting offset (defaults to 0)
+    -s, --sort [field:direction]  sort by field and direction (asc, desc)
+    -t, --type [type]             search by type (pdf, page, test)
+    -z, --size [n]                number of hits to return (defaults to 10)
+
+Example:
+
+    $ ./search "fish melanoma" -t test -z 5
+    { title: 'FISH for Cutaneous Melanoma',
+      url: 'test/?ID=4803',
+      score: 1.7547221 }
+    { title: 'FISH for MDM2',
+      url: 'test/?ID=4217',
+      score: 0.4674486 }
+    { title: 'FISH  for PDGFRA',
+      url: 'test/?ID=4647',
+      score: 0.40067023 }
+    { title: 'FISH for BCL6 Translocations',
+      url: 'test/?ID=4267',
+      score: 0.38554507 }
+    { title: 'FISH for Myelodysplasia',
+      url: 'test/?ID=4205',
+      score: 0.38167015 }
