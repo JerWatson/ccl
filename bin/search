@@ -3,7 +3,7 @@
 var es = require("elasticsearch");
 var program = require("commander");
 var request = require("request");
-var index = require("./index.json");
+var index = require("../index.json");
 
 var client = new es.Client({
   host: "localhost:9200"
