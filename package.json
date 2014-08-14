@@ -11,8 +11,6 @@
     "body-parser": "^1.4.3",
     "browserify": "^5.9.3",
     "cheerio": "^0.17.0",
-    "coffee-script": "^1.7.1",
-    "coffeeify": "^0.7.0",
     "commander": "^2.3.0",
     "ect": "^0.5.9",
     "elasticsearch": "^2.4.0",
@@ -33,11 +31,10 @@
   },
   "scripts": {
     "clean": "rm -rf out/* && cp -r src/assets out && mkdir out/assets/css",
-    "scripts": "browserify -t coffeeify --extension='.coffee' src/scripts/scripts.coffee | uglifyjs > out/assets/js/scripts.js",
+    "scripts": "browserify src/scripts/scripts.js | uglifyjs > out/assets/js/scripts.js",
     "styles": "lessc -x src/styles/bootstrap.less > out/assets/css/styles.css",
-    "docs": "coffee build/docs.coffee --nodejs",
-    "index": "coffee build/index.coffee --nodejs",
-    "search": "coffee build/search.coffee --nodejs",
+    "docs": "node build/docs.js",
+    "index": "node build/index.js",
     "build": "npm run clean && npm run styles && npm run scripts && npm run docs"
   }
 }
