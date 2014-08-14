@@ -4,14 +4,14 @@
 
 - Ubuntu/Debian, OSX, Windows
 - [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-- git
+- Git
     - Ubuntu/Debian: `sudo apt-get install git`
     - Windows/OSX: [SourceTree](http://www.sourcetreeapp.com/)
-- pdftotext
+- Pdftotext
     - Ubuntu/Debian: `sudo apt-get install poppler-utils`
     - OSX: `sudo port install poppler` or `brew install xpdf`
     - Windows: [Xpdf](http://www.foolabs.com/xpdf/download.html).
-- [elasticsearch](http://www.elasticsearch.org)
+- [Elasticsearch](http://www.elasticsearch.org)
 
 ## Building the site
 
