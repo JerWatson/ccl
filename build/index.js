@@ -12,24 +12,8 @@ var index = {
   pages: []
 };
 
-var output = function() {
-  fs.outputFileSync("index.json", JSON.stringify(index));
-};
-
-var extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''";
-
 var getTest = function(id) {
   return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
-};
-
-var trim = function(str) {
-  return str.replace(/\s+/g, " ").trim();
-};
-
-var unique = function(xs) {
-  return xs.filter(function(x, i, xs) {
-    return xs.indexOf(x) === i;
-  });
 };
 
 var addTests = function(ids) {
@@ -54,9 +38,19 @@ var addTests = function(ids) {
       index.tests.push(item);
       if (!--pending) {
         connection.close();
-        output();
+        fs.outputFileSync("index.json", JSON.stringify(index));
       }
     });
+  });
+};
+
+var extract = function() {
+  return "EXEC sp_ExtractForCCL @code='', @q='', @key=''";
+};
+
+var unique = function(xs) {
+  return xs.filter(function(x, i, xs) {
+    return xs.indexOf(x) === i;
   });
 };
 
@@ -65,7 +59,7 @@ var getTests = function() {
     if (err) throw err;
   });
   var request = new sql.Request(connection);
-  request.query(extract, function(err, xs) {
+  request.query(extract(), function(err, xs) {
     if (err) throw err;
     connection.close();
     var current = xs.filter(function(x) {
@@ -75,6 +69,10 @@ var getTests = function() {
       return x.ID;
     })));
   });
+};
+
+var trim = function(str) {
+  return str.replace(/\s+/g, " ").trim();
 };
 
 var addPdfs = function(xs) {
