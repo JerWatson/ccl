@@ -29,12 +29,8 @@ var update = function(xs, type, done) {
       id: x.url,
       body: x
     }, function(err, res) {
-      if (err) {
-        done(err)
-      }
-      if (!--pending) {
-        done()
-      }
+      if (err) done(err);
+      if (!--pending) done();
     });
   });
 };
