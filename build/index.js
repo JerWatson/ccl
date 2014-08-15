@@ -12,7 +12,7 @@ var index = {
   pages: []
 };
 
-var getTest = function(id) {
+var test = function(id) {
   return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
 };
 
@@ -23,7 +23,7 @@ var addTests = function(ids) {
   var request = new sql.Request(connection);
   var pending = ids.length;
   ids.forEach(function(id) {
-    request.query(getTest(id), function(err, xs) {
+    request.query(test(id), function(err, xs) {
       if (err) throw err;
       var x = xs[0];
       var item = {
