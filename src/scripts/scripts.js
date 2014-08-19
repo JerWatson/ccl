@@ -97,45 +97,47 @@ $(".mail-form").on("submit", function(e) {
     return $(this).data("required") && $(this).val() === "";
   }).parent().addClass("has-error");
 
-  if (!$("#subject").val()) {
-    if (!faults.length) {
-      $.ajax({
-        type: "POST",
-        url: "/mail",
-        data: $this.serialize(),
-        dataType: "json",
-        beforeSend: function() {
-          var html = [
-            "<div class='loading'>",
-              "<img src='/assets/imgs/layout/loading.gif'>",
-            "</div>"
-          ].join("");
-          $this.html(html);
-        },
-        success: function(data) {
-          $this.html("<p>Thank you!</p>");
-        },
-        error: function(err, text, status) {
-          var html = [
-            "<div class='alert alert-danger'>",
-              "Error: Please contact",
-              "<a href='mailto:ClientServices@ccf.org'>Client Services</a>",
-              "if the problem persists.",
-            "</div>"
-          ].join(" ");
-          $this.html(html);
-        }
-      })
-    } else {
-      var html = [
-        "<div class='alert alert-danger'>",
-          "Please fill out all required fields.",
-        "</div>"
-      ].join("");
-      $this.find("button").before(html);
-    }
-  } else {
+  // https://en.wikipedia.org/wiki/Honeypot_(computing)
+  if ($("#subject").val()) {
     $this.html("<p>Thank you!</p>");
+    return;
+  }
+
+  if (!faults.length) {
+    $.ajax({
+      type: "POST",
+      url: "/mail",
+      data: $this.serialize(),
+      dataType: "json",
+      beforeSend: function() {
+        var html = [
+          "<div class='loading'>",
+            "<img src='/assets/imgs/layout/loading.gif'>",
+          "</div>"
+        ].join("");
+        $this.html(html);
+      },
+      success: function(data) {
+        $this.html("<p>Thank you!</p>");
+      },
+      error: function(err, text, status) {
+        var html = [
+          "<div class='alert alert-danger'>",
+            "Error: Please contact",
+            "<a href='mailto:ClientServices@ccf.org'>Client Services</a>",
+            "if the problem persists.",
+          "</div>"
+        ].join(" ");
+        $this.html(html);
+      }
+    });
+  } else {
+    var html = [
+      "<div class='alert alert-danger'>",
+        "Please fill out all required fields.",
+      "</div>"
+    ].join("");
+    $this.find("button").before(html);
   }
 });
 

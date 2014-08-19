@@ -104,10 +104,10 @@ module.exports = function(data) {
     buildSeasrch(data);
     $search.html($container);
   } else {
-    var str = "No results found for \"" + query.q;
+    var str = "No results found for \"" + query.q + "\"";
     if (query.type) {
-      str += " filtered by \"" + query.type + "\""
+      str += " filtered by \"" + query.type + "\"";
     }
-    $search.html("<h5>" + str + "</h5>");
+    $search.html("<h5>" + str + ".</h5>");
   }
 };
