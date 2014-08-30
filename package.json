@@ -30,7 +30,7 @@
     "yaml-front-matter": "^3.0.1"
   },
   "scripts": {
-    "clean": "rm -rf out && mkdir out && cp -r src/assets out && mkdir out/assets/css",
+    "clean": "rm -rf out && mkdir -p out/assets/css && cp -r src/assets out",
     "scripts": "browserify src/scripts/scripts.js | uglifyjs > out/assets/js/scripts.js",
     "styles": "lessc -x src/styles/bootstrap.less > out/assets/css/styles.css",
     "docs": "node build/docs.js",
