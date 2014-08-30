@@ -92,7 +92,7 @@ app.use("/reflab", router);
 
 app.use(function(req, res) {
   res.status(404);
-  res.sendfile("out/404/index.html");
+  res.sendFile(__dirname + "/out/404/index.html");
 });
 
 app.listen(3003, function() {
