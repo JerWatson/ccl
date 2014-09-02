@@ -5,7 +5,7 @@ var $search = $("#search");
 
 module.exports = function(data) {
   var $data = $.parseHTML(data);
-  $html = $("<div/>");
+  var $html = $("<div/>");
   $html.html($data);
   $html.find("title").remove();
   $html.find("hr + table").remove();
