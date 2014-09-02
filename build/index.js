@@ -2,22 +2,31 @@ var cheerio = require("cheerio");
 var glob = require("glob");
 var fs = require("fs-extra");
 var Pdf = require("pdftotextjs");
+var ProgressBar = require("progress");
 var sql = require("mssql");
 var yaml = require("yaml-front-matter");
 var config = require("../config");
 
 var index = [];
+var pdfs = [];
 
 var test = function(id) {
   return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
 };
 
 var addTests = function(ids) {
+  var bar = new ProgressBar("tests: [:bar] :percent :elapseds", {
+    incomplete: " ",
+    total: ids.length,
+    callback: function() {
+      connection.close();
+      fs.outputFileSync("index.json", JSON.stringify(index));
+    }
+  });
   var connection = new sql.Connection(config.tims, function(err) {
     if (err) throw err;
   });
   var request = new sql.Request(connection);
-  var pending = ids.length;
   ids.forEach(function(id) {
     request.query(test(id), function(err, xs) {
       if (err) throw err;
@@ -33,10 +42,7 @@ var addTests = function(ids) {
         url: "test/?ID=" + id
       };
       index.push(item);
-      if (!--pending) {
-        connection.close();
-        fs.outputFileSync("index.json", JSON.stringify(index));
-      }
+      bar.tick();
     });
   });
 };
@@ -73,10 +79,14 @@ var trim = function(str) {
 };
 
 var addPdfs = function(xs) {
+  var bar = new ProgressBar("pdfs:  [:bar] :percent :elapseds", {
+    incomplete: " ",
+    total: xs.length,
+    callback: getTests()
+  });
   xs.forEach(function(x) {
     var pdf = new Pdf("src" + x);
     pdf.getText(function(err, text) {
-      if (err) throw err;
       var ref = x.split("/");
       var title = ref[ref.length - 1];
       var item = {
@@ -86,35 +96,37 @@ var addPdfs = function(xs) {
         url: x.slice(1)
       };
       index.push(item);
+      bar.tick();
     });
   });
 };
 
 var addDocs = function(xs) {
-  var pending = xs.length;
+  var bar = new ProgressBar("docs:  [:bar] :percent :elapseds", {
+    incomplete: " ",
+    total: xs.length,
+    callback: function() {
+      addPdfs(pdfs)
+    }
+  });
   xs.forEach(function(x) {
     var $ = cheerio.load(x.__content, {
       normalizeWhitespace: true
     });
-    var pdfs = $("a").filter(function() {
+    $("a").filter(function() {
       var href = $(this).attr("href");
       return !!href.match(/^\/assets.*\.pdf$/);
-    }).map(function() {
-      return $(this).attr("href");
-    }).toArray();
+    }).each(function() {
+      pdfs.push($(this).attr("href"));
+    });
     var item = {
       title: x.title,
       text: trim($.root().text()),
       type: "page",
       url: x.id
     };
-    if (x.id !== "404") {
-      index.push(item);
-    }
-    addPdfs(pdfs);
-    if (!--pending) {
-      getTests();
-    }
+    if (x.id !== "404") index.push(item);
+    bar.tick();
   });
 };
 

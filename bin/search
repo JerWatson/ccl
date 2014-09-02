@@ -21,14 +21,8 @@ program
   .command("delete")
   .description("delete the index")
   .action(function() {
-    var bar = new ProgressBar("[:bar] :percent :etas", {
-      complete: "=",
-      incomplete: " ",
-      total: 100
-    });
     request.del("http://localhost:9200/ccl/", function(err, res, body) {
       if (err) throw err;
-      bar.tick(100);
       console.log(body);
     });
   });
@@ -40,8 +34,7 @@ program
     fs.readFile(file, "utf8", function(err, data) {
       if (err) throw err;
       var xs = JSON.parse(data);
-      var bar = new ProgressBar("[:bar] :percent :etas", {
-        complete: "=",
+      var bar = new ProgressBar("[:bar] :percent :elapseds", {
         incomplete: " ",
         total: xs.length
       });
