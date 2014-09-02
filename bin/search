@@ -1,63 +1,70 @@
 #!/usr/bin/env node
 
 var es = require("elasticsearch");
+var fs = require("fs");
 var program = require("commander");
+var ProgressBar = require("progress");
 var request = require("request");
-var index = require("../index.json");
 
 var client = new es.Client({
   host: "localhost:9200"
 });
 
 program
-  .version("1.0.0")
-  .usage("[term] [options]")
-  .option("-D, --delete", "delete the search index")
-  .option("-U, --update", "update the search index")
-  .option("-f, --from [n]", "starting offset (defaults to 0)", parseInt)
-  .option("-s, --sort [field:direction]", "sort by field and direction (asc, desc)")
-  .option("-t, --type [type]", "search by type (pdf, page, test)")
-  .option("-z, --size [n]", "number of hits to return (defaults to 10)", parseInt)
-  .parse(process.argv);
+  .version("1.0.1")
+  .option("-f, --from <n>", "starting offset (defaults to 0)", parseInt)
+  .option("-s, --sort <field:direction>", "sort by field and direction (asc, desc)")
+  .option("-t, --type <type>", "search by type (pdf, page, test)")
+  .option("-z, --size <n>", "number of hits to return (defaults to 10)", parseInt);
 
-var update = function(xs, type, done) {
-  var pending = xs.length;
-  xs.forEach(function(x) {
-    client.index({
-      index: "ccl",
-      type: type,
-      id: x.url,
-      body: x
-    }, function(err, res) {
-      if (err) done(err);
-      if (!--pending) done();
+program
+  .command("delete")
+  .description("delete the index")
+  .action(function() {
+    var bar = new ProgressBar("[:bar] :percent :etas", {
+      complete: "=",
+      incomplete: " ",
+      total: 100
+    });
+    request.del("http://localhost:9200/ccl/", function(err, res, body) {
+      if (err) throw err;
+      bar.tick(100);
+      console.log(body);
     });
   });
-};
 
-if (program.delete) {
-  request.del("http://localhost:9200/ccl/", function(err, res, body) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(body);
-    }
-  });
-} else if (program.update) {
-  update(index.pdfs, "pdf", function(err) {
-    if (err) throw err;
-    update(index.tests, "test", function(err) {
+program
+  .command("upload <file>")
+  .description("upload the index")
+  .action(function(file) {
+    fs.readFile(file, "utf8", function(err, data) {
       if (err) throw err;
-      update(index.pages, "page", function(err) {
-        if (err) throw err;
-        console.log("update complete");
-        client.close();
+      var xs = JSON.parse(data);
+      var bar = new ProgressBar("[:bar] :percent :etas", {
+        complete: "=",
+        incomplete: " ",
+        total: xs.length
+      });
+      xs.forEach(function(x) {
+        client.index({
+          index: "ccl",
+          type: x.type,
+          id: x.url,
+          body: x
+        }, function(err, res) {
+          if (err) throw err;
+          bar.tick();
+          if (bar.complete) client.close();
+        });
       });
     });
   });
-} else {
-  if (program.args[0]) {
-    query = { q: program.args[0] };
+
+program
+  .command("*")
+  .description("search term")
+  .action(function(term) {
+    var query = { q: term };
     if (program.from) query.from = program.from;
     if (program.sort) query.sort = program.sort;
     if (program.type) query.type = program.type;
@@ -72,7 +79,6 @@ if (program.delete) {
       });
       client.close();
     });
-  } else {
-    process.exit(0);
-  }
-}
+  });
+
+program.parse(process.argv);
