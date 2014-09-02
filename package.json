@@ -1,6 +1,6 @@
 {
   "name": "ccl",
-  "version": "1.0.3",
+  "version": "1.0.0",
   "description": "Cleveland Clinic Laboratories",
   "author": "Brandon Chartier",
   "repository": {
@@ -19,7 +19,7 @@
     "glob": "^4.0.5",
     "html-minifier": "^0.6.6",
     "less": "^1.7.4",
-    "mssql": "^1.1.1",
+    "mssql": "^1.2.0",
     "nodemailer": "^1.0.3",
     "pdftotextjs": "^0.3.1",
     "progress": "^1.1.8",
