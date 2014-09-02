@@ -6,11 +6,7 @@ var sql = require("mssql");
 var yaml = require("yaml-front-matter");
 var config = require("../config");
 
-var index = {
-  tests: [],
-  pdfs: [],
-  pages: []
-};
+var index = [];
 
 var test = function(id) {
   return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
@@ -33,9 +29,10 @@ var addTests = function(ids) {
         lfs: x.LFSCode,
         cpt: x.CPTCode,
         text: x.ClinicalInfo,
+        type: "test",
         url: "test/?ID=" + id
       };
-      index.tests.push(item);
+      index.push(item);
       if (!--pending) {
         connection.close();
         fs.outputFileSync("index.json", JSON.stringify(index));
@@ -85,9 +82,10 @@ var addPdfs = function(xs) {
       var item = {
         title: title,
         text: trim(text),
+        type: "pdf",
         url: x.slice(1)
       };
-      index.pdfs.push(item);
+      index.push(item);
     });
   });
 };
@@ -107,10 +105,11 @@ var addDocs = function(xs) {
     var item = {
       title: x.title,
       text: trim($.root().text()),
+      type: "page",
       url: x.id
     };
     if (x.id !== "404") {
-      index.pages.push(item);
+      index.push(item);
     }
     addPdfs(pdfs);
     if (!--pending) {
