@@ -15,7 +15,7 @@
 
 ## Building the site
 
-- `git clone https://bchar@bitbucket.org/bchar/ccl.git`
+- `git clone https://github.com/brandonchartier/ccl.git`
 - `cd ccl`
 - `npm install`
 - `npm run build`
@@ -25,18 +25,27 @@
 ## Building the search index
 
 - `npm run index` creates the index.json file
-    - currently requires internal access, to hit the TIMS database
+    - currently requires internal access
 
 ## Search tools
 
-Usage: search [term] [options]
+Usage: search [options] [command]
+
+Commands:
+
+    delete
+        delete the index
+
+    upload <file>
+        upload the index
+
+    *
+        search term
 
 Options:
 
     -h, --help                    output usage information
     -V, --version                 output the version number
-    -D, --delete                  delete the search index
-    -U, --update                  update the search index
     -f, --from [n]                starting offset (defaults to 0)
     -s, --sort [field:direction]  sort by field and direction (asc, desc)
     -t, --type [type]             search by type (pdf, page, test)
@@ -44,7 +53,7 @@ Options:
 
 Example:
 
-    $ ./search "fish melanoma" -t test -z 5
+    $ ./search -t test -z 3 "fish melanoma"
     { title: 'FISH for Cutaneous Melanoma',
       url: 'test/?ID=4803',
       score: 1.7547221 }
@@ -54,16 +63,8 @@ Example:
     { title: 'FISH  for PDGFRA',
       url: 'test/?ID=4647',
       score: 0.40067023 }
-    { title: 'FISH for BCL6 Translocations',
-      url: 'test/?ID=4267',
-      score: 0.38554507 }
-    { title: 'FISH for Myelodysplasia',
-      url: 'test/?ID=4205',
-      score: 0.38167015 }
 
 Rebuild the index:
 
-    $ ./search -D
-    {"acknowledged":true}
-    $ ./search -U
-    update complete
+    $ ./search delete
+    $ ./search upload <file...>
