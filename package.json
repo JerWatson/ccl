@@ -8,6 +8,7 @@
     "url": "https://bchar@bitbucket.org/bchar/ccl.git"
   },
   "dependencies": {
+    "async": "^0.9.0",
     "body-parser": "^1.4.3",
     "browserify": "^5.9.3",
     "cheerio": "^0.17.0",
