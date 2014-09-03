@@ -119,7 +119,7 @@ var pdfs = function(done) {
           title: title,
           text: trim(text),
           type: "pdf",
-          url: x.slice(1)
+          url: x.replace("src/", "")
         };
         bar.tick();
         done(null, item);
