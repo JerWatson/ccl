@@ -1,9 +1,9 @@
+var Bar = require("progress");
 var ect = require("ect");
 var fs = require("fs-extra");
 var glob = require("glob");
 var minify = require("html-minifier").minify;
 var path = require("path");
-var ProgressBar = require("progress");
 var sm = require("sitemap");
 var yaml = require("yaml-front-matter");
 
@@ -43,8 +43,7 @@ var sidenav = function(y, xs) {
 };
 
 var render = function(xs) {
-  var bar = new ProgressBar("[:bar] :percent :elapseds", {
-    incomplete: " ",
+  var bar = new Bar("[:bar] :percent :elapseds", {
     total: xs.length
   });
   xs.forEach(function(x) {

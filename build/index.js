@@ -1,9 +1,9 @@
 var async = require("async");
+var Bar = require("progress");
 var cheerio = require("cheerio");
 var glob = require("glob");
 var fs = require("fs-extra");
 var Pdf = require("pdftotextjs");
-var ProgressBar = require("progress");
 var sql = require("mssql");
 var yaml = require("yaml-front-matter");
 var config = require("../config");
@@ -12,17 +12,29 @@ var connection = new sql.Connection(config.tims, function(err) {
   if (err) return done(err);
 });
 
-var extract = "EXEC sp_ExtractForCCL @code='', @q='', @key=''";
-
 var unique = function(xs) {
   return xs.filter(function(x, i, xs) {
     return xs.indexOf(x) === i;
   });
 };
 
-var testIDs = function(done) {
+var trim = function(str) {
+  return str.replace(/\s+/g, " ").trim();
+};
+
+var extractTests = "EXEC sp_ExtractForCCL @code='', @q='', @key=''";
+
+var getTest = function(id) {
+  return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
+};
+
+var barFmt = function(id) {
+  return id + ": [:bar] :percent :elapseds :total";
+};
+
+var loadTests = function(done) {
   var req = new sql.Request(connection);
-  req.query(extract, function(err, xs) {
+  req.query(extractTests, function(err, xs) {
     if (err) return done(err);
     done(null, unique(xs.filter(function(x) {
       var current = !x.DeletedOn;
@@ -34,17 +46,13 @@ var testIDs = function(done) {
   });
 };
 
-var testDetail = function(id) {
-  return "EXEC sp_GetTestDetailByTestID @testId=" + id + ", @site='reflab'";
-};
-
-var tests = function(ids, done) {
-  var bar = new ProgressBar("tests: [:bar] :percent :elapseds :total", {
+var parseTests = function(ids, done) {
+  var bar = new Bar(barFmt("tests"), {
     total: ids.length
   });
   async.map(ids, function(id, done) {
     var req = new sql.Request(connection);
-    req.query(testDetail(id), function(err, xs) {
+    req.query(getTest(id), function(err, xs) {
       if (err) return done(err);
       var x = xs[0];
       var item = {
@@ -66,6 +74,13 @@ var tests = function(ids, done) {
   });
 };
 
+var indexTests = function(done) {
+  async.waterfall([
+    loadTests,
+    parseTests
+  ], done);
+};
+
 var loadDocs = function(done) {
   glob("src/documents/**/*.html", function(err, xs) {
     if (err) return done(err);
@@ -78,12 +93,8 @@ var loadDocs = function(done) {
   })
 };
 
-var trim = function(str) {
-  return str.replace(/\s+/g, " ").trim();
-};
-
 var parseDocs = function(xs, done) {
-  var bar = new ProgressBar("docs: [:bar] :percent :elapseds :total", {
+  var bar = new Bar(barFmt("docs"), {
     total: xs.length
   });
   async.map(xs, function(x, done) {
@@ -104,9 +115,16 @@ var parseDocs = function(xs, done) {
   })
 };
 
-var pdfs = function(done) {
+var indexDocs = function(done) {
+  async.waterfall([
+    loadDocs,
+    parseDocs
+  ], done);
+};
+
+var indexPdfs = function(done) {
   glob("src/assets/pdfs/**/*.pdf", function(err, xs) {
-    var bar = new ProgressBar("pdfs: [:bar] :percent :elapseds :total", {
+    var bar = new Bar(barFmt("pdfs"), {
       total: xs.length
     });
     async.map(xs, function(x, done) {
@@ -131,30 +149,10 @@ var pdfs = function(done) {
   });
 };
 
-async.parallel([
-  function(done) {
-    async.waterfall([
-      function(done) {
-        testIDs(done);
-      },
-      function(ids, done) {
-        tests(ids, done);
-      }
-    ], done);
-  },
-  function(done) {
-    async.waterfall([
-      function(done) {
-        loadDocs(done);
-      },
-      function(docs, done) {
-        parseDocs(docs, done);
-      }
-    ], done);
-  },
-  function(done) {
-    pdfs(done);
-  }
+async.series([
+  indexTests,
+  indexDocs,
+  indexPdfs
 ], function(err, res) {
   if (err) throw err;
   connection.close();
