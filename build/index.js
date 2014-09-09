@@ -89,8 +89,8 @@ var loadDocs = function(done) {
     }, function(err, res) {
       if (err) return done(err);
       done(null, res);
-    })
-  })
+    });
+  });
 };
 
 var parseDocs = function(xs, done) {
@@ -112,7 +112,7 @@ var parseDocs = function(xs, done) {
   }, function(err, res) {
     if (err) return done(err);
     done(null, res);
-  })
+  });
 };
 
 var indexDocs = function(done) {
