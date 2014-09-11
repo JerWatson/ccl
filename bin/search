@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+var Bar = require("progress");
 var es = require("elasticsearch");
 var fs = require("fs");
 var program = require("commander");
-var ProgressBar = require("progress");
 var request = require("request");
 
 var client = new es.Client({
@@ -11,7 +11,7 @@ var client = new es.Client({
 });
 
 program
-  .version("1.0.1")
+  .version("1.0.0")
   .option("-f, --from <n>", "starting offset (defaults to 0)", parseInt)
   .option("-s, --sort <field:direction>", "sort by field and direction (asc, desc)")
   .option("-t, --type <type>", "search by type (pdf, page, test)")
@@ -34,8 +34,7 @@ program
     fs.readFile(file, "utf8", function(err, data) {
       if (err) throw err;
       var xs = JSON.parse(data);
-      var bar = new ProgressBar("[:bar] :percent :elapseds", {
-        incomplete: " ",
+      var bar = new Bar("[:bar] :percent :elapseds", {
         total: xs.length
       });
       xs.forEach(function(x) {
