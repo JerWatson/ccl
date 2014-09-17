@@ -52,9 +52,10 @@ var parseTests = function(ids, done) {
   });
   async.map(ids, function(id, done) {
     var req = new sql.Request(connection);
-    req.query(getTest(id), function(err, xs) {
-      if (err) return done(err);
-      var x = xs[0];
+    req.stream = true;
+    req.query(getTest(id));
+    req.on("row", function(x) {
+      bar.tick();
       var item = {
         title: x.PrimaryName,
         alias: x.Alias,
@@ -65,11 +66,14 @@ var parseTests = function(ids, done) {
         type: "test",
         url: "test/?ID=" + id
       };
-      bar.tick();
       done(null, item);
+    });
+    req.on("error", function(err) {
+      done(err);
     });
   }, function(err, res) {
     if (err) return done(err);
+    connection.close();
     done(null, res);
   });
 };
@@ -155,7 +159,6 @@ async.series([
   indexPdfs
 ], function(err, res) {
   if (err) throw err;
-  connection.close();
   results = [].concat.apply([], res);
   fs.outputFileSync("index.json", JSON.stringify(results));
 });
