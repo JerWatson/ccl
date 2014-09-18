@@ -50,11 +50,9 @@ var siteSearch = function() {
       data: query,
       dataType: "json",
       success: function(data) {
-        console.log(data);
         buildSearch(data);
       },
       error: function(err, text, status) {
-        console.log(err);
         buildSearch(text);
       }
     });
