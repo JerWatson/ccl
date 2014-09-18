@@ -129,7 +129,11 @@ var loadPdfs = function(done) {
   glob("src/assets/pdfs/**/*.pdf", function(err, xs) {
     if (err) return done(err);
     async.map(xs, function(x, done) {
-      done(null, new Pdf(x));
+      var item = {
+        path: x,
+        pdf: new Pdf(x)
+      };
+      done(null, item);
     }, function(err, res) {
       if (err) return done(err);
       done(null, res);
@@ -142,16 +146,15 @@ var parsePdfs = function(xs, done) {
     total: xs.length
   });
   async.map(xs, function(x, done) {
-    x.getText(function(err, text) {
+    x.pdf.getText(function(err, text) {
       if (err) return done(err);
-      var path = x.options.additional[0];
-      var ref = path.split("/");
+      var ref = x.path.split("/");
       var title = ref[ref.length - 1];
       var item = {
         title: title,
         text: trim(text),
         type: "pdf",
-        url: path.replace("src/", "")
+        url: x.path.replace("src/", "")
       };
       bar.tick();
       done(null, item);
