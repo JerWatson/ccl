@@ -9,7 +9,7 @@ var yaml = require("yaml-front-matter");
 var config = require("../config");
 
 var connection = new sql.Connection(config.tims, function(err) {
-  if (err) return done(err);
+  if (err) throw err;
 });
 
 var unique = function(xs) {
@@ -55,7 +55,6 @@ var parseTests = function(ids, done) {
     req.stream = true;
     req.query(getTest(id));
     req.on("row", function(x) {
-      bar.tick();
       var item = {
         title: x.PrimaryName,
         alias: x.Alias,
@@ -66,6 +65,7 @@ var parseTests = function(ids, done) {
         type: "test",
         url: "test/?ID=" + id
       };
+      bar.tick();
       done(null, item);
     });
     req.on("error", function(err) {
@@ -73,7 +73,6 @@ var parseTests = function(ids, done) {
     });
   }, function(err, res) {
     if (err) return done(err);
-    connection.close();
     done(null, res);
   });
 };
@@ -126,31 +125,48 @@ var indexDocs = function(done) {
   ], done);
 };
 
-var indexPdfs = function(done) {
+var loadPdfs = function(done) {
   glob("src/assets/pdfs/**/*.pdf", function(err, xs) {
-    var bar = new Bar(barFmt("pdfs"), {
-      total: xs.length
-    });
+    if (err) return done(err);
     async.map(xs, function(x, done) {
-      var pdf = new Pdf(x);
-      pdf.getText(function(err, text) {
-        if (err) return done(err);
-        var ref = x.split("/");
-        var title = ref[ref.length - 1];
-        var item = {
-          title: title,
-          text: trim(text),
-          type: "pdf",
-          url: x.replace("src/", "")
-        };
-        bar.tick();
-        done(null, item);
-      });
+      done(null, new Pdf(x));
     }, function(err, res) {
       if (err) return done(err);
       done(null, res);
     });
   });
+};
+
+var parsePdfs = function(xs, done) {
+  var bar = new Bar(barFmt("pdfs"), {
+    total: xs.length
+  });
+  async.map(xs, function(x, done) {
+    x.getText(function(err, text) {
+      if (err) return done(err);
+      var path = x.options.additional[0];
+      var ref = path.split("/");
+      var title = ref[ref.length - 1];
+      var item = {
+        title: title,
+        text: trim(text),
+        type: "pdf",
+        url: path.replace("src/", "")
+      };
+      bar.tick();
+      done(null, item);
+    });
+  }, function(err, res) {
+    if (err) return done(err);
+    done(null, res);
+  })
+};
+
+var indexPdfs = function(done) {
+  async.waterfall([
+    loadPdfs,
+    parsePdfs
+  ], done);
 };
 
 async.series([
@@ -159,6 +175,7 @@ async.series([
   indexPdfs
 ], function(err, res) {
   if (err) throw err;
+  connection.close();
   results = [].concat.apply([], res);
   fs.outputFileSync("index.json", JSON.stringify(results));
 });
