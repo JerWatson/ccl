@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= @attr.title %> - Cleveland Clinic Laboratories</title>
+    <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+    <!--[if IE 8]><script src="/assets/js/respond.js"></script><![endif]-->
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to main content</a>
+
+    <div id="header">
+      <% include "navigation" %>
+    </div>
+
+    <div id="main">
+      <div class="brief-header">
+        <h1><%= @attr.title %></h1>
+      </div>
+      <div class="brief-content">
+        <%- @content %>
+      </div>
+    </div>
+  </body>
+</html>
