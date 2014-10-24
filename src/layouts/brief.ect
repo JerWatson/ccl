@@ -6,22 +6,78 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><%= @attr.title %> - Cleveland Clinic Laboratories</title>
     <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
-    <link href="/assets/css/styles.css" rel="stylesheet">
+    <!-- <link href="/assets/css/styles.css" rel="stylesheet"> -->
+    <style>
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .brief-header {
+        background: #2E2D27;
+        color: white;
+        padding: 48px 24px;
+      }
+      .brief-header h1 {
+        margin: 0;
+        padding: 0;
+      }
+      .brief-content {
+        padding: 24px 0;
+      }
+      .brief-footer {
+        background: #0768A9;
+        color: white;
+        text-align: center;
+        padding: 24px 0;
+      }
+
+      a {
+        color: #0768A9;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+      h2 {
+        font-size: 32px;
+        color: #0768A9;
+        font-weight: normal;
+      }
+      h3 {
+        color: #0768A9;
+        font-size: 16px;
+      }
+
+      dt {
+        font-weight: bold;
+      }
+    </style>
     <!--[if IE 8]><script src="/assets/js/respond.js"></script><![endif]-->
   </head>
   <body>
-    <a href="#main" class="sr-only">Skip to main content</a>
-
-    <div id="header">
-      <% include "navigation" %>
-    </div>
-
     <div id="main">
       <div class="brief-header">
-        <h1><%= @attr.title %></h1>
+        <div class="container">
+          <h1>Cleveland Clinic Laboratories</h1>
+        </div>
       </div>
       <div class="brief-content">
-        <%- @content %>
+        <div class="container">
+          <h2><%= @attr.title %></h2>
+          <%- @content %>
+        </div>
+      </div>
+      <div class="brief-footer">
+        <div class="container">
+          9500 Euclid Avenue &nbsp;|&nbsp; Cleveland, Ohio 44195 &nbsp;|&nbsp; (216) 444-5755 &nbsp;|&nbsp; (800) 628-6816 &nbsp;|&nbsp; clevelandcliniclabs.com
+        </div>
       </div>
     </div>
   </body>
