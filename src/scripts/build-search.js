@@ -6,7 +6,7 @@ var $container = $("<div/>");
 var $options = $("<div class='row search-options'/>");
 
 var buildFilters = function(data) {
-  var $container = $("<div class='col-md-6'/>");
+  var $container = $("<div class='col-sm-6'/>");
   var $filters = $("<div class='btn-group' data-toggle='buttons'/>");
   var html = [
     "<label class='btn btn-default'>",
@@ -42,7 +42,7 @@ var buildFilters = function(data) {
 var buildPagination = function(data) {
   var page = parseInt(query.page || 1);
   var pages = Math.ceil(data.total / 10);
-  var $container = $("<div class='col-md-6 text-right form-inline'/>");
+  var $container = $("<div class='col-sm-6 text-right form-inline'/>");
   var $pagination = $("<select class='form-control' style='margin:20px 0;'/>");
   var $firstPage = $("<button class='btn btn-default' title='First Page'><i class='fa fa-angle-double-left'></i></button>");
   var $prevPage = $("<button class='btn btn-default' title='Previous Page'><i class='fa fa-angle-left'></i></button>");
