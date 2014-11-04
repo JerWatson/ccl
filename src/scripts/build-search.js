@@ -44,10 +44,10 @@ var buildPagination = function(data) {
   var pages = Math.ceil(data.total / 10);
   var $container = $("<div class='col-md-6 text-right form-inline'/>");
   var $pagination = $("<select class='form-control' style='margin:20px 0;'/>");
-  var $firstPage = $("<button class='btn btn-default' title='First Page'>&laquo;</button>");
-  var $prevPage = $("<button class='btn btn-default' title='Previous Page'>&lsaquo;</button>");
-  var $nextPage = $("<button class='btn btn-default' title='Next Page'>&rsaquo;</button>");
-  var $lastPage = $("<button class='btn btn-default' title='Last Page'>&raquo;</button>");
+  var $firstPage = $("<button class='btn btn-default' title='First Page'><i class='fa fa-angle-double-left'></i></button>");
+  var $prevPage = $("<button class='btn btn-default' title='Previous Page'><i class='fa fa-angle-left'></i></button>");
+  var $nextPage = $("<button class='btn btn-default' title='Next Page'><i class='fa fa-angle-right'></i></button>");
+  var $lastPage = $("<button class='btn btn-default' title='Last Page'><i class='fa fa-angle-double-right'></i></button>");
   for (var i = 1, len = pages; i <= len; i++) {
     $pagination.append("<option value='" + i +"'>" + i + "</option>");
   }
