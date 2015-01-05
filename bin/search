@@ -5,6 +5,7 @@ var es = require("elasticsearch");
 var fs = require("fs");
 var program = require("commander");
 var request = require("request");
+var xlsx = require("xlsx-to-json");
 
 var client = new es.Client({
   host: "localhost:9200"
@@ -49,6 +50,19 @@ program
           if (bar.complete) client.close();
         });
       });
+    });
+  });
+
+program
+  .command("excel <file>")
+  .description("parse excel file and upload to database")
+  .action(function(file) {
+    xlsx({
+      input: file,
+      output: null
+    }, function(err, result) {
+      if (err) throw err;
+      console.log(result);
     });
   });
 
