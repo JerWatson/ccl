@@ -19,6 +19,8 @@ sidenav: "default"
 </div>
 
 <script type="text/template" id="search-template">
+  {{ if (it._source) { }}
+
   {{? it._source.PrimaryName }}
   <h2>{{= it._source.PrimaryName }}</h2>
   {{?}}
@@ -162,7 +164,7 @@ sidenav: "default"
       </div>
       {{?}}
 
-      {{? it._source.Schedule.DictDaysPerformed.Days }}
+      {{? it._source.Schedule.DictDaysPerformed }}
       <h3>
         Days Performed
         <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
@@ -170,7 +172,7 @@ sidenav: "default"
       <p>{{= it._source.Schedule.DictDaysPerformed.Days }}</p>
       {{?}}
 
-      {{? it._source.Schedule.DictReported.Times }}
+      {{? it._source.Schedule.DictReported }}
       <h3>
         Reported
         <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
@@ -224,4 +226,7 @@ sidenav: "default"
     </div>
 
   </div>
+  {{ } else { }}
+  <div class="alert alert-danger">Error</div>
+  {{ } }}
 </script>
