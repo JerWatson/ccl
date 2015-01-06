@@ -14,8 +14,9 @@ module.exports = function(data) {
   $html.find("input[type='button']").remove();
   $html.find("a[href='#']").remove();
   $html.find("table").addClass("table table-search table-hover");
-  $html.find("a.NormalResults").each(function() {
+  $html.find(".NormalResults a").each(function() {
     this.href = this.href.replace(location, "/test/");
+    $(this).removeAttr("target");
   });
   $html.find("tr").css({"background-color": "transparent"});
   $search.html($html);

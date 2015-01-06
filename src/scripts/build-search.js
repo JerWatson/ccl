@@ -6,7 +6,7 @@ var $container = $("<div/>");
 var $options = $("<div class='row search-options'/>");
 
 var buildFilters = function(data) {
-  var $container = $("<div class='col-md-6'/>");
+  var $container = $("<div class='col-sm-6'/>");
   var $filters = $("<div class='btn-group' data-toggle='buttons'/>");
   var html = [
     "<label class='btn btn-default'>",
@@ -40,27 +40,58 @@ var buildFilters = function(data) {
 };
 
 var buildPagination = function(data) {
-  var $container = $("<div class='col-md-6 text-right'/>");
-  var $pagination = $("<ul class='pagination'/>");
-  var page = query.page || 1;
-  if (data.total < 100) {
-    var pages = Math.ceil(data.total / 10);
+  var page = parseInt(query.page || 1);
+  var pages = Math.ceil(data.total / 10);
+  var $container = $("<div class='col-sm-6 text-right form-inline'/>");
+  var $pagination = $("<select class='form-control' style='margin:20px 0;'/>");
+  var $firstPage = $("<button class='btn btn-default' title='First Page'><i class='fa fa-angle-double-left'></i></button>");
+  var $prevPage = $("<button class='btn btn-default' title='Previous Page'><i class='fa fa-angle-left'></i></button>");
+  var $nextPage = $("<button class='btn btn-default' title='Next Page'><i class='fa fa-angle-right'></i></button>");
+  var $lastPage = $("<button class='btn btn-default' title='Last Page'><i class='fa fa-angle-double-right'></i></button>");
+  for (var i = 1, len = pages; i <= len; i++) {
+    $pagination.append("<option value='" + i +"'>" + i + "</option>");
   }
-  $pagination.append("<li class='disabled'><span>&laquo;</span></li>");
-  for (var i = 1, len = pages || 10; i <= len; i++) {
-    if (i.toString() === page.toString()) {
-      $pagination.append("<li class='active'><a href='#'>" + i + "</a></li>");
-    } else {
-      $pagination.append("<li><a href='#'>" + i + "</a></li>");
-    }
-  }
-  $pagination.append("<li class='disabled'><span>&raquo;</span></li>");
-  $pagination.find("a").on("click", function(e) {
+  $pagination.val(page).attr("selected", true);
+  $pagination.on("change", function(e) {
     e.preventDefault();
-    query.page = $(this).text();
+    query.page = $(this).val();
     window.location.href = "/search/?" + qs.stringify(query);
   });
-  $container.append($pagination);
+  if (page === 1) {
+    $firstPage.addClass("disabled");
+    $prevPage.addClass("disabled");
+  } else {
+    $firstPage.on("click", function(e) {
+      e.preventDefault();
+      query.page = 1;
+      window.location.href = "/search/?" + qs.stringify(query);
+    });
+    $prevPage.on("click", function(e) {
+      e.preventDefault();
+      query.page = page - 1;
+      window.location.href = "/search/?" + qs.stringify(query);
+    });
+  }
+  if (page === pages) {
+    $lastPage.addClass("disabled");
+    $nextPage.addClass("disabled");
+  } else {
+    $lastPage.on("click", function(e) {
+      e.preventDefault();
+      query.page = pages;
+      window.location.href = "/search/?" + qs.stringify(query);
+    });
+    $nextPage.on("click", function(e) {
+      e.preventDefault();
+      query.page = page + 1;
+      window.location.href = "/search/?" + qs.stringify(query);
+    });
+  }
+  $container.append($firstPage, "&nbsp;");
+  $container.append($prevPage, "&nbsp;");
+  $container.append($pagination, "&nbsp;");
+  $container.append($nextPage, "&nbsp;");
+  $container.append($lastPage);
   $options.append($container);
 };
 
