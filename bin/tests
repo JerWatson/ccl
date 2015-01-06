@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+var Bar = require("progress");
+var es = require("elasticsearch");
+var fs = require("fs");
+var path = require("path");
+var program = require("commander");
+var request = require("request");
+var xlsx = require("xlsx-to-json");
+
+var api = "http://timsapi.lab.ccf.org/api/tims/get-test-info";
+var index = path.join(__dirname, "../index.json");
+
+var client = new es.Client({
+  host: "localhost:9200"
+});
+
+program.version("1.0.0")
+  .option("-f, --from <n>", "starting offset (defaults to 0)", parseInt)
+  .option("-s, --sort <field:direction>", "sort by field and direction (asc, desc)")
+  .option("-t, --type <type>", "search by type (pdf, page, test)")
+  .option("-z, --size <n>", "number of hits to return (defaults to 10)", parseInt);
+
+program
+  .command("delete")
+  .description("delete the index")
+  .action(function() {
+    request.del("http://localhost:9200/tests/", function(err, res, body) {
+      if (err) throw err;
+      console.log(body);
+    });
+  });
+
+program
+  .command("build")
+  .description("build the index")
+  .action(function() {
+    request(api, function(err, res, body) {
+      fs.writeFile(index, body, function(err) {
+        if (err) throw err;
+        console.log("written");
+      });
+      console.log(body[0]);
+    });
+  });
+
+program
+  .command("upload <file>")
+  .description("upload the index")
+  .action(function(file) {
+    fs.readFile(file, "utf8", function(err, data) {
+      if (err) throw err;
+      var xs = JSON.parse(data);
+      var bar = new Bar("[:bar] :percent :elapseds", {
+        total: xs.length
+      });
+      xs.forEach(function(x) {
+        client.index({
+          index: "tests",
+          id: x.ID,
+          type: "test",
+          body: x
+        }, function(err, res) {
+          if (err) throw err;
+          bar.tick();
+          if (bar.complete) client.close();
+        });
+      });
+    });
+  });
+
+program
+  .command("excel <file>")
+  .description("parse excel file and upload to database")
+  .action(function(file) {
+    xlsx({
+      input: file,
+      output: null
+    }, function(err, result) {
+      if (err) throw err;
+      console.log(result);
+    });
+  });
+
+program
+  .command("*")
+  .description("search term")
+  .action(function(term) {
+    var query = { q: term, index: "tests" };
+    if (program.from) query.from = program.from;
+    if (program.sort) query.sort = program.sort;
+    if (program.type) query.type = program.type;
+    if (program.size) query.size = program.size;
+    client.search(query, function(err, data) {
+      data.hits.hits.forEach(function(hit) {
+        console.log({
+          name: hit._source.PrimaryName,
+          ID: hit._source.ID,
+          score: hit._score
+        });
+      });
+      client.close();
+    });
+  });
+
+program.parse(process.argv);
