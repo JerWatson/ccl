@@ -1,10 +1,15 @@
 var qs = require("querystring");
 var bodyParser = require("body-parser");
+var es = require("elasticsearch");
 var express = require("express");
 var request = require("request");
 var serveStatic = require("serve-static");
 var mail = require("./routes/mail");
 var search = require("./routes/search");
+
+var client = new es.Client({
+  host: "http://localhost:9200"
+});
 
 var app = express();
 
@@ -25,11 +30,13 @@ app.post("/test-list", function(req, res) {
 });
 
 app.post("/test", function(req, res) {
-  var url = "http://eweb2.ccf.org/RefLabSearch/TestDetail.aspx?";
-  var query = qs.stringify(req.body);
-  request(url + query + "&site=reflab", function(err, response, body) {
+  client.get({
+    index: "tests",
+    type: "test",
+    id: req.body.ID
+  }, function(err, data) {
     if (err) throw err;
-    res.send(JSON.stringify(body));
+    res.send(data);
   });
 });
 

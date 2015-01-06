@@ -1,7 +1,8 @@
 var qs = require("querystring");
 var url = require("url");
-var buildSearch = require("./build-search");
-var buildTest = require("./build-test");
+var buildSearch = require("./search");
+var buildTest = require("./test");
+var buildTestList = require("./test-list");
 
 // IE8 polyfill
 if (!String.prototype.trim) {
@@ -26,10 +27,25 @@ if (!Object.keys) {
   }
 }
 
-var testSearch = function(href) {
+var testSearch = function() {
   $.ajax({
     type: "POST",
-    url: href,
+    url: "/test-list",
+    data: qs.parse(window.location.search.slice(1)),
+    dataType: "json",
+    success: function(data) {
+      buildTestList(data);
+    },
+    error: function(err, text, status) {
+      buildTestList(text);
+    }
+  });
+};
+
+var testDetail = function() {
+  $.ajax({
+    type: "POST",
+    url: "/test",
     data: qs.parse(window.location.search.slice(1)),
     dataType: "json",
     success: function(data) {
@@ -144,5 +160,5 @@ $(".carousel").carousel({interval: false});
 
 var path = (url.parse(window.location.href)).pathname;
 if (path === "/test-list/") testSearch("/test-list");
-if (path === "/test/") testSearch("/test");
+if (path === "/test/") testDetail("/test");
 if (path === "/search/") siteSearch();

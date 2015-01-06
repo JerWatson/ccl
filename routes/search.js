@@ -1,4 +1,4 @@
-var context = require("search-context");
+// var context = require("search-context");
 var es = require("elasticsearch");
 
 var client = new es.Client({
@@ -6,18 +6,13 @@ var client = new es.Client({
 });
 
 module.exports = function(req, res) {
-  var query = {};
+  var query = { index: "tests" };
   if (req.body.type) query.type = req.body.type;
   if (req.body.page) query.from = (req.body.page - 1) * 10;
   if (req.body.q) {
     query.q = req.body.q;
     client.search(query, function(err, data) {
       if (err) throw err;
-      data.hits.hits.forEach(function(hit) {
-        hit._source.text = context(hit._source.text, req.body.q.split(" "), 250, function(str) {
-          return "<strong>" + str + "</strong>";
-        });
-      });
       res.send(data.hits);
     });
   }

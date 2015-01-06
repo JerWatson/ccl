@@ -6,28 +6,222 @@ url: "/test"
 sidenav: "default"
 ---
 
-<div id="search" class="table-responsive">
+<!-- <div id="search" class="table-responsive">
   <div class="loading">
     <img src="/assets/imgs/layout/loading.gif" alt="">
-    <!-- <div class="spinner">
-      <div class="spinner-container container1">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-      </div>
-      <div class="spinner-container container2">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-      </div>
-      <div class="spinner-container container3">
-        <div class="circle1"></div>
-        <div class="circle2"></div>
-        <div class="circle3"></div>
-        <div class="circle4"></div>
-      </div>
-    </div> -->
+  </div>
+</div> -->
+
+<div id="search">
+  <div class="loading">
+    <img src="/assets/imgs/layout/loading.gif" alt="">
   </div>
 </div>
+
+<script type="text/template" id="search-template">
+  {{? it._source.PrimaryName }}
+  <h2>{{= it._source.PrimaryName }}</h2>
+  {{?}}
+
+  <hr>
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
+    <li><a href="#specimen" data-toggle="tab">Specimen</a></li>
+    <li><a href="#clinical" data-toggle="tab">Clinical Info</a></li>
+  </ul>
+
+  <div id="tabs" class="tab-content">
+
+    <div id="overview" class="tab-pane fade in active">
+      {{? it._source.LISCode }}
+      <h3>
+        Mnemonic
+        <small><a href="#" class="info" data-toggle="tooltip" title="Unique test identifier."><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.LISCode }}</p>
+      {{?}}
+
+      {{? it._source.LFSCode }}
+      <h3>
+        Billing Code
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.LFSCode }}</p>
+      {{?}}
+
+      {{? it._source.Aliases[0] }}
+      <h3>
+        Aliases
+        <small><a href="#" class="info" data-toggle="tooltip" title="Other names that describe the test."><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <ul>
+        {{ for (var alias in it._source.Aliases) { }}
+        <li>{{= it._source.Aliases[alias].AliasName }}</li>
+        {{ } }}
+      </ul>
+      {{?}}
+    </div>
+
+    <div id="specimen" class="tab-pane fade">
+      {{? it._source.SpecimenRequirements }}
+      <h3>
+        Specimen Requirements
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Volume</th>
+              <th>Type</th>
+              <th>Container</th>
+              <th>Collect Temperature</th>
+              <th>Transport Temperature</th>
+              <th>Special Instructions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for (var requirement in it._source.SpecimenRequirements) { }}
+            {{ var req = it._source.SpecimenRequirements[requirement]; }}
+            {{ if (req.DictSpRequirementCategory.Name === "External") { }}
+            <tr>
+              <td>{{? req.DictSpVolume }}{{= req.DictSpVolume.Volume }}{{?}}</td>
+              <td>{{? req.DictSpType }}{{= req.DictSpType.Type }}{{?}}</td>
+              <td>{{? req.DictSpContainer }}{{= req.DictSpContainer.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature }}{{= req.DictSpTemperature.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature1 }}{{= req.DictSpTemperature1.Name }}{{?}}</td>
+              <td>{{? req.SpecialInstructions }}{{= req.SpecialInstructions }}{{?}}</td>
+            </tr>
+            {{ } }}
+            {{ } }}
+          </tbody>
+        </table>
+      </div>
+      {{?}}
+
+      {{? it._source.SpecimenRequirements }}
+      <h3>
+        Minimum Specimen Requirements
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Volume</th>
+              <th>Type</th>
+              <th>Container</th>
+              <th>Collect Temperature</th>
+              <th>Transport Temperature</th>
+              <th>Special Instructions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for (var requirement in it._source.SpecimenRequirements) { }}
+            {{ var req = it._source.SpecimenRequirements[requirement]; }}
+            {{ if (req.DictSpRequirementCategory.Name === "Minimum") { }}
+            <tr>
+              <td>{{? req.DictSpVolume }}{{= req.DictSpVolume.Volume }}{{?}}</td>
+              <td>{{? req.DictSpType }}{{= req.DictSpType.Type }}{{?}}</td>
+              <td>{{? req.DictSpContainer }}{{= req.DictSpContainer.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature }}{{= req.DictSpTemperature.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature1 }}{{= req.DictSpTemperature1.Name }}{{?}}</td>
+              <td>{{? req.SpecialInstructions }}{{= req.SpecialInstructions }}{{?}}</td>
+            </tr>
+            {{ } }}
+            {{ } }}
+          </tbody>
+        </table>
+      </div>
+      {{?}}
+
+      {{? it._source.SpecimenStabilities }}
+      <h3>
+        Stability
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Environmental Condition</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for (var stability in it._source.SpecimenStabilities) { }}
+            {{ var item = it._source.SpecimenStabilities[stability]; }}
+            <tr>
+              <td>{{? item.DictStabilityEnvironmentalCondition }}{{= item.DictStabilityEnvironmentalCondition.Name }}{{?}}</td>
+              <td>{{? item.Description }}{{= item.Description }}{{?}}</td>
+            </tr>
+            {{ } }}
+          </tbody>
+        </table>
+      </div>
+      {{?}}
+
+      {{? it._source.Schedule.DictDaysPerformed.Days }}
+      <h3>
+        Days Performed
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.Schedule.DictDaysPerformed.Days }}</p>
+      {{?}}
+
+      {{? it._source.Schedule.DictReported.Times }}
+      <h3>
+        Reported
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.Schedule.DictReported.Times }}</p>
+      {{?}}
+    </div>
+
+    <div id="clinical" class="tab-pane fade">
+      {{? it._source.Methodologies }}
+      <h3>
+        Methodology
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for (var method in it._source.Methodologies) { }}
+            {{ var item = it._source.Methodologies[method]; }}
+            <tr>
+              <td>{{? item.DictMethodology.Name }}{{= item.DictMethodology.Name }}{{?}}</td>
+              <td>{{? item.DictMethodology.Description }}{{= item.DictMethodology.Description }}{{?}}</td>
+            </tr>
+            {{ } }}
+          </tbody>
+        </table>
+      </div>
+      {{?}}
+
+      {{? it._source.Laboratory.SpecialInfo }}
+      <h3>
+        Special Info
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.Laboratory.SpecialInfo }}</p>
+      {{?}}
+
+      {{? it._source.Laboratory.ClinicalInfo }}
+      <h3>
+        Clinical Info
+        <small><a href="#" class="info" data-toggle="tooltip" title="Discusses physiology, pathophysiology, and general clinical aspects, as they relate to a laboratory test."><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.Laboratory.ClinicalInfo }}</p>
+      {{?}}
+    </div>
+
+  </div>
+</script>
