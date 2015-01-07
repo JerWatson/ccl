@@ -51,10 +51,13 @@ program
     fs.readFile(file, "utf8", function(err, data) {
       if (err) throw err;
       var xs = JSON.parse(data);
-      var bar = new Bar("[:bar] :percent :elapseds", {
-        total: xs.length
+      var ys = xs.filter(function(x) {
+        return !x.DeletedOn && (x.DictIntendedForID === 2 || x.DictIntendedForID === 3);
       });
-      xs.forEach(function(x) {
+      var bar = new Bar("[:bar] :percent :elapseds", {
+        total: ys.length
+      });
+      ys.forEach(function(x) {
         client.index({
           index: "tests",
           id: x.ID,
