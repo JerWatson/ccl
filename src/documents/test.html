@@ -64,6 +64,19 @@ sidenav: "default"
         {{ } }}
       </ul>
       {{?}}
+
+      {{? it._source.Includes[0] }}
+      <h3>
+        Includes
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      {{ var includes = it._source.Includes.sort(function(a, b) { return a.Rank - b.Rank; }); }}
+      <ol>
+        {{ for (var inc in includes) { }}
+        <li>{{= includes[inc].TestName }}</li>
+        {{ } }}
+      </ol>
+      {{?}}
     </div>
 
     <div id="specimen" class="tab-pane fade">
@@ -88,6 +101,42 @@ sidenav: "default"
             {{ for (var requirement in it._source.SpecimenRequirements) { }}
             {{ var req = it._source.SpecimenRequirements[requirement]; }}
             {{ if (req.DictSpRequirementCategory.Name === "External") { }}
+            <tr>
+              <td>{{? req.DictSpVolume }}{{= req.DictSpVolume.Volume }}{{?}}</td>
+              <td>{{? req.DictSpType }}{{= req.DictSpType.Type }}{{?}}</td>
+              <td>{{? req.DictSpContainer }}{{= req.DictSpContainer.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature }}{{= req.DictSpTemperature.Name }}{{?}}</td>
+              <td>{{? req.DictSpTemperature1 }}{{= req.DictSpTemperature1.Name }}{{?}}</td>
+              <td>{{? req.SpecialInstructions }}{{= req.SpecialInstructions }}{{?}}</td>
+            </tr>
+            {{ } }}
+            {{ } }}
+          </tbody>
+        </table>
+      </div>
+      {{?}}
+
+      {{? it._source.SpecimenRequirements }}
+      <h3>
+        Alternate Specimen Requirements
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Volume</th>
+              <th>Type</th>
+              <th>Container</th>
+              <th>Collect Temperature</th>
+              <th>Transport Temperature</th>
+              <th>Special Instructions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ for (var requirement in it._source.SpecimenRequirements) { }}
+            {{ var req = it._source.SpecimenRequirements[requirement]; }}
+            {{ if (req.DictSpRequirementCategory.Name === "Alternate") { }}
             <tr>
               <td>{{? req.DictSpVolume }}{{= req.DictSpVolume.Volume }}{{?}}</td>
               <td>{{? req.DictSpType }}{{= req.DictSpType.Type }}{{?}}</td>
