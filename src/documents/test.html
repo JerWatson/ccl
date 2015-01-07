@@ -31,6 +31,7 @@ sidenav: "default"
     <li class="active"><a href="#overview" data-toggle="tab">Overview</a></li>
     <li><a href="#specimen" data-toggle="tab">Specimen</a></li>
     <li><a href="#clinical" data-toggle="tab">Clinical Info</a></li>
+    {{? it._source.SupportDocuments[0] }}<li><a href="#documents" data-toggle="tab">Documents</a></li>{{?}}
   </ul>
 
   <div id="tabs" class="tab-content">
@@ -224,6 +225,45 @@ sidenav: "default"
       <p>{{= it._source.Laboratory.ClinicalInfo }}</p>
       {{?}}
     </div>
+
+    {{? it._source.SupportDocuments[0] }}
+    <div id="documents" class="tab-pane fade">
+      {{ var techBrief = false; var informedConsent = false; }}
+      {{ for (var document in it._source.SupportDocuments) { }}
+        {{ var doc = it._source.SupportDocuments[document]; }}
+        {{ if (doc.DictDocumentTypesID === 1) techBrief = true; }}
+        {{ if (doc.DictDocumentTypesID === 3) informedConsent = true; }}
+      {{ } }}
+
+      {{? techBrief }}
+      <h3>
+        Technical Briefs
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <ul>
+        {{ for (var doc in it._source.SupportDocuments) { }}
+        {{ if (it._source.SupportDocuments[doc].DictDocumentTypesID === 1) { }}
+        <li>{{= it._source.SupportDocuments[doc].Title }}</li>
+        {{ } }}
+        {{ } }}
+      </ul>
+      {{?}}
+
+      {{? informedConsent }}
+      <h3>
+        Informed Consent
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <ul>
+        {{ for (var doc in it._source.SupportDocuments) { }}
+        {{ if (it._source.SupportDocuments[doc].DictDocumentTypesID === 3) { }}
+        <li>{{= it._source.SupportDocuments[doc].Title }}</li>
+        {{ } }}
+        {{ } }}
+      </ul>
+      {{?}}
+    </div>
+    {{?}}
 
   </div>
   {{ } else { }}
