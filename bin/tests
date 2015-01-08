@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
 var Bar = require("progress");
+var config = require("../config");
 var es = require("elasticsearch");
 var fs = require("fs");
 var path = require("path");
 var program = require("commander");
 var request = require("request");
+var sql = require("mssql");
 var xlsx = require("xlsx-to-json");
+var _ = require("underscore");
 
 var api = "http://timsapi.lab.ccf.org/api/tims/get-test-info";
 var index = path.join(__dirname, "../index.json");
@@ -31,16 +34,78 @@ program
     });
   });
 
+var refRange = function(data) {
+  var connection = new sql.Connection(config.tims, function(err) {
+    if (err) throw err;
+  });
+  var pending = data.length;
+  var temp = [];
+  data.forEach(function(x) {
+    var range = [];
+    var req = new sql.Request(connection);
+    req.stream = true;
+    req.query("exec sp_GetReferenceRangeByTestID @testid=" + x.ID);
+    req.on("row", function(y) {
+      range.push(y);
+    });
+    req.on("error", function(err) {
+      throw err;
+    });
+    req.on("done", function() {
+      x.ReferenceRange = _.groupBy(range, function(y) {
+        return y.ComponentRank;
+      });
+      for (var tmp in x.ReferenceRange) {
+        x.ReferenceRange[tmp].sort(function(a, b) {
+          return a.Rank - b.Rank;
+        });
+      }
+      if (_.isEmpty(x.ReferenceRange)) {
+        x.ReferenceRange = null;
+      }
+      temp.push(x);
+      if (!--pending) {
+        fs.writeFile(index, JSON.stringify(temp), function(err) {
+          if (err) throw err;
+          console.log("written");
+          connection.close();
+          client.close();
+        });
+      }
+    })
+  });
+};
+
 program
   .command("build")
   .description("build the index")
   .action(function() {
     request(api, function(err, res, body) {
-      fs.writeFile(index, body, function(err) {
+      var data = JSON.parse(body);
+      var connection = new sql.Connection(config.tims, function(err) {
         if (err) throw err;
-        console.log("written");
       });
-      console.log(body[0]);
+      var pending = data.length;
+      var temp = [];
+      data.forEach(function(x, i, xs) {
+        var req = new sql.Request(connection);
+        req.stream = true;
+        req.query("select * from TestInfo where id=" + x.ID);
+        req.on("row", function(y) {
+          x.LOINC = y.LOINC;
+        });
+        req.on("error", function(err) {
+          throw err;
+        });
+        req.on("done", function() {
+          temp.push(x);
+          if (!--pending) {
+            client.close();
+            connection.close();
+            refRange(temp);
+          }
+        })
+      });
     });
   });
 
