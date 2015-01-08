@@ -3,4 +3,5 @@ module.exports = function(data) {
   var template = doT.template(source);
   var html = template(data);
   $("#search").html(html);
+  $(".info").tooltip();
 };
