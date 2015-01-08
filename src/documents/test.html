@@ -53,6 +53,14 @@ sidenav: "default"
       <p>{{= it._source.LFSCode }}</p>
       {{?}}
 
+      {{? it._source.LOINC }}
+      <h3>
+        LOINC<sup>&reg;</sup>
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.LOINC }}</p>
+      {{?}}
+
       {{? it._source.Aliases[0] }}
       <h3>
         Aliases
@@ -256,6 +264,50 @@ sidenav: "default"
           </tbody>
         </table>
       </div>
+      {{?}}
+
+      {{? it._source.ReferenceRange }}
+      <h3>
+        Reference Range
+        <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <div class="table-responsive">
+      <table class="table table-bordered">
+        {{ for (var category in it._source.ReferenceRange) { }}
+        <thead>
+          <tr>
+            <th colspan="7">{{= it._source.ReferenceRange[category][0].ComponentName }} </th>
+          </tr>
+          <tr>
+            <th>Sex</th>
+            <th>Age From</th>
+            <th>Age To</th>
+            <th>Age Unit</th>
+            <th>Range Type</th>
+            <th>Range</th>
+            <th>Range Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ for (var reference in it._source.ReferenceRange[category]) { }}
+          {{ var ref = it._source.ReferenceRange[category][reference]; }}
+          <tr>
+            <td>{{? ref.Sex}}{{= ref.Sex }}{{?}}</td>
+            <td>{{? ref.AgeFrom}}{{= ref.AgeFrom }}{{?}}</td>
+            <td>{{? ref.AgeTo}}{{= ref.AgeTo }}{{?}}</td>
+            <td>{{? ref.AgeUnit}}{{= ref.AgeUnit }}{{?}}</td>
+            <td>{{? ref.RangeValue_Normal}}Normal{{?? ref.RangeValue_Freetext}}Normal{{?? ref.RangeValue_Urgent}}Urgent{{?? ref.RangeValue_Critical}}Critical{{?}}</td>
+            {{? ref.RangeValue_Freetext }}<td colspan="2">{{= ref.RangeValue_Freetext}}</td>
+            {{??}}
+            <td>{{? ref.RangeValue_Normal}}{{= ref.RangeValue_Normal}}{{?? ref.RangeValue_Urgent}}{{= ref.RangeValue_Urgent}}{{?? ref.RangeValue_Critical}}{{= ref.RangeValue_Critical}}{{?}}</td>
+            <td>{{? ref.RangeUnit}}{{= ref.RangeUnit }}{{?}}</td>
+            {{?}}
+          </tr>
+          {{ } }}
+        </tbody>
+        {{ } }}
+      </table>
+    </div>
       {{?}}
 
       {{? it._source.Laboratory.SpecialInfo }}
