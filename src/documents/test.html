@@ -298,6 +298,7 @@ sidenav: "default"
             <td>{{? ref.AgeUnit}}{{= ref.AgeUnit }}{{?}}</td>
             <td>{{? ref.RangeValue_Normal}}Normal{{?? ref.RangeValue_Freetext}}Normal{{?? ref.RangeValue_Urgent}}Urgent{{?? ref.RangeValue_Critical}}Critical{{?}}</td>
             {{? ref.RangeValue_Freetext }}<td colspan="2">{{= ref.RangeValue_Freetext}}</td>
+            {{?? ref.PredefinedReferenceRange }}<td colspan="2">{{= ref.PredefinedReferenceRange}}</td>
             {{??}}
             <td>{{? ref.RangeValue_Normal}}{{= ref.RangeValue_Normal}}{{?? ref.RangeValue_Urgent}}{{= ref.RangeValue_Urgent}}{{?? ref.RangeValue_Critical}}{{= ref.RangeValue_Critical}}{{?}}</td>
             <td>{{? ref.RangeUnit}}{{= ref.RangeUnit }}{{?}}</td>
