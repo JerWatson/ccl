@@ -283,7 +283,7 @@ sidenav: "default"
             <th>Age From</th>
             <th>Age To</th>
             <th>Age Unit</th>
-            <th>Range Type</th>
+            <th>Type</th>
             <th>Range</th>
             <th>Range Unit</th>
           </tr>
@@ -333,8 +333,8 @@ sidenav: "default"
       {{ var techBrief = false; var informedConsent = false; }}
       {{ for (var document in it._source.SupportDocuments) { }}
         {{ var doc = it._source.SupportDocuments[document]; }}
-        {{ if (doc.DictDocumentTypesID === 1) techBrief = true; }}
-        {{ if (doc.DictDocumentTypesID === 3) informedConsent = true; }}
+        {{ if (doc.DocumentType === "TechnicalBrief") techBrief = true; }}
+        {{ if (doc.DocumentType === "InformedConsent") informedConsent = true; }}
       {{ } }}
 
       {{? techBrief }}
@@ -343,9 +343,10 @@ sidenav: "default"
         <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
       </h3>
       <ul>
-        {{ for (var doc in it._source.SupportDocuments) { }}
-        {{ if (it._source.SupportDocuments[doc].DictDocumentTypesID === 1) { }}
-        <li>{{= it._source.SupportDocuments[doc].Title }}</li>
+        {{ for (var document in it._source.SupportDocuments) { }}
+        {{ var doc = it._source.SupportDocuments[document]; }}
+        {{ if (doc.DocumentType === "TechnicalBrief") { }}
+        <li><a href="{{= doc.Site}}{{= doc.DocumentType}}/{{= doc.DocumentFileName}}.{{= doc.DocumentFormat}}">{{= doc.DocumentTitle }}</a></li>
         {{ } }}
         {{ } }}
       </ul>
@@ -357,9 +358,10 @@ sidenav: "default"
         <small><a href="#" class="info" data-toggle="tooltip" title=""><i class="fa fa-info-circle"></i></a></small>
       </h3>
       <ul>
-        {{ for (var doc in it._source.SupportDocuments) { }}
-        {{ if (it._source.SupportDocuments[doc].DictDocumentTypesID === 3) { }}
-        <li>{{= it._source.SupportDocuments[doc].Title }}</li>
+        {{ for (var document in it._source.SupportDocuments) { }}
+        {{ var doc = it._source.SupportDocuments[document]; }}
+        {{ if (doc.DocumentType === "InformedConsent") { }}
+        <li><a href="{{= doc.Site}}{{= doc.DocumentType}}/{{= doc.DocumentFileName}}.{{= doc.DocumentFormat}}">{{= doc.DocumentTitle }}</a></li>
         {{ } }}
         {{ } }}
       </ul>

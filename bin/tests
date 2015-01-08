@@ -34,6 +34,38 @@ program
     });
   });
 
+var supportDocs = function(data) {
+  var connection = new sql.Connection(config.tims, function(err) {
+    if (err) throw err;
+  });
+  var pending = data.length;
+  var temp = [];
+  data.forEach(function(x) {
+    var docs = [];
+    var req = new sql.Request(connection);
+    req.stream = true;
+    req.query("exec sp_GetSupportDocumentationByTestID @testid=" + x.ID + ", @site='reflab'");
+    req.on("row", function(y) {
+      docs.push(y);
+    });
+    req.on("error", function(err) {
+      throw err;
+    });
+    req.on("done", function() {
+      x.SupportDocuments = docs;
+      temp.push(x);
+      if (!--pending) {
+        fs.writeFile(index, JSON.stringify(temp), function(err) {
+          if (err) throw err;
+          console.log("written");
+          connection.close();
+          client.close();
+        });
+      }
+    })
+  });
+};
+
 var refRange = function(data) {
   var connection = new sql.Connection(config.tims, function(err) {
     if (err) throw err;
@@ -65,12 +97,8 @@ var refRange = function(data) {
       }
       temp.push(x);
       if (!--pending) {
-        fs.writeFile(index, JSON.stringify(temp), function(err) {
-          if (err) throw err;
-          console.log("written");
-          connection.close();
-          client.close();
-        });
+        connection.close();
+        supportDocs(temp);
       }
     })
   });
