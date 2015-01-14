@@ -172,9 +172,32 @@ program
     xlsx({
       input: file,
       output: null
-    }, function(err, result) {
+    }, function(err, results) {
       if (err) throw err;
-      console.log(result);
+      // console.log(results);
+      results.forEach(function(result) {
+        console.log(result);
+        if (result["CC Billing Code"]) {
+          client.search({
+            q: result["CC Billing Code"],
+            index: "tests"
+          }, function(err, data) {
+            if (err) throw err;
+            client.update({
+              index: "tests",
+              type: "test",
+              id: data.hits.hits[0]._source.ID,
+              body: {
+                doc: {
+                  Overview: result["Test Overview"],
+                  Utility: result["Utility"],
+                  References: result["References"]
+                }
+              }
+            });
+          });
+        }
+      });
     });
   });
 
