@@ -37,14 +37,6 @@ sidenav: "default"
   <div id="tabs" class="tab-content">
 
     <div id="overview" class="tab-pane fade in active">
-      {{? it._source.Overview }}
-      <h3>
-        Overview
-        <small><a href="#" class="info" data-toggle="tooltip" title="Unique test identifier."><i class="fa fa-info-circle"></i></a></small>
-      </h3>
-      <p>{{= it._source.Overview }}</p>
-      {{?}}
-
       {{? it._source.LISCode }}
       <h3>
         Mnemonic
@@ -92,6 +84,14 @@ sidenav: "default"
         <li>{{= includes[inc].TestName }}</li>
         {{ } }}
       </ol>
+      {{?}}
+
+      {{? it._source.Overview }}
+      <h3>
+        Test Overview
+        <small><a href="#" class="info" data-toggle="tooltip" title="Unique test identifier."><i class="fa fa-info-circle"></i></a></small>
+      </h3>
+      <p>{{= it._source.Overview }}</p>
       {{?}}
     </div>
 
