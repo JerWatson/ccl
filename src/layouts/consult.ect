@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%= @attr.title %> - Cleveland Clinic Laboratories</title>
+    <link href="/assets/imgs/layout/favicon.ico" rel="shortcut icon">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+    <!--[if IE 8]><script src="/assets/js/respond.js"></script><![endif]-->
+  </head>
+  <body>
+    <a href="#main" class="sr-only">Skip to main content</a>
+
+    <div id="header">
+      <% include "header" %>
+    </div>
+
+    <% include "navigation" %>
+
+    <div id="main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-9">
+            <% include "breadcrumbs" %>
+            <div class="page-header">
+              <h1><%= @attr.title %></h1>
+            </div>
+            <div class="page-content">
+              <%- @content %>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <img src="/assets/imgs/anatomic-pathology/microscope.jpg" alt="" class="img-responsive thumbnail">
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <i class="fa fa-bars pull-right"></i>
+                  Supporting Documents
+                </h3>
+              </div>
+              <div class="list-group">
+                <a href="/assets/pdfs/forms/pathology-consult-requisition.pdf" class="list-group-item">Pathology Consult Requisition</a>
+                <a href="/assets/pdfs/forms/muscle-nerve-surgical-requisition.pdf" class="list-group-item">Muscle Nerve/Surgical Requisition</a>
+                <a href="/assets/pdfs/forms/medical-transplant-kidney-biopsy-requisition.pdf" class="list-group-item">Medical Transplant Kidney Biopsy Requisition</a>
+              </div>
+            </div>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                  <i class="fa fa-bars pull-right"></i>
+                  Information Sheets
+                </h3>
+              </div>
+              <div class="list-group">
+                <a href="/assets/pdfs/forms/submitting-nerve-biopsy-specimens.pdf" class="list-group-item">Submitting Nerve Biopsy Specimens</a>
+                <a href="/assets/pdfs/forms/submitting-muscle-biopsy-specimens.pdf" class="list-group-item">Submitting Muscle Biopsy Specimens</a>
+                <a href="/assets/pdfs/forms/submitting-medical-transplant-kidney.pdf" class="list-group-item">Submitting Medical and Transplant Kidney</a>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="aside">
+      <% include "aside" %>
+    </div>
+
+    <div id="footer">
+      <% include "footer" %>
+    </div>
+
+    <div id="modals">
+      <% include "modals" %>
+    </div>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/scripts.js"></script>
+    <!-- ANALYTICS -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-718476-32');ga('send','pageview');
+    </script>
+  </body>
+</html>
